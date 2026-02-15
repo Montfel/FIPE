@@ -4,9 +4,10 @@ import androidx.compose.runtime.Composable
 import androidx.navigation3.runtime.entryProvider
 import androidx.navigation3.runtime.rememberNavBackStack
 import androidx.navigation3.ui.NavDisplay
-import com.montfel.fipe.FormScreen
-import com.montfel.fipe.HomeRoute
-import com.montfel.fipe.SearchRoute
+import com.montfel.fipe.form.FormScreen
+import com.montfel.fipe.home.HomeRoute
+import com.montfel.fipe.search.SearchRoute
+import com.montfel.fipe.vehicledetails.VehicleDetailsRoute
 
 @Composable
 internal fun NavigationGraph() {
@@ -14,7 +15,7 @@ internal fun NavigationGraph() {
 
     NavDisplay(
         backStack = backStack,
-        onBack = { backStack.removeLastOrNull() },
+        onBack = backStack::removeLastOrNull,
         entryProvider = entryProvider {
             entry<Screen.Home> {
                 HomeRoute(
@@ -24,6 +25,7 @@ internal fun NavigationGraph() {
             entry<Screen.Search> {
                 SearchRoute(
                     onNavigateToForm = { backStack.add(Screen.Form(formData = it)) },
+                    onNavigateToVehicleDetails = { backStack.add(Screen.VehicleDetails(it)) }
                 )
             }
             entry<Screen.Form> {
@@ -31,6 +33,9 @@ internal fun NavigationGraph() {
                     formData = it.formData,
                     onNavigateBack = backStack::removeLastOrNull
                 )
+            }
+            entry<Screen.VehicleDetails> {
+                VehicleDetailsRoute(it.searchData)
             }
         },
     )

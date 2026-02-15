@@ -1,4 +1,4 @@
-package com.montfel.fipe.ui
+package com.montfel.fipe.ui.search
 
 import com.montfel.fipe.data.model.Brand
 import com.montfel.fipe.data.model.Models

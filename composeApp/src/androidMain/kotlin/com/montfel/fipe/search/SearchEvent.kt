@@ -1,4 +1,4 @@
-package com.montfel.fipe
+package com.montfel.fipe.search
 
 import com.montfel.fipe.ui.model.FormData
 import com.montfel.fipe.ui.model.FormDataItem

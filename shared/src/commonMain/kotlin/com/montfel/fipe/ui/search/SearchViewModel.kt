@@ -1,8 +1,8 @@
-package com.montfel.fipe.ui
+package com.montfel.fipe.ui.search
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.montfel.fipe.data.service.Service
+import com.montfel.fipe.data.service.SearchService
 import com.montfel.fipe.ui.model.FormDataItem
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -10,7 +10,7 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
 open class SearchViewModel(
-    private val service: Service
+    private val searchService: SearchService
 ) : ViewModel() {
     private val _uiState = MutableStateFlow(SearchUiState())
     val uiState = _uiState.asStateFlow()
@@ -21,7 +21,7 @@ open class SearchViewModel(
 
     private fun fetchReferenceTable() {
         viewModelScope.launch {
-            service.getReferenceTable()
+            searchService.getReferenceTable()
                 .onSuccess { result ->
                     _uiState.update {
                         it.copy(
@@ -46,7 +46,7 @@ open class SearchViewModel(
 
     fun onReferenceSelected(reference: FormDataItem) {
         viewModelScope.launch {
-            service.getBrands(
+            searchService.getBrands(
                 referenceTable = reference.value,
                 vehicleType = uiState.value.selectedVehicleType?.value.orEmpty()
             ).onSuccess { result ->
@@ -66,7 +66,7 @@ open class SearchViewModel(
 
     fun onBrandSelected(brand: FormDataItem) {
         viewModelScope.launch {
-            service.getModels(
+            searchService.getModels(
                 referenceTable = uiState.value.selectedReference?.value.orEmpty(),
                 vehicleType = uiState.value.selectedVehicleType?.value.orEmpty(),
                 brand = brand.value
@@ -87,7 +87,7 @@ open class SearchViewModel(
 
     fun onModelSelected(model: FormDataItem) {
         viewModelScope.launch {
-            service.getYearModels(
+            searchService.getYearModels(
                 referenceTable = uiState.value.selectedReference?.value.orEmpty(),
                 vehicleType = uiState.value.selectedVehicleType?.value.orEmpty(),
                 brand = uiState.value.selectedBrand?.value.orEmpty(),
@@ -112,26 +112,6 @@ open class SearchViewModel(
             it.copy(
                 selectedYearModel = yearModel
             )
-        }
-    }
-
-    fun onVehicleSearch() {
-        viewModelScope.launch {
-            service.getVehicleInfo(
-                referenceTable = uiState.value.selectedReference?.value.orEmpty(),
-                vehicleType = uiState.value.selectedVehicleType?.value.orEmpty(),
-                brand = uiState.value.selectedBrand?.value.orEmpty(),
-                model = uiState.value.selectedModel?.value.orEmpty(),
-                year = uiState.value.selectedYearModel?.value?.dropLast(2).orEmpty(),
-                fuelType = uiState.value.selectedYearModel?.value?.takeLast(1).orEmpty(),
-                searchType = "tradicional"
-            ).onSuccess { result ->
-                println("===> $result")
-            }.onFailure {
-                _uiState.update {
-                    it.copy(stateOfUi = SearchStateOfUi.Error)
-                }
-            }
         }
     }
 }

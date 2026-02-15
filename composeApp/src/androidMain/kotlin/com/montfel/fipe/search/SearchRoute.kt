@@ -1,18 +1,20 @@
-package com.montfel.fipe
+package com.montfel.fipe.search
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.montfel.fipe.ui.SearchStateOfUi
-import com.montfel.fipe.ui.SearchViewModel
+import com.montfel.fipe.data.model.SearchData
+import com.montfel.fipe.ui.search.SearchStateOfUi
 import org.koin.compose.viewmodel.koinViewModel
 import com.montfel.fipe.ui.model.FormData
+import com.montfel.fipe.ui.search.SearchViewModel
 
 @Composable
 internal fun SearchRoute(
     onNavigateToForm: (formData: FormData) -> Unit,
+    onNavigateToVehicleDetails: (searchData: SearchData) -> Unit,
     viewModel: SearchViewModel = koinViewModel(),
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
@@ -60,7 +62,17 @@ internal fun SearchRoute(
                         }
 
                         SearchEvent.OnVehicleSearch -> {
-                            viewModel.onVehicleSearch()
+                            onNavigateToVehicleDetails(
+                                SearchData(
+                                    referenceTable = uiState.selectedReference?.value.orEmpty(),
+                                    vehicleType = uiState.selectedVehicleType?.value.orEmpty(),
+                                    brand = uiState.selectedBrand?.value.orEmpty(),
+                                    model = uiState.selectedModel?.value.orEmpty(),
+                                    year = uiState.selectedYearModel?.value?.dropLast(2).orEmpty(),
+                                    fuelType = uiState.selectedYearModel?.value?.takeLast(1).orEmpty(),
+                                    searchType = "tradicional"
+                                )
+                            )
                         }
                     }
                 }

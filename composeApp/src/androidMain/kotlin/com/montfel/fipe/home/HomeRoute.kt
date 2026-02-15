@@ -1,4 +1,4 @@
-package com.montfel.fipe
+package com.montfel.fipe.home
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column

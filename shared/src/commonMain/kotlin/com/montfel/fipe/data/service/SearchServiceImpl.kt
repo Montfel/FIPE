@@ -5,13 +5,12 @@ import com.montfel.fipe.data.model.Brand
 import com.montfel.fipe.data.model.Model2
 import com.montfel.fipe.data.model.Models
 import com.montfel.fipe.data.model.Reference
-import com.montfel.fipe.data.model.VehicleInfo
 import com.montfel.fipe.data.model.YearModel
 import io.ktor.client.call.body
 import io.ktor.client.request.parameter
 import io.ktor.client.request.post
 
-internal class ServiceImpl : Service {
+internal class SearchServiceImpl : SearchService {
     override suspend fun getReferenceTable(): Result<List<Reference>> {
         return runCatching {
             val httpClient = createHttpClient() //fixme
@@ -95,31 +94,6 @@ internal class ServiceImpl : Service {
         }
     }
 
-    override suspend fun getVehicleInfo(
-        referenceTable: String,
-        vehicleType: String,
-        brand: String,
-        model: String,
-        year: String,
-        fuelType: String,
-        searchType: String
-    ): Result<VehicleInfo> {
-        return runCatching {
-            val httpClient = createHttpClient() //fixme
-            val url = BASE_URL.plus(VEHICLE_INFO)
-            val response = httpClient.post(url) {
-                parameter(REFERENCE_TABLE_PARAMETER, referenceTable)
-                parameter(VEHICLE_TYPE_PARAMETER, vehicleType)
-                parameter(BRAND_PARAMETER, brand)
-                parameter(MODEL_PARAMETER, model)
-                parameter(YEAR_MODEL_PARAMETER, year)
-                parameter(FUEL_TYPE_PARAMETER, fuelType)
-                parameter(SEARCH_TYPE_PARAMETER, searchType)
-            }
-            response.body<VehicleInfo>()
-        }
-    }
-
     private companion object {
         const val BASE_URL: String = "https://veiculos.fipe.org.br/api/veiculos"
         const val REFERENCE_TABLE = "/ConsultarTabelaDeReferencia"
@@ -127,14 +101,12 @@ internal class ServiceImpl : Service {
         const val MODEL = "/ConsultarModelos"
         const val YEAR_MODEL = "/ConsultarAnoModelo"
         const val MODEL_BY_YEAR = "/ConsultarModelosAtravesDoAno"
-        const val VEHICLE_INFO = "/ConsultarValorComTodosParametros"
         const val REFERENCE_TABLE_PARAMETER = "codigoTabelaReferencia"
         const val VEHICLE_TYPE_PARAMETER = "codigoTipoVeiculo"
         const val BRAND_PARAMETER = "codigoMarca"
         const val MODEL_PARAMETER = "codigoModelo"
         const val YEAR_MODEL_PARAMETER = "anoModelo"
         const val FUEL_TYPE_PARAMETER = "codigoTipoCombustivel"
-        const val SEARCH_TYPE_PARAMETER = "tipoConsulta"
     }
 }
 

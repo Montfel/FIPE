@@ -1,4 +1,4 @@
-package com.montfel.fipe
+package com.montfel.fipe.form
 
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer

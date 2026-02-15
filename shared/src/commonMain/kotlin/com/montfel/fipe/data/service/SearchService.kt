@@ -4,10 +4,9 @@ import com.montfel.fipe.data.model.Brand
 import com.montfel.fipe.data.model.Model2
 import com.montfel.fipe.data.model.Models
 import com.montfel.fipe.data.model.Reference
-import com.montfel.fipe.data.model.VehicleInfo
 import com.montfel.fipe.data.model.YearModel
 
-interface Service {
+interface SearchService {
     suspend fun getReferenceTable(): Result<List<Reference>>
     suspend fun getBrands(referenceTable: String, vehicleType: String): Result<List<Brand>>
     suspend fun getModels(
@@ -31,14 +30,4 @@ interface Service {
         year: String,
         fuelType: String
     ): Result<List<Model2>>
-
-    suspend fun getVehicleInfo(
-        referenceTable: String,
-        vehicleType: String,
-        brand: String,
-        model: String,
-        year: String,
-        fuelType: String,
-        searchType: String
-    ): Result<VehicleInfo>
 }

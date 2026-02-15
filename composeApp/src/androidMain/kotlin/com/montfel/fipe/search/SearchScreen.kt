@@ -1,4 +1,4 @@
-package com.montfel.fipe
+package com.montfel.fipe.search
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -16,7 +16,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.montfel.fipe.ui.SearchUiState
+import com.montfel.fipe.ui.search.SearchUiState
 import com.montfel.fipe.ui.model.FormData
 import com.montfel.fipe.ui.model.FormDataItem
 import kotlinx.collections.immutable.persistentListOf
