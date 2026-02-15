@@ -1,5 +1,5 @@
 package com.montfel.fipe
 
-sealed interface HomeEvent {
+internal sealed interface HomeEvent {
     object OnSearchClicked : HomeEvent
 }

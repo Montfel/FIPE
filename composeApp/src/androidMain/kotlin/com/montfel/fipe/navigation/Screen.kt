@@ -1,13 +1,17 @@
 package com.montfel.fipe.navigation
 
 import androidx.navigation3.runtime.NavKey
+import com.montfel.fipe.ui.model.FormData
 import kotlinx.serialization.Serializable
 
 @Serializable
-sealed interface Screen: NavKey {
+internal sealed interface Screen : NavKey {
     @Serializable
-    data object Home: Screen
+    data object Home : Screen
 
     @Serializable
-    data object Search: Screen
+    data object Search : Screen
+
+    @Serializable
+    data class Form(val formData: FormData) : Screen
 }

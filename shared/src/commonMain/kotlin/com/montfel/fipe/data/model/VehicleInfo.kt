@@ -5,7 +5,7 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class CarInfo(
+data class VehicleInfo(
     @SerialName("Valor")
     val price: String,
 

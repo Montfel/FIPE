@@ -14,12 +14,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
-import com.montfel.fipe.ui.HomeViewModel
-import org.koin.compose.viewmodel.koinViewModel
 
 @Composable
-fun HomeRoute(
-    viewModel: HomeViewModel = koinViewModel(),
+internal fun HomeRoute(
     onNavigateToSearch: () -> Unit
 ) {
     HomeScreen(

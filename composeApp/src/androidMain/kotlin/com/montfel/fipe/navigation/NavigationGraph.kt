@@ -4,11 +4,12 @@ import androidx.compose.runtime.Composable
 import androidx.navigation3.runtime.entryProvider
 import androidx.navigation3.runtime.rememberNavBackStack
 import androidx.navigation3.ui.NavDisplay
+import com.montfel.fipe.FormScreen
 import com.montfel.fipe.HomeRoute
 import com.montfel.fipe.SearchRoute
 
 @Composable
-fun NavigationGraph() {
+internal fun NavigationGraph() {
     val backStack = rememberNavBackStack(Screen.Home)
 
     NavDisplay(
@@ -21,7 +22,15 @@ fun NavigationGraph() {
                 )
             }
             entry<Screen.Search> {
-                SearchRoute()
+                SearchRoute(
+                    onNavigateToForm = { backStack.add(Screen.Form(formData = it)) },
+                )
+            }
+            entry<Screen.Form> {
+                FormScreen(
+                    formData = it.formData,
+                    onNavigateBack = backStack::removeLastOrNull
+                )
             }
         },
     )
