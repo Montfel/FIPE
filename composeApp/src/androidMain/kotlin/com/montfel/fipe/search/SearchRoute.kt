@@ -10,13 +10,15 @@ import com.montfel.fipe.ui.model.FormData
 import com.montfel.fipe.ui.search.SearchStateOfUi
 import com.montfel.fipe.ui.search.SearchViewModel
 import org.koin.compose.viewmodel.koinViewModel
+import org.koin.core.parameter.parametersOf
 
 @Composable
 internal fun SearchRoute(
+    isByFipe: Boolean,
     onNavigateToForm: (formData: FormData) -> Unit,
     onNavigateToVehicleDetails: (searchData: SearchData) -> Unit,
     onNavigateBack: () -> Unit,
-    viewModel: SearchViewModel = koinViewModel(),
+    viewModel: SearchViewModel = koinViewModel { parametersOf(isByFipe) },
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
@@ -31,6 +33,7 @@ internal fun SearchRoute(
 
         SearchStateOfUi.Success -> {
             SearchScreen(
+                isByFipe = isByFipe,
                 uiState = uiState,
                 onEvent = { event ->
                     when (event) {
@@ -68,7 +71,7 @@ internal fun SearchRoute(
                                     year = uiState.selectedYearModel?.value?.dropLast(2).orEmpty(),
                                     fuelType = uiState.selectedYearModel?.value?.takeLast(1)
                                         .orEmpty(),
-                                    searchType = "tradicional"
+                                    searchType = if (isByFipe) "codigo" else "tradicional"
                                 )
                             )
                         }

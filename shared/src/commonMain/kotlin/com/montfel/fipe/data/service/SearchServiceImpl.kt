@@ -94,6 +94,23 @@ internal class SearchServiceImpl : SearchService {
         }
     }
 
+    override suspend fun getYearModelsByFipeCode(
+        referenceTable: String,
+        vehicleType: String,
+        fipeCode: String
+    ): Result<List<YearModel>> {
+        return runCatching {
+            val httpClient = createHttpClient() //fixme
+            val url = BASE_URL.plus(YEAR_MODEL_BY_FIPE_CODE)
+            val response = httpClient.post(url) {
+                parameter(REFERENCE_TABLE_PARAMETER, referenceTable)
+                parameter(VEHICLE_TYPE_PARAMETER, vehicleType)
+                parameter(FIPE_CODE_PARAMETER, fipeCode)
+            }
+            response.body<List<YearModel>>()
+        }
+    }
+
     private companion object {
         const val BASE_URL: String = "https://veiculos.fipe.org.br/api/veiculos"
         const val REFERENCE_TABLE = "/ConsultarTabelaDeReferencia"
@@ -101,12 +118,14 @@ internal class SearchServiceImpl : SearchService {
         const val MODEL = "/ConsultarModelos"
         const val YEAR_MODEL = "/ConsultarAnoModelo"
         const val MODEL_BY_YEAR = "/ConsultarModelosAtravesDoAno"
+        const val YEAR_MODEL_BY_FIPE_CODE = "/ConsultarAnoModeloPeloCodigoFipe"
         const val REFERENCE_TABLE_PARAMETER = "codigoTabelaReferencia"
         const val VEHICLE_TYPE_PARAMETER = "codigoTipoVeiculo"
         const val BRAND_PARAMETER = "codigoMarca"
         const val MODEL_PARAMETER = "codigoModelo"
         const val YEAR_MODEL_PARAMETER = "anoModelo"
         const val FUEL_TYPE_PARAMETER = "codigoTipoCombustivel"
+        const val FIPE_CODE_PARAMETER = "modeloCodigoExterno"
     }
 }
 

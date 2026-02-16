@@ -30,4 +30,10 @@ interface SearchService {
         year: String,
         fuelType: String
     ): Result<List<Model2>>
+
+    suspend fun getYearModelsByFipeCode(
+        referenceTable: String,
+        vehicleType: String,
+        fipeCode: String
+    ): Result<List<YearModel>>
 }

@@ -11,7 +11,7 @@ internal sealed interface Screen : NavKey {
     data object Home : Screen
 
     @Serializable
-    data object Search : Screen
+    data class Search(val isByFipe: Boolean) : Screen
 
     @Serializable
     data class Form(val formData: FormData) : Screen

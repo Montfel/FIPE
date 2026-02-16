@@ -29,10 +29,12 @@ import com.montfel.fipe.ui.model.FormData
 import com.montfel.fipe.ui.model.FormDataItem
 import com.montfel.fipe.ui.search.SearchUiState
 import kotlinx.collections.immutable.persistentListOf
+import kotlinx.collections.immutable.toPersistentList
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 internal fun SearchScreen(
+    isByFipe: Boolean,
     uiState: SearchUiState,
     onEvent: (SearchEvent) -> Unit
 ) {
@@ -83,7 +85,7 @@ internal fun SearchScreen(
             FormDataItem("Moto", "2"),
             FormDataItem("Caminhão", "3")
         )
-        val fields = persistentListOf(
+        val fields = mutableListOf(
             FormData(
                 title = "Selecione o tipo do veículo",
                 label = uiState.selectedVehicleType?.label,
@@ -102,28 +104,6 @@ internal fun SearchScreen(
                 onItemClick = { onEvent(SearchEvent.OnReferenceSelected(it)) }
             ),
             FormData(
-                title = "Selecione a marca",
-                label = uiState.selectedBrand?.label,
-                items = uiState.brands.map {
-                    FormDataItem(
-                        label = it.name,
-                        value = it.code
-                    )
-                },
-                onItemClick = { onEvent(SearchEvent.OnBrandSelected(it)) }
-            ),
-            FormData(
-                title = "Selecione o modelo",
-                label = uiState.selectedModel?.label,
-                items = uiState.models?.models?.map {
-                    FormDataItem(
-                        label = it.name,
-                        value = it.code.toString()
-                    )
-                }.orEmpty(),
-                onItemClick = { onEvent(SearchEvent.OnModelSelected(it)) }
-            ),
-            FormData(
                 title = "Selecione o ano modelo",
                 label = uiState.selectedYearModel?.label,
                 items = uiState.yearModels.map {
@@ -134,7 +114,52 @@ internal fun SearchScreen(
                 },
                 onItemClick = { onEvent(SearchEvent.OnYearModelSelected(it)) }
             )
-        )
+        ).apply {
+            if (isByFipe) {
+                add(
+                    index = 2,
+                    FormData(
+                        title = "AAAA",
+                        label = uiState.selectedBrand?.label,
+                        items = uiState.brands.map {
+                            FormDataItem(
+                                label = it.name,
+                                value = it.code
+                            )
+                        },
+                        onItemClick = { onEvent(SearchEvent.OnBrandSelected(it)) }
+                    )
+                )
+            } else {
+                addAll(
+                    index = 2,
+                    listOf(
+                        FormData(
+                            title = "Selecione a marca",
+                            label = uiState.selectedBrand?.label,
+                            items = uiState.brands.map {
+                                FormDataItem(
+                                    label = it.name,
+                                    value = it.code
+                                )
+                            },
+                            onItemClick = { onEvent(SearchEvent.OnBrandSelected(it)) }
+                        ),
+                        FormData(
+                            title = "Selecione o modelo",
+                            label = uiState.selectedModel?.label,
+                            items = uiState.models?.models?.map {
+                                FormDataItem(
+                                    label = it.name,
+                                    value = it.code.toString()
+                                )
+                            }.orEmpty(),
+                            onItemClick = { onEvent(SearchEvent.OnModelSelected(it)) }
+                        ),
+                    )
+                )
+            }
+        }.toPersistentList()
 
         Column(
             modifier = Modifier
@@ -163,8 +188,19 @@ internal fun SearchScreen(
 
 @Preview
 @Composable
-private fun SearchScreenPreview() {
+private fun SearchScreenIsByFipePreview() {
     SearchScreen(
+        isByFipe = true,
+        uiState = SearchUiState(),
+        onEvent = {}
+    )
+}
+
+@Preview
+@Composable
+private fun SearchScreenIsNotByFipePreview() {
+    SearchScreen(
+        isByFipe = false,
         uiState = SearchUiState(),
         onEvent = {}
     )

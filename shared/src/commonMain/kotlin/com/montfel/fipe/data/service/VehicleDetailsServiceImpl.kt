@@ -20,6 +20,7 @@ internal class VehicleDetailsServiceImpl : VehicleDetailsService {
                 parameter(YEAR_MODEL_PARAMETER, searchData.year)
                 parameter(FUEL_TYPE_PARAMETER, searchData.fuelType)
                 parameter(SEARCH_TYPE_PARAMETER, searchData.searchType)
+                parameter(FIPE_CODE_PARAMETER, searchData.fipeCode)
             }
             response.body<VehicleInfo>()
         }
@@ -35,6 +36,7 @@ internal class VehicleDetailsServiceImpl : VehicleDetailsService {
         const val YEAR_MODEL_PARAMETER = "anoModelo"
         const val FUEL_TYPE_PARAMETER = "codigoTipoCombustivel"
         const val SEARCH_TYPE_PARAMETER = "tipoConsulta"
+        const val FIPE_CODE_PARAMETER = "modeloCodigoExterno"
     }
 }
 

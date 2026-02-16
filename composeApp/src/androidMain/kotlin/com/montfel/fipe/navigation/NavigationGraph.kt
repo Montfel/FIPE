@@ -19,13 +19,18 @@ internal fun NavigationGraph() {
         entryProvider = entryProvider {
             entry<Screen.Home> {
                 HomeRoute(
-                    onNavigateToSearch = { backStack.add(Screen.Search) }
+                    onNavigateToSearch = { backStack.add(Screen.Search(it)) }
                 )
             }
             entry<Screen.Search> {
                 SearchRoute(
-                    onNavigateToForm = { backStack.add(Screen.Form(formData = it)) },
-                    onNavigateToVehicleDetails = { backStack.add(Screen.VehicleDetails(it)) },
+                    isByFipe = it.isByFipe,
+                    onNavigateToForm = { formData ->
+                        backStack.add(Screen.Form(formData = formData))
+                    },
+                    onNavigateToVehicleDetails = { searchData ->
+                        backStack.add(Screen.VehicleDetails(searchData))
+                    },
                     onNavigateBack = backStack::removeLastOrNull
                 )
             }

@@ -35,13 +35,13 @@ import com.montfel.fipe.theme.font
 
 @Composable
 internal fun HomeRoute(
-    onNavigateToSearch: () -> Unit
+    onNavigateToSearch: (isByFipe: Boolean) -> Unit
 ) {
     HomeScreen(
         onEvent = { event ->
             when (event) {
-                HomeEvent.OnSearchByFipeClicked -> onNavigateToSearch()
-                HomeEvent.OnSearchByVehicleClicked -> onNavigateToSearch()
+                HomeEvent.OnSearchByFipeClicked -> onNavigateToSearch(true)
+                HomeEvent.OnSearchByVehicleClicked -> onNavigateToSearch(false)
             }
         }
     )
@@ -168,7 +168,7 @@ private fun HomeScreen(
                     containerColor = Color.White
                 ),
                 border = BorderStroke(width = 1.dp, color = Color(0xFFF1F5F9)),
-                onClick = { onEvent(HomeEvent.OnSearchByVehicleClicked) }
+                onClick = { onEvent(HomeEvent.OnSearchByFipeClicked) }
             ) {
                 Row(
                     verticalAlignment = Alignment.CenterVertically,

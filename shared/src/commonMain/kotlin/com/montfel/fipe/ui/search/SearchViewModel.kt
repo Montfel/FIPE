@@ -10,6 +10,7 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
 open class SearchViewModel(
+    private val isByFipe: Boolean,
     private val searchService: SearchService
 ) : ViewModel() {
     private val _uiState = MutableStateFlow(SearchUiState())
