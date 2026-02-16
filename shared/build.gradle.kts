@@ -4,6 +4,8 @@ plugins {
     alias(libs.plugins.kotlinMultiplatform)
     alias(libs.plugins.androidLibrary)
     alias(libs.plugins.kotlin.serialization)
+    alias(libs.plugins.composeMultiplatform)
+    alias(libs.plugins.composeCompiler)
 }
 
 kotlin {
@@ -31,6 +33,7 @@ kotlin {
             implementation(libs.bundles.ktor)
             implementation(libs.androidx.lifecycle.viewmodel)
             implementation(libs.navigation.runtime)
+            implementation(libs.compose.components.resources)
         }
         androidMain.dependencies {
             implementation(libs.koin.android)
@@ -54,4 +57,10 @@ android {
     defaultConfig {
         minSdk = libs.versions.android.minSdk.get().toInt()
     }
+}
+
+compose.resources {
+    packageOfResClass = "com.montfel.fipe.shared.resources"
+    generateResClass = always
+    publicResClass = true
 }

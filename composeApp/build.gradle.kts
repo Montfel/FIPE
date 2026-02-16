@@ -74,3 +74,6 @@ dependencies {
     debugImplementation(libs.compose.uiTooling)
 }
 
+compose.resources {
+    generateResClass = never
+}

@@ -31,7 +31,10 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.montfel.fipe.R
+import com.montfel.fipe.shared.resources.app_name
 import com.montfel.fipe.theme.font
+import com.montfel.fipe.shared.resources.Res
+import org.jetbrains.compose.resources.stringResource
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -44,7 +47,7 @@ internal fun HomeScreen(
             TopAppBar(
                 title = {
                     Text(
-                        text = "Busca Fipe",
+                        text = stringResource(Res.string.app_name),
                         fontFamily = font,
                         fontWeight = FontWeight.SemiBold,
                         fontSize = 18.sp
