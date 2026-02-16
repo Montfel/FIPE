@@ -20,7 +20,7 @@ open class VehicleDetailsViewModel(
         onVehicleSearch()
     }
 
-    private fun onVehicleSearch() {
+    fun onVehicleSearch() {
         viewModelScope.launch {
             vehicleDetailsService.getVehicleInfo(searchData = searchData)
                 .onSuccess { result ->

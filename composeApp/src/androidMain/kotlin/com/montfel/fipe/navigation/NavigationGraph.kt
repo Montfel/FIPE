@@ -25,7 +25,8 @@ internal fun NavigationGraph() {
             entry<Screen.Search> {
                 SearchRoute(
                     onNavigateToForm = { backStack.add(Screen.Form(formData = it)) },
-                    onNavigateToVehicleDetails = { backStack.add(Screen.VehicleDetails(it)) }
+                    onNavigateToVehicleDetails = { backStack.add(Screen.VehicleDetails(it)) },
+                    onNavigateBack = backStack::removeLastOrNull
                 )
             }
             entry<Screen.Form> {
@@ -35,7 +36,10 @@ internal fun NavigationGraph() {
                 )
             }
             entry<Screen.VehicleDetails> {
-                VehicleDetailsRoute(it.searchData)
+                VehicleDetailsRoute(
+                    searchData = it.searchData,
+                    onNavigateBack = backStack::removeLastOrNull
+                )
             }
         },
     )

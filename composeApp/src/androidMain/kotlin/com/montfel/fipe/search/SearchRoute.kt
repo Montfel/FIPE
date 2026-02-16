@@ -1,35 +1,32 @@
 package com.montfel.fipe.search
 
-import androidx.compose.foundation.layout.Column
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.montfel.fipe.components.ErrorScreen
+import com.montfel.fipe.components.LoadingScreen
 import com.montfel.fipe.data.model.SearchData
-import com.montfel.fipe.ui.search.SearchStateOfUi
-import org.koin.compose.viewmodel.koinViewModel
 import com.montfel.fipe.ui.model.FormData
+import com.montfel.fipe.ui.search.SearchStateOfUi
 import com.montfel.fipe.ui.search.SearchViewModel
+import org.koin.compose.viewmodel.koinViewModel
 
 @Composable
 internal fun SearchRoute(
     onNavigateToForm: (formData: FormData) -> Unit,
     onNavigateToVehicleDetails: (searchData: SearchData) -> Unit,
+    onNavigateBack: () -> Unit,
     viewModel: SearchViewModel = koinViewModel(),
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
     when (uiState.stateOfUi) {
         SearchStateOfUi.Error -> {
-            Column {
-                Text("Error")
-            }
+            ErrorScreen(onRetry = viewModel::fetchReferenceTable)
         }
 
         SearchStateOfUi.Loading -> {
-            Column {
-                Text("Loading")
-            }
+            LoadingScreen()
         }
 
         SearchStateOfUi.Success -> {
@@ -69,10 +66,15 @@ internal fun SearchRoute(
                                     brand = uiState.selectedBrand?.value.orEmpty(),
                                     model = uiState.selectedModel?.value.orEmpty(),
                                     year = uiState.selectedYearModel?.value?.dropLast(2).orEmpty(),
-                                    fuelType = uiState.selectedYearModel?.value?.takeLast(1).orEmpty(),
+                                    fuelType = uiState.selectedYearModel?.value?.takeLast(1)
+                                        .orEmpty(),
                                     searchType = "tradicional"
                                 )
                             )
+                        }
+
+                        SearchEvent.OnNavigateBack -> {
+                            onNavigateBack()
                         }
                     }
                 }

@@ -19,7 +19,7 @@ open class SearchViewModel(
         fetchReferenceTable()
     }
 
-    private fun fetchReferenceTable() {
+    fun fetchReferenceTable() {
         viewModelScope.launch {
             searchService.getReferenceTable()
                 .onSuccess { result ->

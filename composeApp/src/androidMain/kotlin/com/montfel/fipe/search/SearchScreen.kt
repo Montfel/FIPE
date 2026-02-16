@@ -5,20 +5,29 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.montfel.fipe.ui.search.SearchUiState
+import com.montfel.fipe.R
+import com.montfel.fipe.theme.font
 import com.montfel.fipe.ui.model.FormData
 import com.montfel.fipe.ui.model.FormDataItem
+import com.montfel.fipe.ui.search.SearchUiState
 import kotlinx.collections.immutable.persistentListOf
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -28,18 +37,53 @@ internal fun SearchScreen(
     onEvent: (SearchEvent) -> Unit
 ) {
     Scaffold(
+        containerColor = Color.White,
         topBar = {
             TopAppBar(
-                title = { Text("Search FIPE") }
+                navigationIcon = {
+                    IconButton(onClick = { onEvent(SearchEvent.OnNavigateBack) }) {
+                        Icon(
+                            painter = painterResource(R.drawable.ic_arrow_left),
+                            contentDescription = null
+                        )
+                    }
+                },
+                title = {
+                    Text(
+                        text = "Pesquisar pelo veículo",
+                        fontFamily = font
+                    )
+                },
+                colors = TopAppBarDefaults.topAppBarColors(
+                    containerColor = Color.White
+                )
             )
-        }
+        },
+        bottomBar = {
+            Button(
+                onClick = { onEvent(SearchEvent.OnVehicleSearch) },
+                colors = ButtonDefaults.buttonColors(
+                    containerColor = Color(0xFF1E3A8A),
+                    contentColor = Color.White
+                ),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(24.dp)
+            ) {
+                Text(
+                    text = "Consultar veículo",
+                    fontFamily = font
+                )
+            }
+        },
+        modifier = Modifier.navigationBarsPadding()
     ) { paddingValues ->
         val vehicleTypes = persistentListOf(
             FormDataItem("Carro", "1"),
             FormDataItem("Moto", "2"),
             FormDataItem("Caminhão", "3")
         )
-        val options = persistentListOf(
+        val fields = persistentListOf(
             FormData(
                 title = "Selecione o tipo do veículo",
                 label = uiState.selectedVehicleType?.label,
@@ -92,25 +136,26 @@ internal fun SearchScreen(
             )
         )
 
-        Column(modifier = Modifier.padding(paddingValues)) {
-            options.forEach {
+        Column(
+            modifier = Modifier
+                .padding(paddingValues)
+                .padding(horizontal = 24.dp)
+        ) {
+            fields.forEach {
                 Card(onClick = { onEvent(SearchEvent.OnNavigateToForm(it)) }) {
                     Row(
                         modifier = Modifier
                             .fillMaxWidth()
                             .padding(16.dp)
                     ) {
-                        Text(it.label ?: it.title)
+                        Text(
+                            text = it.label ?: it.title,
+                            fontFamily = font
+                        )
                     }
                 }
 
                 Spacer(modifier = Modifier.height(16.dp))
-            }
-
-            Button(
-                onClick = { onEvent(SearchEvent.OnVehicleSearch) }
-            ) {
-                Text("Consultar")
             }
         }
     }
