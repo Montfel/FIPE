@@ -37,9 +37,16 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.montfel.fipe.R
 import com.montfel.fipe.data.model.VehicleInfo
+import com.montfel.fipe.shared.resources.Res
+import com.montfel.fipe.shared.resources.fipe_code
+import com.montfel.fipe.shared.resources.fuel
+import com.montfel.fipe.shared.resources.vehicle_details
+import com.montfel.fipe.shared.resources.vehicle_type
+import com.montfel.fipe.shared.resources.year_model
 import com.montfel.fipe.theme.font
 import com.montfel.fipe.ui.vehicledetails.VehicleDetailsUiState
 import kotlinx.collections.immutable.persistentListOf
+import org.jetbrains.compose.resources.stringResource
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -61,10 +68,11 @@ internal fun VehicleDetailsScreen(
                 },
                 title = {
                     Text(
-                        text = "Detalhes do veículo",
+                        text = stringResource(Res.string.vehicle_details),
                         fontFamily = font,
                         fontWeight = FontWeight.SemiBold,
-                        fontSize = 18.sp                    )
+                        fontSize = 18.sp
+                    )
                 },
                 colors = TopAppBarDefaults.topAppBarColors(
                     containerColor = Color.White
@@ -116,10 +124,10 @@ internal fun VehicleDetailsScreen(
                 Spacer(modifier = Modifier.height(40.dp))
 
                 val items = persistentListOf(
-                    Triple(R.drawable.ic_calendar, "Ano modelo", it.yearModel.toString()),
-                    Triple(R.drawable.ic_fuel, "Combustível", it.fuel),
-                    Triple(R.drawable.ic_123, "Código Fipe", it.fipeCode),
-                    Triple(R.drawable.ic_car, "Tipo do veículo", it.vehicleType.toString()),
+                    Triple(R.drawable.ic_calendar, Res.string.year_model, it.yearModel.toString()),
+                    Triple(R.drawable.ic_fuel, Res.string.fuel, it.fuel),
+                    Triple(R.drawable.ic_123, Res.string.fipe_code, it.fipeCode),
+                    Triple(R.drawable.ic_car, Res.string.vehicle_type, it.vehicleType.toString()),
                 )
 
                 LazyVerticalGrid(
@@ -153,7 +161,7 @@ internal fun VehicleDetailsScreen(
                                 Spacer(modifier = Modifier.weight(1f))
 
                                 Text(
-                                    text = it.second,
+                                    text = stringResource(it.second),
                                     fontWeight = FontWeight.Medium,
                                     fontFamily = font,
                                     fontSize = 12.sp,

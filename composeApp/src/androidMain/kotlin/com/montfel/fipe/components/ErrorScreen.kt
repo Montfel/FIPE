@@ -18,8 +18,10 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.montfel.fipe.R
+import com.montfel.fipe.shared.resources.Res
+import com.montfel.fipe.shared.resources.retry
 import com.montfel.fipe.theme.font
-
+import org.jetbrains.compose.resources.stringResource
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -46,7 +48,7 @@ internal fun ErrorScreen(
                 )
 
                 Text(
-                    text = "Tente novamente",
+                    text = stringResource(Res.string.retry),
                     fontFamily = font
                 )
             }

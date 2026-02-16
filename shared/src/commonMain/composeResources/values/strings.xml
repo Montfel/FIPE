@@ -1,3 +1,27 @@
 <resources>
     <string name="app_name">Busca FIPE</string>
+    <string name="year_model">Ano modelo</string>
+    <string name="fuel">Combustível</string>
+    <string name="fipe_code">Código Fipe</string>
+    <string name="vehicle_type">Tipo do veículo</string>
+    <string name="consult_your_vehicle">Consulte o seu veículo</string>
+    <string name="consult_vehicle">Consultar veículo</string>
+    <string name="search_by_vehicle">Pesquisar pelo veículo</string>
+    <string name="by_vehicle">Pelo veículo</string>
+    <string name="search_by_fipe">Pesquisar pelo código FIPE</string>
+    <string name="by_fipe">Pelo código FIPE</string>
+    <string name="brand">Marca</string>
+    <string name="model">Modelo</string>
+    <string name="price">Preço</string>
+    <string name="reference_month">Mês de referência</string>
+    <string name="consult_date">Data da consulta</string>
+    <string name="authentication">Autenticação</string>
+    <string name="fuel_acronym">Sigla do combustível</string>
+    <string name="retry">Tente novamente</string>
+    <string name="loading">Carregando...</string>
+    <string name="vehicle_details">Detalhes do veículo</string>
+    <string name="back">Voltar</string>
+    <string name="what_is_fipe">O que é a Tabela FIPE?</string>
+    <string name="fipe_concept">É a referência de preços de veículos no Brasil, atualizada mensalmente pela Fundação Instituto de Pesquisas Econômicas.</string>
+    <string name="month_reference">Mês e ano de referência</string>
 </resources>

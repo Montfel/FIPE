@@ -26,12 +26,22 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.montfel.fipe.R
+import com.montfel.fipe.shared.resources.Res
+import com.montfel.fipe.shared.resources.brand
+import com.montfel.fipe.shared.resources.consult_vehicle
+import com.montfel.fipe.shared.resources.model
+import com.montfel.fipe.shared.resources.month_reference
+import com.montfel.fipe.shared.resources.search_by_fipe
+import com.montfel.fipe.shared.resources.search_by_vehicle
+import com.montfel.fipe.shared.resources.vehicle_type
+import com.montfel.fipe.shared.resources.year_model
 import com.montfel.fipe.theme.font
 import com.montfel.fipe.ui.model.FormData
 import com.montfel.fipe.ui.model.FormDataItem
 import com.montfel.fipe.ui.search.SearchUiState
 import kotlinx.collections.immutable.persistentListOf
 import kotlinx.collections.immutable.toPersistentList
+import org.jetbrains.compose.resources.stringResource
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -54,7 +64,7 @@ internal fun SearchScreen(
                 },
                 title = {
                     Text(
-                        text = "Pesquisar pelo veículo",
+                        text = stringResource(if (isByFipe) Res.string.search_by_fipe else Res.string.search_by_vehicle),
                         fontFamily = font,
                         fontWeight = FontWeight.SemiBold,
                         fontSize = 18.sp
@@ -77,7 +87,7 @@ internal fun SearchScreen(
                     .padding(24.dp)
             ) {
                 Text(
-                    text = "Consultar veículo",
+                    text = stringResource(Res.string.consult_vehicle),
                     fontFamily = font
                 )
             }
@@ -91,7 +101,7 @@ internal fun SearchScreen(
         )
         val fields = mutableListOf(
             FormData(
-                title = "Selecione mês e ano de referência",
+                title = stringResource(Res.string.month_reference),
                 label = uiState.selectedReference?.label,
                 items = uiState.referenceTable.map {
                     FormDataItem(
@@ -102,13 +112,13 @@ internal fun SearchScreen(
                 onItemClick = { onEvent(SearchEvent.OnReferenceSelected(it)) }
             ),
             FormData(
-                title = "Selecione o tipo do veículo",
+                title = stringResource(Res.string.vehicle_type),
                 label = uiState.selectedVehicleType?.label,
                 items = vehicleTypes,
                 onItemClick = { onEvent(SearchEvent.OnVehicleTypeSelected(it)) }
             ),
             FormData(
-                title = "Selecione o ano modelo",
+                title = stringResource(Res.string.year_model),
                 label = uiState.selectedYearModel?.label,
                 items = uiState.yearModels.map {
                     FormDataItem(
@@ -139,7 +149,7 @@ internal fun SearchScreen(
                     index = 2,
                     listOf(
                         FormData(
-                            title = "Selecione a marca",
+                            title = stringResource(Res.string.brand),
                             label = uiState.selectedBrand?.label,
                             items = uiState.brands.map {
                                 FormDataItem(
@@ -150,7 +160,7 @@ internal fun SearchScreen(
                             onItemClick = { onEvent(SearchEvent.OnBrandSelected(it)) }
                         ),
                         FormData(
-                            title = "Selecione o modelo",
+                            title = stringResource(Res.string.model),
                             label = uiState.selectedModel?.label,
                             items = uiState.models?.models?.map {
                                 FormDataItem(

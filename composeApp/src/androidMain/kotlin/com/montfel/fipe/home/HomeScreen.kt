@@ -31,9 +31,14 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.montfel.fipe.R
-import com.montfel.fipe.shared.resources.app_name
-import com.montfel.fipe.theme.font
 import com.montfel.fipe.shared.resources.Res
+import com.montfel.fipe.shared.resources.app_name
+import com.montfel.fipe.shared.resources.by_fipe
+import com.montfel.fipe.shared.resources.by_vehicle
+import com.montfel.fipe.shared.resources.consult_your_vehicle
+import com.montfel.fipe.shared.resources.fipe_concept
+import com.montfel.fipe.shared.resources.what_is_fipe
+import com.montfel.fipe.theme.font
 import org.jetbrains.compose.resources.stringResource
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -75,7 +80,7 @@ internal fun HomeScreen(
                     verticalArrangement = Arrangement.spacedBy(4.dp)
                 ) {
                     Text(
-                        text = "O que é a Tabela FIPE?",
+                        text = stringResource(Res.string.what_is_fipe),
                         fontWeight = FontWeight.Bold,
                         fontSize = 18.sp,
                         color = Color(0xFF0F172A),
@@ -83,7 +88,7 @@ internal fun HomeScreen(
                     )
 
                     Text(
-                        text = "É a referência de preços de veículos no Brasil, atualizada mensalmente pela Fundação Instituto de Pesquisas Econômicas.",
+                        text = stringResource(Res.string.fipe_concept),
                         fontWeight = FontWeight.Normal,
                         fontSize = 14.sp,
                         color = Color(0xFF64748B),
@@ -95,7 +100,7 @@ internal fun HomeScreen(
             Spacer(modifier = Modifier.height(32.dp))
 
             Text(
-                text = "Consulte o seu veículo",
+                text = stringResource(Res.string.consult_your_vehicle),
                 fontWeight = FontWeight.SemiBold,
                 fontSize = 18.sp,
                 color = Color(0xFF1E293B),
@@ -137,7 +142,7 @@ internal fun HomeScreen(
                         }
 
                         Text(
-                            text = "Pelo veículo",
+                            text = stringResource(Res.string.by_vehicle),
                             fontWeight = FontWeight.Bold,
                             fontSize = 18.sp,
                             color = Color(0xFF0F172A),
@@ -187,7 +192,7 @@ internal fun HomeScreen(
                         }
 
                         Text(
-                            text = "Pelo código FIPE",
+                            text = stringResource(Res.string.by_fipe),
                             fontWeight = FontWeight.Bold,
                             fontSize = 18.sp,
                             color = Color(0xFF0F172A),
