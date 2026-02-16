@@ -21,8 +21,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.montfel.fipe.R
 import com.montfel.fipe.theme.font
 import com.montfel.fipe.ui.model.FormData
@@ -53,7 +55,9 @@ internal fun SearchScreen(
                 title = {
                     Text(
                         text = "Pesquisar pelo veículo",
-                        fontFamily = font
+                        fontFamily = font,
+                        fontWeight = FontWeight.SemiBold,
+                        fontSize = 18.sp
                     )
                 },
                 colors = TopAppBarDefaults.topAppBarColors(
@@ -87,12 +91,6 @@ internal fun SearchScreen(
         )
         val fields = mutableListOf(
             FormData(
-                title = "Selecione o tipo do veículo",
-                label = uiState.selectedVehicleType?.label,
-                items = vehicleTypes,
-                onItemClick = { onEvent(SearchEvent.OnVehicleTypeSelected(it)) }
-            ),
-            FormData(
                 title = "Selecione mês e ano de referência",
                 label = uiState.selectedReference?.label,
                 items = uiState.referenceTable.map {
@@ -102,6 +100,12 @@ internal fun SearchScreen(
                     )
                 },
                 onItemClick = { onEvent(SearchEvent.OnReferenceSelected(it)) }
+            ),
+            FormData(
+                title = "Selecione o tipo do veículo",
+                label = uiState.selectedVehicleType?.label,
+                items = vehicleTypes,
+                onItemClick = { onEvent(SearchEvent.OnVehicleTypeSelected(it)) }
             ),
             FormData(
                 title = "Selecione o ano modelo",

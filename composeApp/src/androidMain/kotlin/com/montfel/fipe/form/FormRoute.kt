@@ -24,8 +24,10 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.montfel.fipe.R
 import com.montfel.fipe.theme.font
 import com.montfel.fipe.ui.model.FormData
@@ -60,10 +62,14 @@ internal fun FormScreen(
                         )
                     }
                 },
-                title = { Text(
-                    text = formData.title,
-                    fontFamily = font
-                ) },
+                title = {
+                    Text(
+                        text = formData.title,
+                        fontFamily = font,
+                        fontWeight = FontWeight.SemiBold,
+                        fontSize = 18.sp
+                    )
+                },
                 colors = TopAppBarDefaults.topAppBarColors(
                     containerColor = Color.White
                 )

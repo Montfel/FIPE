@@ -23,11 +23,11 @@ open class SearchViewModel(
     fun fetchReferenceTable() {
         viewModelScope.launch {
             searchService.getReferenceTable()
-                .onSuccess { result ->
+                .onSuccess { references ->
                     _uiState.update {
                         it.copy(
                             stateOfUi = SearchStateOfUi.Success,
-                            referenceTable = result
+                            referenceTable = references
                         )
                     }
                 }
@@ -50,11 +50,11 @@ open class SearchViewModel(
             searchService.getBrands(
                 referenceTable = reference.value,
                 vehicleType = uiState.value.selectedVehicleType?.value.orEmpty()
-            ).onSuccess { result ->
+            ).onSuccess { brands ->
                 _uiState.update {
                     it.copy(
                         selectedReference = reference,
-                        brands = result
+                        brands = brands
                     )
                 }
             }.onFailure {
@@ -71,11 +71,11 @@ open class SearchViewModel(
                 referenceTable = uiState.value.selectedReference?.value.orEmpty(),
                 vehicleType = uiState.value.selectedVehicleType?.value.orEmpty(),
                 brand = brand.value
-            ).onSuccess { result ->
+            ).onSuccess { models ->
                 _uiState.update {
                     it.copy(
                         selectedBrand = brand,
-                        models = result
+                        models = models
                     )
                 }
             }.onFailure {
@@ -93,11 +93,11 @@ open class SearchViewModel(
                 vehicleType = uiState.value.selectedVehicleType?.value.orEmpty(),
                 brand = uiState.value.selectedBrand?.value.orEmpty(),
                 model = model.value
-            ).onSuccess { result ->
+            ).onSuccess { yearModels ->
                 _uiState.update {
                     it.copy(
                         selectedModel = model,
-                        yearModels = result
+                        yearModels = yearModels
                     )
                 }
             }.onFailure {

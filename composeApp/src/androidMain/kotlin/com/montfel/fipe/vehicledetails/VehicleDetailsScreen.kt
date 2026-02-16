@@ -62,8 +62,9 @@ internal fun VehicleDetailsScreen(
                 title = {
                     Text(
                         text = "Detalhes do veículo",
-                        fontFamily = font
-                    )
+                        fontFamily = font,
+                        fontWeight = FontWeight.SemiBold,
+                        fontSize = 18.sp                    )
                 },
                 colors = TopAppBarDefaults.topAppBarColors(
                     containerColor = Color.White
