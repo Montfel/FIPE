@@ -10,6 +10,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
+import com.montfel.fipe.ui.theme.Colors.color4
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -20,7 +21,7 @@ internal fun LoadingScreen() {
             .background(Color.White)
     ) {
         CircularProgressIndicator(
-            color = Color(0xFF1E3A8A),
+            color = Color(color4),
             modifier = Modifier.align(Alignment.Center)
         )
     }

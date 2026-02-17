@@ -39,6 +39,7 @@ import com.montfel.fipe.theme.font
 import com.montfel.fipe.ui.model.FormData
 import com.montfel.fipe.ui.model.FormDataItem
 import com.montfel.fipe.ui.search.SearchUiState
+import com.montfel.fipe.ui.theme.Colors.color4
 import kotlinx.collections.immutable.persistentListOf
 import kotlinx.collections.immutable.toPersistentList
 import org.jetbrains.compose.resources.stringResource
@@ -79,7 +80,7 @@ internal fun SearchScreen(
             Button(
                 onClick = { onEvent(SearchEvent.OnVehicleSearch) },
                 colors = ButtonDefaults.buttonColors(
-                    containerColor = Color(0xFF1E3A8A),
+                    containerColor = Color(color4),
                     contentColor = Color.White
                 ),
                 modifier = Modifier

@@ -37,8 +37,15 @@ import com.montfel.fipe.shared.resources.by_fipe
 import com.montfel.fipe.shared.resources.by_vehicle
 import com.montfel.fipe.shared.resources.consult_your_vehicle
 import com.montfel.fipe.shared.resources.fipe_concept
+import com.montfel.fipe.shared.resources.ic_1234
 import com.montfel.fipe.shared.resources.what_is_fipe
 import com.montfel.fipe.theme.font
+import com.montfel.fipe.ui.theme.Colors.color1
+import com.montfel.fipe.ui.theme.Colors.color2
+import com.montfel.fipe.ui.theme.Colors.color3
+import com.montfel.fipe.ui.theme.Colors.color4
+import com.montfel.fipe.ui.theme.Colors.color5
+import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -73,7 +80,7 @@ internal fun HomeScreen(
                 colors = CardDefaults.cardColors(
                     containerColor = Color.White
                 ),
-                border = BorderStroke(width = 1.dp, color = Color(0xFFF1F5F9)),
+                border = BorderStroke(width = 1.dp, color = Color(color3)),
             ) {
                 Column(
                     modifier = Modifier.padding(24.dp),
@@ -83,7 +90,7 @@ internal fun HomeScreen(
                         text = stringResource(Res.string.what_is_fipe),
                         fontWeight = FontWeight.Bold,
                         fontSize = 18.sp,
-                        color = Color(0xFF0F172A),
+                        color = Color(color5),
                         fontFamily = font
                     )
 
@@ -91,7 +98,7 @@ internal fun HomeScreen(
                         text = stringResource(Res.string.fipe_concept),
                         fontWeight = FontWeight.Normal,
                         fontSize = 14.sp,
-                        color = Color(0xFF64748B),
+                        color = Color(color2),
                         fontFamily = font
                     )
                 }
@@ -103,7 +110,7 @@ internal fun HomeScreen(
                 text = stringResource(Res.string.consult_your_vehicle),
                 fontWeight = FontWeight.SemiBold,
                 fontSize = 18.sp,
-                color = Color(0xFF1E293B),
+                color = Color(color1),
                 fontFamily = font
             )
 
@@ -113,7 +120,7 @@ internal fun HomeScreen(
                 colors = CardDefaults.cardColors(
                     containerColor = Color.White
                 ),
-                border = BorderStroke(width = 1.dp, color = Color(0xFFF1F5F9)),
+                border = BorderStroke(width = 1.dp, color = Color(color3)),
                 onClick = { onEvent(HomeEvent.OnSearchByVehicleClicked) }
             ) {
                 Row(
@@ -132,12 +139,12 @@ internal fun HomeScreen(
                             modifier = Modifier
                                 .size(56.dp)
                                 .clip(CircleShape)
-                                .background(Color(0x101E3A8A))
+                                .background(Color(color4).copy(alpha = 0.1f))
                         ) {
                             Icon(
                                 painter = painterResource(R.drawable.ic_car),
                                 contentDescription = null,
-                                tint = Color(0xFF1E3A8A)
+                                tint = Color(color4)
                             )
                         }
 
@@ -145,7 +152,7 @@ internal fun HomeScreen(
                             text = stringResource(Res.string.by_vehicle),
                             fontWeight = FontWeight.Bold,
                             fontSize = 18.sp,
-                            color = Color(0xFF0F172A),
+                            color = Color(color5),
                             fontFamily = font
                         )
                     }
@@ -163,7 +170,7 @@ internal fun HomeScreen(
                 colors = CardDefaults.cardColors(
                     containerColor = Color.White
                 ),
-                border = BorderStroke(width = 1.dp, color = Color(0xFFF1F5F9)),
+                border = BorderStroke(width = 1.dp, color = Color(color3)),
                 onClick = { onEvent(HomeEvent.OnSearchByFipeClicked) }
             ) {
                 Row(
@@ -182,12 +189,12 @@ internal fun HomeScreen(
                             modifier = Modifier
                                 .size(56.dp)
                                 .clip(CircleShape)
-                                .background(Color(0x101E3A8A))
+                                .background(Color(color4).copy(alpha = 0.1f))
                         ) {
                             Icon(
                                 painter = painterResource(R.drawable.ic_123),
                                 contentDescription = null,
-                                tint = Color(0xFF1E3A8A)
+                                tint = Color(color4)
                             )
                         }
 
@@ -195,7 +202,7 @@ internal fun HomeScreen(
                             text = stringResource(Res.string.by_fipe),
                             fontWeight = FontWeight.Bold,
                             fontSize = 18.sp,
-                            color = Color(0xFF0F172A),
+                            color = Color(color5),
                             fontFamily = font
                         )
                     }

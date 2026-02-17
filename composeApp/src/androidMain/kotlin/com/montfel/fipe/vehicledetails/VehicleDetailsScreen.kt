@@ -44,6 +44,12 @@ import com.montfel.fipe.shared.resources.vehicle_details
 import com.montfel.fipe.shared.resources.vehicle_type
 import com.montfel.fipe.shared.resources.year_model
 import com.montfel.fipe.theme.font
+import com.montfel.fipe.ui.theme.Colors.color1
+import com.montfel.fipe.ui.theme.Colors.color2
+import com.montfel.fipe.ui.theme.Colors.color3
+import com.montfel.fipe.ui.theme.Colors.color4
+import com.montfel.fipe.ui.theme.Colors.color5
+import com.montfel.fipe.ui.theme.Colors.color6
 import com.montfel.fipe.ui.vehicledetails.VehicleDetailsUiState
 import kotlinx.collections.immutable.persistentListOf
 import org.jetbrains.compose.resources.stringResource
@@ -95,7 +101,7 @@ internal fun VehicleDetailsScreen(
                         text = it.brand,
                         fontWeight = FontWeight.Bold,
                         fontSize = 24.sp,
-                        color = Color(0xFF0F172A),
+                        color = Color(color5),
                         fontFamily = font
                     )
 
@@ -105,7 +111,7 @@ internal fun VehicleDetailsScreen(
                         text = it.model,
                         fontWeight = FontWeight.Medium,
                         fontSize = 16.sp,
-                        color = Color(0xFF64748B),
+                        color = Color(color2),
                         fontFamily = font
                     )
 
@@ -115,7 +121,7 @@ internal fun VehicleDetailsScreen(
                         text = it.price,
                         fontWeight = FontWeight.ExtraBold,
                         fontSize = 48.sp,
-                        color = Color(0xFF0F172A),
+                        color = Color(color5),
                         fontFamily = font,
                         letterSpacing = -(2.4).sp
                     )
@@ -140,7 +146,7 @@ internal fun VehicleDetailsScreen(
                             colors = CardDefaults.cardColors(
                                 containerColor = Color.White
                             ),
-                            border = BorderStroke(width = 1.dp, color = Color(0xFFF1F5F9)),
+                            border = BorderStroke(width = 1.dp, color = Color(color3)),
                             modifier = Modifier.aspectRatio(1.3f)
                         ) {
                             Column(modifier = Modifier.padding(16.dp)) {
@@ -149,12 +155,12 @@ internal fun VehicleDetailsScreen(
                                     modifier = Modifier
                                         .size(40.dp)
                                         .clip(CircleShape)
-                                        .background(Color(0x101E3A8A))
+                                        .background(Color(color4))
                                 ) {
                                     Icon(
                                         painter = painterResource(it.first),
                                         contentDescription = null,
-                                        tint = Color(0xFF1E293B)
+                                        tint = Color(color1)
                                     )
                                 }
 
@@ -165,7 +171,7 @@ internal fun VehicleDetailsScreen(
                                     fontWeight = FontWeight.Medium,
                                     fontFamily = font,
                                     fontSize = 12.sp,
-                                    color = Color(0xFF94A3B8)
+                                    color = Color(color6)
                                 )
 
                                 Text(
@@ -173,7 +179,7 @@ internal fun VehicleDetailsScreen(
                                     fontWeight = FontWeight.SemiBold,
                                     fontSize = 16.sp,
                                     fontFamily = font,
-                                    color = Color(0xFF0F172A)
+                                    color = Color(color5)
                                 )
                             }
                         }
