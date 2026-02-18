@@ -81,6 +81,10 @@ internal fun SearchRoute(
                         SearchEvent.OnNavigateBack -> {
                             onNavigateBack()
                         }
+
+                        is SearchEvent.OnFipeCodeChanged -> {
+                            viewModel.onFipeCodeChanged(event.fipeCode)
+                        }
                     }
                 }
             )

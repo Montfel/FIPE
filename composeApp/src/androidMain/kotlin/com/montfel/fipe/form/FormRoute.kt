@@ -8,13 +8,13 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Card
+import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
-import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -32,6 +32,8 @@ import com.montfel.fipe.shared.resources.ic_arrow_left
 import com.montfel.fipe.theme.getFont
 import com.montfel.fipe.ui.model.FormData
 import com.montfel.fipe.ui.model.FormDataItem
+import com.montfel.fipe.ui.theme.Colors.color7
+import kotlinx.collections.immutable.persistentListOf
 import org.jetbrains.compose.resources.painterResource
 
 //
@@ -52,9 +54,9 @@ internal fun FormScreen(
     }
 
     Scaffold(
-        containerColor = Color.White,
+        containerColor = Color(color7),
         topBar = {
-            TopAppBar(
+            CenterAlignedTopAppBar(
                 navigationIcon = {
                     IconButton(onClick = onNavigateBack) {
                         Icon(
@@ -121,8 +123,7 @@ private fun FormScreenPreview() {
     FormScreen(
         formData = FormData(
             title = "Selecione a Marca",
-            label = null,
-            items = listOf(
+            items = persistentListOf(
                 FormDataItem("Marca 1", "1"),
                 FormDataItem("Marca 2", "2"),
             ),

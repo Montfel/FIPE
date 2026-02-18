@@ -1,24 +1,31 @@
 package com.montfel.fipe.search
 
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.TextField
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
@@ -29,6 +36,8 @@ import com.montfel.fipe.shared.resources.Res
 import com.montfel.fipe.shared.resources.brand
 import com.montfel.fipe.shared.resources.consult_vehicle
 import com.montfel.fipe.shared.resources.ic_arrow_left
+import com.montfel.fipe.shared.resources.ic_car
+import com.montfel.fipe.shared.resources.ic_chevron_right
 import com.montfel.fipe.shared.resources.model
 import com.montfel.fipe.shared.resources.month_reference
 import com.montfel.fipe.shared.resources.search_by_fipe
@@ -40,8 +49,10 @@ import com.montfel.fipe.ui.model.FormData
 import com.montfel.fipe.ui.model.FormDataItem
 import com.montfel.fipe.ui.search.SearchUiState
 import com.montfel.fipe.ui.theme.Colors.color4
+import com.montfel.fipe.ui.theme.Colors.color7
 import kotlinx.collections.immutable.persistentListOf
 import kotlinx.collections.immutable.toPersistentList
+import org.jetbrains.compose.resources.DrawableResource
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
 
@@ -53,9 +64,9 @@ internal fun SearchScreen(
     onEvent: (SearchEvent) -> Unit
 ) {
     Scaffold(
-        containerColor = Color.White,
+        containerColor = Color(color7),
         topBar = {
-            TopAppBar(
+            CenterAlignedTopAppBar(
                 navigationIcon = {
                     IconButton(onClick = { onEvent(SearchEvent.OnNavigateBack) }) {
                         Icon(
@@ -71,7 +82,7 @@ internal fun SearchScreen(
                         text = stringResource(title),
                         fontFamily = getFont(),
                         fontWeight = FontWeight.SemiBold,
-                        fontSize = 18.sp
+                        fontSize = 18.sp,
                     )
                 },
                 colors = TopAppBarDefaults.topAppBarColors(
@@ -103,115 +114,162 @@ internal fun SearchScreen(
             FormDataItem("Moto", VehicleType.MOTORCYCLE.code),
             FormDataItem("Caminhão", VehicleType.TRUCK.code)
         )
-        val fields = mutableListOf(
-            FormData(
-                title = stringResource(Res.string.month_reference),
-                label = uiState.selectedReference?.label,
-                items = uiState.referenceTable.map {
-                    FormDataItem(
-                        label = it.date,
-                        value = it.code
-                    )
-                },
-                onItemClick = { onEvent(SearchEvent.OnReferenceSelected(it)) }
-            ),
-            FormData(
-                title = stringResource(Res.string.vehicle_type),
-                label = uiState.selectedVehicleType?.label,
-                items = vehicleTypes,
-                onItemClick = { onEvent(SearchEvent.OnVehicleTypeSelected(it)) }
-            ),
-            FormData(
-                title = stringResource(Res.string.year_model),
-                label = uiState.selectedYearModel?.label,
-                items = uiState.yearModels.map {
-                    FormDataItem(
-                        label = it.name,
-                        value = it.code
-                    )
-                },
-                onItemClick = { onEvent(SearchEvent.OnYearModelSelected(it)) }
+
+        Column(
+            verticalArrangement = Arrangement.spacedBy(16.dp),
+            modifier = Modifier
+                .padding(paddingValues)
+                .padding(24.dp)
+        ) {
+            FormCard(
+                icon = Res.drawable.ic_car,
+                value = uiState.selectedReference?.label,
+                formData = FormData(
+                    title = stringResource(Res.string.month_reference),
+                    items = uiState.referenceTable.map {
+                        FormDataItem(
+                            label = it.date,
+                            value = it.code
+                        )
+                    }.toPersistentList(),
+                    onItemClick = { onEvent(SearchEvent.OnReferenceSelected(it)) }
+                ),
+                onClick = { onEvent(SearchEvent.OnNavigateToForm(it)) }
             )
-        ).apply {
+
+            FormCard(
+                icon = Res.drawable.ic_car,
+                value = uiState.selectedVehicleType?.label,
+                formData = FormData(
+                    title = stringResource(Res.string.vehicle_type),
+                    items = vehicleTypes,
+                    onItemClick = { onEvent(SearchEvent.OnVehicleTypeSelected(it)) }
+                ),
+                onClick = { onEvent(SearchEvent.OnNavigateToForm(it)) }
+            )
+
             if (isByFipe) {
-                add(
-                    index = 2,
-                    FormData(
-                        title = "AAAA",
-                        label = uiState.selectedBrand?.label,
+                TextField(
+                    value = uiState.selectedFipeCode.orEmpty(),
+                    onValueChange = { onEvent(SearchEvent.OnFipeCodeChanged(it)) },
+                    modifier = Modifier.fillMaxWidth()
+                )
+            } else {
+                FormCard(
+                    icon = Res.drawable.ic_car,
+                    value = uiState.selectedBrand?.label,
+                    formData = FormData(
+                        title = stringResource(Res.string.brand),
                         items = uiState.brands.map {
                             FormDataItem(
                                 label = it.name,
                                 value = it.code
                             )
-                        },
+                        }.toPersistentList(),
                         onItemClick = { onEvent(SearchEvent.OnBrandSelected(it)) }
-                    )
+                    ),
+                    onClick = { onEvent(SearchEvent.OnNavigateToForm(it)) }
                 )
-            } else {
-                addAll(
-                    index = 2,
-                    listOf(
-                        FormData(
-                            title = stringResource(Res.string.brand),
-                            label = uiState.selectedBrand?.label,
-                            items = uiState.brands.map {
-                                FormDataItem(
-                                    label = it.name,
-                                    value = it.code
-                                )
-                            },
-                            onItemClick = { onEvent(SearchEvent.OnBrandSelected(it)) }
-                        ),
-                        FormData(
-                            title = stringResource(Res.string.model),
-                            label = uiState.selectedModel?.label,
-                            items = uiState.models?.models?.map {
-                                FormDataItem(
-                                    label = it.name,
-                                    value = it.code
-                                )
-                            }.orEmpty(),
-                            onItemClick = { onEvent(SearchEvent.OnModelSelected(it)) }
-                        ),
-                    )
+
+                FormCard(
+                    icon = Res.drawable.ic_car,
+                    value = uiState.selectedModel?.label,
+                    formData = FormData(
+                        title = stringResource(Res.string.model),
+                        items = uiState.models?.models?.map {
+                            FormDataItem(
+                                label = it.name,
+                                value = it.code
+                            )
+                        }.orEmpty().toPersistentList(),
+                        onItemClick = { onEvent(SearchEvent.OnModelSelected(it)) }
+                    ),
+                    onClick = { onEvent(SearchEvent.OnNavigateToForm(it)) }
                 )
             }
-        }.toPersistentList()
 
-        Column(
-            modifier = Modifier
-                .padding(paddingValues)
-                .padding(horizontal = 24.dp)
-        ) {
-            fields.forEach {
-                Card(onClick = { onEvent(SearchEvent.OnNavigateToForm(it)) }) {
-                    Row(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(16.dp)
-                    ) {
-                        Text(
-                            text = it.label ?: it.title,
-                            fontFamily = getFont()
+            FormCard(
+                icon = Res.drawable.ic_car,
+                value = uiState.selectedYearModel?.label,
+                formData = FormData(
+                    title = stringResource(Res.string.year_model),
+                    items = uiState.yearModels.map {
+                        FormDataItem(
+                            label = it.name,
+                            value = it.code
                         )
-                    }
-                }
-
-                Spacer(modifier = Modifier.height(16.dp))
-            }
+                    }.toPersistentList(),
+                    onItemClick = { onEvent(SearchEvent.OnYearModelSelected(it)) }
+                ),
+                onClick = { onEvent(SearchEvent.OnNavigateToForm(it)) }
+            )
         }
     }
 }
 
-@Preview
 @Composable
-private fun SearchScreenIsByFipePreview() {
-    SearchScreen(
-        isByFipe = true,
-        uiState = SearchUiState(),
-        onEvent = {}
-    )
+fun FormCard(
+    icon: DrawableResource,
+    value: String?,
+    formData: FormData,
+    onClick: (formData: FormData) -> Unit,
+) {
+    Card(
+        onClick = { onClick(formData) },
+        colors = CardDefaults.cardColors(
+            containerColor = Color.White
+        )
+    ) {
+        Row(
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.SpaceBetween,
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(16.dp)
+        ) {
+            Row(
+                horizontalArrangement = Arrangement.spacedBy(16.dp),
+                verticalAlignment = Alignment.CenterVertically,
+            ) {
+                Box(
+                    contentAlignment = Alignment.Center,
+                    modifier = Modifier
+                        .size(40.dp)
+                        .clip(CircleShape)
+                        .background(Color(color4).copy(alpha = 0.1f))
+                ) {
+                    Icon(
+                        painter = painterResource(icon),
+                        contentDescription = null,
+                        tint = Color(color4)
+                    )
+                }
+
+                Column(
+                    verticalArrangement = Arrangement.spacedBy(2.dp),
+                ) {
+                    Text(
+                        text = formData.title,
+                        fontFamily = getFont()
+                    )
+
+                    value?.let {
+                        Text(
+                            text = value,
+                            fontWeight = FontWeight.Bold,
+                            fontSize = 16.sp,
+                            fontFamily = getFont()
+                        )
+                    }
+                }
+            }
+
+            Icon(
+                painter = painterResource(Res.drawable.ic_chevron_right),
+                contentDescription = null
+            )
+        }
+    }
 }
 
 @Preview
@@ -219,7 +277,27 @@ private fun SearchScreenIsByFipePreview() {
 private fun SearchScreenIsNotByFipePreview() {
     SearchScreen(
         isByFipe = false,
-        uiState = SearchUiState(),
+        uiState = SearchUiState(
+            selectedReference = FormDataItem(label = "", value = "fevereiro/2026"),
+            selectedVehicleType = FormDataItem(label = "Carro", value = VehicleType.CAR.code),
+            selectedBrand = FormDataItem(label = "Fiat", value = "fiat"),
+            selectedModel = FormDataItem(label = "Uno", value = "uno"),
+            selectedYearModel = FormDataItem(label = "2022", value = "2022"),
+        ),
+        onEvent = {}
+    )
+}
+
+@Preview
+@Composable
+private fun SearchScreenIsByFipePreview() {
+    SearchScreen(
+        isByFipe = true,
+        uiState = SearchUiState(
+            selectedReference = FormDataItem(label = "", value = "fevereiro/2026"),
+            selectedVehicleType = FormDataItem(label = "Carro", value = VehicleType.CAR.code),
+            selectedYearModel = FormDataItem(label = "2022", value = "2022"),
+        ),
         onEvent = {}
     )
 }

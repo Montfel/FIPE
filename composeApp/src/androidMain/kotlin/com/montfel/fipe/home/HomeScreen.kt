@@ -14,11 +14,11 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -45,6 +45,7 @@ import com.montfel.fipe.ui.theme.Colors.color2
 import com.montfel.fipe.ui.theme.Colors.color3
 import com.montfel.fipe.ui.theme.Colors.color4
 import com.montfel.fipe.ui.theme.Colors.color5
+import com.montfel.fipe.ui.theme.Colors.color7
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
 
@@ -54,9 +55,9 @@ internal fun HomeScreen(
     onEvent: (HomeEvent) -> Unit
 ) {
     Scaffold(
-        containerColor = Color.White,
+        containerColor = Color(color7),
         topBar = {
-            TopAppBar(
+            CenterAlignedTopAppBar(
                 title = {
                     Text(
                         text = stringResource(Res.string.app_name),
@@ -73,7 +74,7 @@ internal fun HomeScreen(
     ) { paddingValues ->
         Column(
             modifier = Modifier
-                .padding(horizontal = 24.dp)
+                .padding(24.dp)
                 .padding(paddingValues)
         ) {
             Card(

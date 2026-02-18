@@ -13,22 +13,28 @@ import com.montfel.fipe.domain.model.Models
 import com.montfel.fipe.domain.model.Reference
 import com.montfel.fipe.domain.model.YearModel
 import com.montfel.fipe.domain.repository.SearchRepository
+import kotlinx.collections.immutable.PersistentList
+import kotlinx.collections.immutable.toPersistentList
 
 internal class SearchRepositoryImpl(
     private val searchService: SearchService
 ) : SearchRepository {
-    override suspend fun getReferenceTable(): Result<List<Reference>> {
+    override suspend fun getReferenceTable(): Result<PersistentList<Reference>> {
         return runCatching {
-            searchService.getReferenceTable().map(ReferenceData::toReference)
+            searchService.getReferenceTable()
+                .map(ReferenceData::toReference)
+                .toPersistentList()
         }
     }
 
     override suspend fun getBrands(
         referenceTable: String,
         vehicleType: String
-    ): Result<List<Brand>> {
+    ): Result<PersistentList<Brand>> {
         return runCatching {
-            searchService.getBrands(referenceTable, vehicleType).map(BrandData::toBrand)
+            searchService.getBrands(referenceTable, vehicleType)
+                .map(BrandData::toBrand)
+                .toPersistentList()
         }
     }
 
@@ -51,7 +57,7 @@ internal class SearchRepositoryImpl(
         vehicleType: String,
         brand: String,
         model: String
-    ): Result<List<YearModel>> {
+    ): Result<PersistentList<YearModel>> {
         return runCatching {
             searchService.getYearModels(
                 referenceTable = referenceTable,
@@ -59,6 +65,7 @@ internal class SearchRepositoryImpl(
                 brand = brand,
                 model = model
             ).map(YearModelData::toYearModel)
+                .toPersistentList()
         }
     }
 
@@ -66,13 +73,14 @@ internal class SearchRepositoryImpl(
         referenceTable: String,
         vehicleType: String,
         fipeCode: String
-    ): Result<List<YearModel>> {
+    ): Result<PersistentList<YearModel>> {
         return runCatching {
             searchService.getYearModelsByFipeCode(
                 referenceTable = referenceTable,
                 vehicleType = vehicleType,
                 fipeCode = fipeCode
             ).map(YearModelData::toYearModel)
+                .toPersistentList()
         }
     }
 }

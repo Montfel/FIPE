@@ -1,5 +1,6 @@
 package com.montfel.fipe.ui.search
 
+import androidx.compose.runtime.Stable
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.montfel.fipe.domain.repository.SearchRepository
@@ -9,6 +10,7 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
+@Stable
 open class SearchViewModel(
     private val isByFipe: Boolean,
     private val searchRepository: SearchRepository
@@ -24,10 +26,18 @@ open class SearchViewModel(
         viewModelScope.launch {
             searchRepository.getReferenceTable()
                 .onSuccess { references ->
+                    val selectedReference = references.firstOrNull()?.let {
+                        FormDataItem(
+                            label = it.date,
+                            value = it.code
+                        )
+                    }
+
                     _uiState.update {
                         it.copy(
                             stateOfUi = SearchStateOfUi.Success,
-                            referenceTable = references
+                            referenceTable = references,
+                            selectedReference = selectedReference
                         )
                     }
                 }
@@ -105,6 +115,12 @@ open class SearchViewModel(
                     it.copy(stateOfUi = SearchStateOfUi.Error)
                 }
             }
+        }
+    }
+
+    fun onFipeCodeChanged(fipeCode: String) {
+        _uiState.update {
+            it.copy(selectedFipeCode = fipeCode)
         }
     }
 

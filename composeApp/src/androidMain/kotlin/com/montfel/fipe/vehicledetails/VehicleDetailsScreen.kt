@@ -18,12 +18,12 @@ import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -56,6 +56,7 @@ import com.montfel.fipe.ui.theme.Colors.color2
 import com.montfel.fipe.ui.theme.Colors.color3
 import com.montfel.fipe.ui.theme.Colors.color5
 import com.montfel.fipe.ui.theme.Colors.color6
+import com.montfel.fipe.ui.theme.Colors.color7
 import com.montfel.fipe.ui.vehicledetails.VehicleDetailsUiState
 import kotlinx.collections.immutable.persistentListOf
 import org.jetbrains.compose.resources.painterResource
@@ -68,9 +69,9 @@ internal fun VehicleDetailsScreen(
     onNavigateBack: () -> Unit
 ) {
     Scaffold(
-        containerColor = Color.White,
+        containerColor = Color(color7),
         topBar = {
-            TopAppBar(
+            CenterAlignedTopAppBar(
                 navigationIcon = {
                     IconButton(onClick = onNavigateBack) {
                         Icon(
@@ -97,7 +98,7 @@ internal fun VehicleDetailsScreen(
         Column(
             modifier = Modifier
                 .padding(paddingValues)
-                .padding(horizontal = 24.dp)
+                .padding(24.dp)
         ) {
             uiState.vehicleInfo?.let {
                 Column(

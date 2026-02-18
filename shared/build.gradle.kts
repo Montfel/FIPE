@@ -34,6 +34,7 @@ kotlin {
             implementation(libs.androidx.lifecycle.viewmodel)
             implementation(libs.navigation.runtime)
             implementation(libs.compose.components.resources)
+            implementation(libs.kotlinx.collections.immutable)
         }
         androidMain.dependencies {
             implementation(libs.koin.android)

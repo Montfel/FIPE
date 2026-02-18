@@ -1,6 +1,8 @@
 package com.montfel.fipe.domain.model
 
+import kotlinx.collections.immutable.PersistentList
+
 data class Models(
-    val models: List<Model>,
-    val yearModels: List<YearModel>,
+    val models: PersistentList<Model>,
+    val yearModels: PersistentList<YearModel>,
 )

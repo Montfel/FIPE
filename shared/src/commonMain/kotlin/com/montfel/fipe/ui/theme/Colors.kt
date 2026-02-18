@@ -7,5 +7,7 @@ object Colors {
     const val color4 = 0xFF1E3A8A
     const val color5 = 0xFF0F172A
     const val color6 = 0xFF94A3B8
+    const val color7 = 0xFFF6F7F8
+    const val color8 = 0xFFE2E8F0
 }
 
