@@ -67,8 +67,9 @@ internal fun SearchRoute(
                                 SearchRequest(
                                     referenceTable = uiState.selectedReference?.value.orEmpty(),
                                     vehicleType = VehicleType.fromCode(uiState.selectedVehicleType?.value.orEmpty()),
-                                    brand = uiState.selectedBrand?.value.orEmpty(),
-                                    model = uiState.selectedModel?.value.orEmpty(),
+                                    brand = uiState.selectedBrand?.value,
+                                    model = uiState.selectedModel?.value,
+                                    fipeCode = null, //fixme
                                     year = uiState.selectedYearModel?.value?.dropLast(2).orEmpty(),
                                     fuelType = uiState.selectedYearModel?.value?.takeLast(1)
                                         .orEmpty(),
