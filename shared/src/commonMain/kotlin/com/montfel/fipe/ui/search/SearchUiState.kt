@@ -1,9 +1,9 @@
 package com.montfel.fipe.ui.search
 
-import com.montfel.fipe.data.model.Brand
-import com.montfel.fipe.data.model.Models
-import com.montfel.fipe.data.model.Reference
-import com.montfel.fipe.data.model.YearModel
+import com.montfel.fipe.domain.model.Brand
+import com.montfel.fipe.domain.model.Models
+import com.montfel.fipe.domain.model.Reference
+import com.montfel.fipe.domain.model.YearModel
 import com.montfel.fipe.ui.model.FormDataItem
 
 data class SearchUiState(

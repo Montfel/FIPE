@@ -1,10 +1,10 @@
-package com.montfel.fipe.data.model
+package com.montfel.fipe.domain.model
 
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class SearchData(
-    val vehicleType: String,
+data class SearchRequest(
+    val vehicleType: VehicleType,
     val referenceTable: String,
     val brand: String? = null,
     val model: String? = null,

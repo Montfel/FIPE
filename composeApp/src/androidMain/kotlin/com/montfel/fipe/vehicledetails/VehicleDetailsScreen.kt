@@ -34,8 +34,10 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.montfel.fipe.data.model.VehicleInfo
+import com.montfel.fipe.domain.model.VehicleInfo
+import com.montfel.fipe.domain.model.VehicleType
 import com.montfel.fipe.shared.resources.Res
+import com.montfel.fipe.shared.resources.car
 import com.montfel.fipe.shared.resources.fipe_code
 import com.montfel.fipe.shared.resources.fuel
 import com.montfel.fipe.shared.resources.ic_123
@@ -43,6 +45,8 @@ import com.montfel.fipe.shared.resources.ic_arrow_left
 import com.montfel.fipe.shared.resources.ic_calendar
 import com.montfel.fipe.shared.resources.ic_car
 import com.montfel.fipe.shared.resources.ic_fuel
+import com.montfel.fipe.shared.resources.motorcycle
+import com.montfel.fipe.shared.resources.truck
 import com.montfel.fipe.shared.resources.vehicle_details
 import com.montfel.fipe.shared.resources.vehicle_type
 import com.montfel.fipe.shared.resources.year_model
@@ -132,6 +136,13 @@ internal fun VehicleDetailsScreen(
 
                 Spacer(modifier = Modifier.height(40.dp))
 
+                val vehicleTypeName = stringResource(
+                    when (it.vehicleType) {
+                        VehicleType.CAR -> Res.string.car
+                        VehicleType.MOTORCYCLE -> Res.string.motorcycle
+                        VehicleType.TRUCK -> Res.string.truck
+                    }
+                )
                 val items = persistentListOf(
                     Triple(
                         Res.drawable.ic_calendar,
@@ -140,7 +151,7 @@ internal fun VehicleDetailsScreen(
                     ),
                     Triple(Res.drawable.ic_fuel, Res.string.fuel, it.fuel),
                     Triple(Res.drawable.ic_123, Res.string.fipe_code, it.fipeCode),
-                    Triple(Res.drawable.ic_car, Res.string.vehicle_type, it.vehicleType.toString()),
+                    Triple(Res.drawable.ic_car, Res.string.vehicle_type, vehicleTypeName),
                 )
 
                 LazyVerticalGrid(
@@ -206,7 +217,7 @@ private fun VehicleDetailsScreenPreview() {
                 brand = "Fiat",
                 model = "Uno",
                 price = "R$ 30.000,00",
-                vehicleType = 1,
+                vehicleType = VehicleType.CAR,
                 fipeCode = "123456",
                 yearModel = 2020,
                 fuel = "Gasolina",

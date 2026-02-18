@@ -28,8 +28,8 @@ internal fun NavigationGraph() {
                     onNavigateToForm = { formData ->
                         backStack.add(Screen.Form(formData = formData))
                     },
-                    onNavigateToVehicleDetails = { searchData ->
-                        backStack.add(Screen.VehicleDetails(searchData))
+                    onNavigateToVehicleDetails = { searchRequest ->
+                        backStack.add(Screen.VehicleDetails(searchRequest))
                     },
                     onNavigateBack = backStack::removeLastOrNull
                 )
@@ -42,7 +42,7 @@ internal fun NavigationGraph() {
             }
             entry<Screen.VehicleDetails> {
                 VehicleDetailsRoute(
-                    searchData = it.searchData,
+                    searchRequest = it.searchRequest,
                     onNavigateBack = backStack::removeLastOrNull
                 )
             }

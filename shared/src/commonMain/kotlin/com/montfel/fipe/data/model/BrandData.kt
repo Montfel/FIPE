@@ -4,7 +4,7 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class YearModel(
+internal data class BrandData(
     @SerialName("Label")
     val name: String,
 

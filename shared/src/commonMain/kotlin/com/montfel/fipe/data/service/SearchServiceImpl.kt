@@ -1,55 +1,48 @@
 package com.montfel.fipe.data.service
 
 import com.montfel.fipe.data.createHttpClient
-import com.montfel.fipe.data.model.Brand
-import com.montfel.fipe.data.model.Model2
-import com.montfel.fipe.data.model.Models
-import com.montfel.fipe.data.model.Reference
-import com.montfel.fipe.data.model.YearModel
+import com.montfel.fipe.data.model.BrandData
+import com.montfel.fipe.data.model.ModelsData
+import com.montfel.fipe.data.model.ReferenceData
+import com.montfel.fipe.data.model.YearModelData
 import io.ktor.client.call.body
 import io.ktor.client.request.parameter
 import io.ktor.client.request.post
 
 internal class SearchServiceImpl : SearchService {
-    override suspend fun getReferenceTable(): Result<List<Reference>> {
-        return runCatching {
-            val httpClient = createHttpClient() //fixme
-            val url = BASE_URL.plus(REFERENCE_TABLE)
-            val response = httpClient.post(url)
-            response.body<List<Reference>>()
-        }
+    override suspend fun getReferenceTable(): List<ReferenceData> {
+        val httpClient = createHttpClient() //fixme
+        val url = BASE_URL.plus(REFERENCE_TABLE)
+        val response = httpClient.post(url)
+        return response.body<List<ReferenceData>>()
     }
 
     override suspend fun getBrands(
         referenceTable: String,
         vehicleType: String
-    ): Result<List<Brand>> {
-        return runCatching {
-            val httpClient = createHttpClient() //fixme
-            val url = BASE_URL.plus(BRAND)
-            val response = httpClient.post(url) {
-                parameter(REFERENCE_TABLE_PARAMETER, referenceTable)
-                parameter(VEHICLE_TYPE_PARAMETER, vehicleType)
-            }
-            response.body<List<Brand>>()
+    ): List<BrandData> {
+        val httpClient = createHttpClient() //fixme
+        val url = BASE_URL.plus(BRAND)
+        val response = httpClient.post(url) {
+            parameter(REFERENCE_TABLE_PARAMETER, referenceTable)
+            parameter(VEHICLE_TYPE_PARAMETER, vehicleType)
         }
+        return response.body<List<BrandData>>()
     }
 
     override suspend fun getModels(
         referenceTable: String,
         vehicleType: String,
         brand: String
-    ): Result<Models> {
-        return runCatching {
-            val httpClient = createHttpClient() //fixme
-            val url = BASE_URL.plus(MODEL)
-            val response = httpClient.post(url) {
-                parameter(REFERENCE_TABLE_PARAMETER, referenceTable)
-                parameter(VEHICLE_TYPE_PARAMETER, vehicleType)
-                parameter(BRAND_PARAMETER, brand)
-            }
-            response.body<Models>()
+    ): ModelsData {
+        val httpClient = createHttpClient() //fixme
+        val url = BASE_URL.plus(MODEL)
+        val response = httpClient.post(url) {
+            parameter(REFERENCE_TABLE_PARAMETER, referenceTable)
+            parameter(VEHICLE_TYPE_PARAMETER, vehicleType)
+            parameter(BRAND_PARAMETER, brand)
         }
+        return response.body<ModelsData>()
     }
 
     override suspend fun getYearModels(
@@ -57,58 +50,31 @@ internal class SearchServiceImpl : SearchService {
         vehicleType: String,
         brand: String,
         model: String
-    ): Result<List<YearModel>> {
-        return runCatching {
-            val httpClient = createHttpClient() //fixme
-            val url = BASE_URL.plus(YEAR_MODEL)
-            val response = httpClient.post(url) {
-                parameter(REFERENCE_TABLE_PARAMETER, referenceTable)
-                parameter(VEHICLE_TYPE_PARAMETER, vehicleType)
-                parameter(BRAND_PARAMETER, brand)
-                parameter(MODEL_PARAMETER, model)
-            }
-            response.body<List<YearModel>>()
+    ): List<YearModelData> {
+        val httpClient = createHttpClient() //fixme
+        val url = BASE_URL.plus(YEAR_MODEL)
+        val response = httpClient.post(url) {
+            parameter(REFERENCE_TABLE_PARAMETER, referenceTable)
+            parameter(VEHICLE_TYPE_PARAMETER, vehicleType)
+            parameter(BRAND_PARAMETER, brand)
+            parameter(MODEL_PARAMETER, model)
         }
-    }
-
-    override suspend fun getModelByYear(
-        referenceTable: String,
-        vehicleType: String,
-        brand: String,
-        model: String,
-        year: String,
-        fuelType: String
-    ): Result<List<Model2>> {
-        return runCatching {
-            val httpClient = createHttpClient() //fixme
-            val url = BASE_URL.plus(MODEL_BY_YEAR)
-            val response = httpClient.post(url) {
-                parameter(REFERENCE_TABLE_PARAMETER, referenceTable)
-                parameter(VEHICLE_TYPE_PARAMETER, vehicleType)
-                parameter(BRAND_PARAMETER, brand)
-                parameter(MODEL_PARAMETER, model)
-                parameter(YEAR_MODEL_PARAMETER, year)
-                parameter(FUEL_TYPE_PARAMETER, fuelType)
-            }
-            response.body<List<Model2>>()
-        }
+        return response.body<List<YearModelData>>()
     }
 
     override suspend fun getYearModelsByFipeCode(
         referenceTable: String,
         vehicleType: String,
         fipeCode: String
-    ): Result<List<YearModel>> {
-        return runCatching {
-            val httpClient = createHttpClient() //fixme
-            val url = BASE_URL.plus(YEAR_MODEL_BY_FIPE_CODE)
-            val response = httpClient.post(url) {
-                parameter(REFERENCE_TABLE_PARAMETER, referenceTable)
-                parameter(VEHICLE_TYPE_PARAMETER, vehicleType)
-                parameter(FIPE_CODE_PARAMETER, fipeCode)
-            }
-            response.body<List<YearModel>>()
+    ): List<YearModelData> {
+        val httpClient = createHttpClient() //fixme
+        val url = BASE_URL.plus(YEAR_MODEL_BY_FIPE_CODE)
+        val response = httpClient.post(url) {
+            parameter(REFERENCE_TABLE_PARAMETER, referenceTable)
+            parameter(VEHICLE_TYPE_PARAMETER, vehicleType)
+            parameter(FIPE_CODE_PARAMETER, fipeCode)
         }
+        return response.body<List<YearModelData>>()
     }
 
     private companion object {
@@ -117,14 +83,11 @@ internal class SearchServiceImpl : SearchService {
         const val BRAND = "/ConsultarMarcas"
         const val MODEL = "/ConsultarModelos"
         const val YEAR_MODEL = "/ConsultarAnoModelo"
-        const val MODEL_BY_YEAR = "/ConsultarModelosAtravesDoAno"
         const val YEAR_MODEL_BY_FIPE_CODE = "/ConsultarAnoModeloPeloCodigoFipe"
         const val REFERENCE_TABLE_PARAMETER = "codigoTabelaReferencia"
         const val VEHICLE_TYPE_PARAMETER = "codigoTipoVeiculo"
         const val BRAND_PARAMETER = "codigoMarca"
         const val MODEL_PARAMETER = "codigoModelo"
-        const val YEAR_MODEL_PARAMETER = "anoModelo"
-        const val FUEL_TYPE_PARAMETER = "codigoTipoCombustivel"
         const val FIPE_CODE_PARAMETER = "modeloCodigoExterno"
     }
 }

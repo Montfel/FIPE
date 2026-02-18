@@ -5,7 +5,8 @@ import androidx.compose.runtime.getValue
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.montfel.fipe.components.ErrorScreen
 import com.montfel.fipe.components.LoadingScreen
-import com.montfel.fipe.data.model.SearchData
+import com.montfel.fipe.domain.model.SearchRequest
+import com.montfel.fipe.domain.model.VehicleType
 import com.montfel.fipe.ui.model.FormData
 import com.montfel.fipe.ui.search.SearchStateOfUi
 import com.montfel.fipe.ui.search.SearchViewModel
@@ -16,7 +17,7 @@ import org.koin.core.parameter.parametersOf
 internal fun SearchRoute(
     isByFipe: Boolean,
     onNavigateToForm: (formData: FormData) -> Unit,
-    onNavigateToVehicleDetails: (searchData: SearchData) -> Unit,
+    onNavigateToVehicleDetails: (searchRequest: SearchRequest) -> Unit,
     onNavigateBack: () -> Unit,
     viewModel: SearchViewModel = koinViewModel { parametersOf(isByFipe) },
 ) {
@@ -63,9 +64,9 @@ internal fun SearchRoute(
 
                         SearchEvent.OnVehicleSearch -> {
                             onNavigateToVehicleDetails(
-                                SearchData(
+                                SearchRequest(
                                     referenceTable = uiState.selectedReference?.value.orEmpty(),
-                                    vehicleType = uiState.selectedVehicleType?.value.orEmpty(),
+                                    vehicleType = VehicleType.fromCode(uiState.selectedVehicleType?.value.orEmpty()),
                                     brand = uiState.selectedBrand?.value.orEmpty(),
                                     model = uiState.selectedModel?.value.orEmpty(),
                                     year = uiState.selectedYearModel?.value?.dropLast(2).orEmpty(),

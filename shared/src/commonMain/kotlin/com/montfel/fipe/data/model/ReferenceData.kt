@@ -4,10 +4,10 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class Model(
-    @SerialName("Label")
-    val name: String,
-
-    @SerialName("Value")
+internal data class ReferenceData(
+    @SerialName("Codigo")
     val code: Int,
+
+    @SerialName("Mes")
+    val date: String,
 )

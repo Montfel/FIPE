@@ -1,29 +1,27 @@
 package com.montfel.fipe.data.service
 
 import com.montfel.fipe.data.createHttpClient
-import com.montfel.fipe.data.model.SearchData
-import com.montfel.fipe.data.model.VehicleInfo
+import com.montfel.fipe.data.model.VehicleInfoData
+import com.montfel.fipe.domain.model.SearchRequest
 import io.ktor.client.call.body
 import io.ktor.client.request.parameter
 import io.ktor.client.request.post
 
 internal class VehicleDetailsServiceImpl : VehicleDetailsService {
-    override suspend fun getVehicleInfo(searchData: SearchData): Result<VehicleInfo> {
-        return runCatching {
-            val httpClient = createHttpClient() //fixme
-            val url = BASE_URL.plus(VEHICLE_INFO)
-            val response = httpClient.post(url) {
-                parameter(REFERENCE_TABLE_PARAMETER, searchData.referenceTable)
-                parameter(VEHICLE_TYPE_PARAMETER, searchData.vehicleType)
-                parameter(BRAND_PARAMETER, searchData.brand)
-                parameter(MODEL_PARAMETER, searchData.model)
-                parameter(YEAR_MODEL_PARAMETER, searchData.year)
-                parameter(FUEL_TYPE_PARAMETER, searchData.fuelType)
-                parameter(SEARCH_TYPE_PARAMETER, searchData.searchType)
-                parameter(FIPE_CODE_PARAMETER, searchData.fipeCode)
-            }
-            response.body<VehicleInfo>()
+    override suspend fun getVehicleInfo(searchRequest: SearchRequest): VehicleInfoData {
+        val httpClient = createHttpClient() //fixme
+        val url = BASE_URL.plus(VEHICLE_INFO)
+        val response = httpClient.post(url) {
+            parameter(REFERENCE_TABLE_PARAMETER, searchRequest.referenceTable)
+            parameter(VEHICLE_TYPE_PARAMETER, searchRequest.vehicleType.code)
+            parameter(BRAND_PARAMETER, searchRequest.brand)
+            parameter(MODEL_PARAMETER, searchRequest.model)
+            parameter(YEAR_MODEL_PARAMETER, searchRequest.year)
+            parameter(FUEL_TYPE_PARAMETER, searchRequest.fuelType)
+            parameter(SEARCH_TYPE_PARAMETER, searchRequest.searchType)
+            parameter(FIPE_CODE_PARAMETER, searchRequest.fipeCode)
         }
+        return response.body<VehicleInfoData>()
     }
 
     private companion object {

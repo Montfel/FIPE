@@ -1,6 +1,6 @@
 package com.montfel.fipe.ui.vehicledetails
 
-import com.montfel.fipe.data.model.VehicleInfo
+import com.montfel.fipe.domain.model.VehicleInfo
 
 data class VehicleDetailsUiState(
     val stateOfUi: VehicleDetailsStateOfUi = VehicleDetailsStateOfUi.Loading,

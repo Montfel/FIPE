@@ -1,39 +1,29 @@
 package com.montfel.fipe.data.service
 
-import com.montfel.fipe.data.model.Brand
-import com.montfel.fipe.data.model.Model2
-import com.montfel.fipe.data.model.Models
-import com.montfel.fipe.data.model.Reference
-import com.montfel.fipe.data.model.YearModel
+import com.montfel.fipe.data.model.BrandData
+import com.montfel.fipe.data.model.ModelsData
+import com.montfel.fipe.data.model.ReferenceData
+import com.montfel.fipe.data.model.YearModelData
 
-interface SearchService {
-    suspend fun getReferenceTable(): Result<List<Reference>>
-    suspend fun getBrands(referenceTable: String, vehicleType: String): Result<List<Brand>>
+internal interface SearchService {
+    suspend fun getReferenceTable(): List<ReferenceData>
+    suspend fun getBrands(referenceTable: String, vehicleType: String): List<BrandData>
     suspend fun getModels(
         referenceTable: String,
         vehicleType: String,
         brand: String
-    ): Result<Models>
+    ): ModelsData
 
     suspend fun getYearModels(
         referenceTable: String,
         vehicleType: String,
         brand: String,
         model: String
-    ): Result<List<YearModel>>
-
-    suspend fun getModelByYear(
-        referenceTable: String,
-        vehicleType: String,
-        brand: String,
-        model: String,
-        year: String,
-        fuelType: String
-    ): Result<List<Model2>>
+    ): List<YearModelData>
 
     suspend fun getYearModelsByFipeCode(
         referenceTable: String,
         vehicleType: String,
         fipeCode: String
-    ): Result<List<YearModel>>
+    ): List<YearModelData>
 }

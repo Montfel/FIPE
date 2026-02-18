@@ -4,12 +4,12 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class Models(
+internal data class ModelsData(
     @SerialName("Modelos")
-    val models: List<Model>,
+    val models: List<ModelData>,
 
     @SerialName("Anos")
-    val yearModels: List<YearModel>,
+    val yearModels: List<YearModelData>,
 )
 
 

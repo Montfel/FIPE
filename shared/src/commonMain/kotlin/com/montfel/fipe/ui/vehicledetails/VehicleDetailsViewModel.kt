@@ -2,16 +2,16 @@ package com.montfel.fipe.ui.vehicledetails
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.montfel.fipe.data.model.SearchData
-import com.montfel.fipe.data.service.VehicleDetailsService
+import com.montfel.fipe.domain.model.SearchRequest
+import com.montfel.fipe.domain.repository.VehicleDetailsRepository
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
 open class VehicleDetailsViewModel(
-    private val searchData: SearchData,
-    private val vehicleDetailsService: VehicleDetailsService
+    private val searchRequest: SearchRequest,
+    private val vehicleDetailsRepository: VehicleDetailsRepository
 ) : ViewModel() {
     private val _uiState = MutableStateFlow(VehicleDetailsUiState())
     val uiState = _uiState.asStateFlow()
@@ -22,7 +22,7 @@ open class VehicleDetailsViewModel(
 
     fun onVehicleSearch() {
         viewModelScope.launch {
-            vehicleDetailsService.getVehicleInfo(searchData = searchData)
+            vehicleDetailsRepository.getVehicleInfo(searchRequest = searchRequest)
                 .onSuccess { result ->
                     _uiState.update {
                         it.copy(
@@ -30,7 +30,6 @@ open class VehicleDetailsViewModel(
                             vehicleInfo = result
                         )
                     }
-
                 }.onFailure {
                     _uiState.update {
                         it.copy(stateOfUi = VehicleDetailsStateOfUi.Error)

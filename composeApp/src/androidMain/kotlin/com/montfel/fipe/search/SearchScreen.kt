@@ -24,6 +24,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.montfel.fipe.domain.model.VehicleType
 import com.montfel.fipe.shared.resources.Res
 import com.montfel.fipe.shared.resources.brand
 import com.montfel.fipe.shared.resources.consult_vehicle
@@ -96,9 +97,9 @@ internal fun SearchScreen(
         modifier = Modifier.navigationBarsPadding()
     ) { paddingValues ->
         val vehicleTypes = persistentListOf(
-            FormDataItem("Carro", "1"),
-            FormDataItem("Moto", "2"),
-            FormDataItem("Caminhão", "3")
+            FormDataItem("Carro", VehicleType.CAR.code),
+            FormDataItem("Moto", VehicleType.MOTORCYCLE.code),
+            FormDataItem("Caminhão", VehicleType.TRUCK.code)
         )
         val fields = mutableListOf(
             FormData(
@@ -107,7 +108,7 @@ internal fun SearchScreen(
                 items = uiState.referenceTable.map {
                     FormDataItem(
                         label = it.date,
-                        value = it.code.toString()
+                        value = it.code
                     )
                 },
                 onItemClick = { onEvent(SearchEvent.OnReferenceSelected(it)) }
@@ -166,7 +167,7 @@ internal fun SearchScreen(
                             items = uiState.models?.models?.map {
                                 FormDataItem(
                                     label = it.name,
-                                    value = it.code.toString()
+                                    value = it.code
                                 )
                             }.orEmpty(),
                             onItemClick = { onEvent(SearchEvent.OnModelSelected(it)) }

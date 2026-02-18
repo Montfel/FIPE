@@ -2,7 +2,7 @@ package com.montfel.fipe.ui.search
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.montfel.fipe.data.service.SearchService
+import com.montfel.fipe.domain.repository.SearchRepository
 import com.montfel.fipe.ui.model.FormDataItem
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -11,7 +11,7 @@ import kotlinx.coroutines.launch
 
 open class SearchViewModel(
     private val isByFipe: Boolean,
-    private val searchService: SearchService
+    private val searchRepository: SearchRepository
 ) : ViewModel() {
     private val _uiState = MutableStateFlow(SearchUiState())
     val uiState = _uiState.asStateFlow()
@@ -22,7 +22,7 @@ open class SearchViewModel(
 
     fun fetchReferenceTable() {
         viewModelScope.launch {
-            searchService.getReferenceTable()
+            searchRepository.getReferenceTable()
                 .onSuccess { references ->
                     _uiState.update {
                         it.copy(
@@ -47,7 +47,7 @@ open class SearchViewModel(
 
     fun onReferenceSelected(reference: FormDataItem) {
         viewModelScope.launch {
-            searchService.getBrands(
+            searchRepository.getBrands(
                 referenceTable = reference.value,
                 vehicleType = uiState.value.selectedVehicleType?.value.orEmpty()
             ).onSuccess { brands ->
@@ -67,7 +67,7 @@ open class SearchViewModel(
 
     fun onBrandSelected(brand: FormDataItem) {
         viewModelScope.launch {
-            searchService.getModels(
+            searchRepository.getModels(
                 referenceTable = uiState.value.selectedReference?.value.orEmpty(),
                 vehicleType = uiState.value.selectedVehicleType?.value.orEmpty(),
                 brand = brand.value
@@ -88,7 +88,7 @@ open class SearchViewModel(
 
     fun onModelSelected(model: FormDataItem) {
         viewModelScope.launch {
-            searchService.getYearModels(
+            searchRepository.getYearModels(
                 referenceTable = uiState.value.selectedReference?.value.orEmpty(),
                 vehicleType = uiState.value.selectedVehicleType?.value.orEmpty(),
                 brand = uiState.value.selectedBrand?.value.orEmpty(),

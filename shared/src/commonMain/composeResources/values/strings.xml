@@ -4,6 +4,9 @@
     <string name="fuel">Combustível</string>
     <string name="fipe_code">Código Fipe</string>
     <string name="vehicle_type">Tipo do veículo</string>
+    <string name="car">Carro</string>
+    <string name="motorcycle">Moto</string>
+    <string name="truck">Caminhão</string>
     <string name="consult_your_vehicle">Consulte o seu veículo</string>
     <string name="consult_vehicle">Consultar veículo</string>
     <string name="search_by_vehicle">Pesquisar pelo veículo</string>
