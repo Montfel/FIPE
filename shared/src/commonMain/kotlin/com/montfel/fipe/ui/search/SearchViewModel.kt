@@ -131,17 +131,6 @@ open class SearchViewModel(
         getYearModels()
     }
 
-    fun onFipeCodeChanged(fipeCode: String) {
-        _uiState.update {
-            it.copy(
-                selectedFipeCode = fipeCode,
-                selectedYearModel = null
-            )
-        }
-
-        getYearModels() //fixme
-    }
-
     fun getYearModels() {
         viewModelScope.launch {
             searchRepository.getYearModels(
@@ -156,6 +145,38 @@ open class SearchViewModel(
             }.onFailure {
                 _uiState.update {
                     it.copy(stateOfUi = SearchStateOfUi.Error)
+                }
+            }
+        }
+    }
+
+    fun onFipeCodeChanged(fipeCode: String) {
+        _uiState.update {
+            it.copy(
+                selectedFipeCode = fipeCode,
+                selectedYearModel = null,
+                hasFipeCodeError = false
+            )
+        }
+
+        if (fipeCode.length == 7) {
+            getYearModelsByFipeCode()
+        }
+    }
+
+    fun getYearModelsByFipeCode() {
+        viewModelScope.launch {
+            searchRepository.getYearModelsByFipeCode(
+                referenceTable = uiState.value.selectedReference?.value.orEmpty(),
+                vehicleType = uiState.value.selectedVehicleType?.value.orEmpty(),
+                fipeCode = uiState.value.selectedFipeCode.orEmpty()
+            ).onSuccess { yearModels ->
+                _uiState.update {
+                    it.copy(yearModels = yearModels)
+                }
+            }.onFailure {
+                _uiState.update {
+                    it.copy(hasFipeCodeError = true)
                 }
             }
         }

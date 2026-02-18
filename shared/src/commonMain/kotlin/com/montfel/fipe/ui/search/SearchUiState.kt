@@ -22,14 +22,15 @@ data class SearchUiState(
     val selectedModel: FormDataItem? = null,
     val selectedFipeCode: String? = null,
     val selectedYearModel: FormDataItem? = null,
+    val hasFipeCodeError: Boolean = false
 ) {
     val shouldEnableBrand: Boolean = selectedVehicleType != null
     val shouldEnableModel: Boolean = selectedVehicleType != null && selectedBrand != null
     val shouldEnableFipeCode: Boolean = selectedVehicleType != null
     val shouldEnableYearModel: Boolean =
-        selectedVehicleType != null && selectedBrand != null && selectedModel != null
+        selectedVehicleType != null && ((selectedBrand != null && selectedModel != null) || (selectedFipeCode != null && selectedFipeCode.length == 7 && !hasFipeCodeError))
     val shouldEnableButton: Boolean =
-        selectedVehicleType != null && selectedBrand != null && selectedModel != null && selectedYearModel != null
+        selectedVehicleType != null && ((selectedBrand != null && selectedModel != null) || selectedFipeCode != null) && selectedYearModel != null
 }
 
 sealed interface SearchStateOfUi {

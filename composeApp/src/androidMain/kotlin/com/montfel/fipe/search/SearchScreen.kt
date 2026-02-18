@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
@@ -29,6 +30,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -36,6 +38,8 @@ import com.montfel.fipe.domain.model.VehicleType
 import com.montfel.fipe.shared.resources.Res
 import com.montfel.fipe.shared.resources.brand
 import com.montfel.fipe.shared.resources.consult_vehicle
+import com.montfel.fipe.shared.resources.fipe_code_not_found
+import com.montfel.fipe.shared.resources.fipe_code_placeholder
 import com.montfel.fipe.shared.resources.ic_arrow_left
 import com.montfel.fipe.shared.resources.ic_car
 import com.montfel.fipe.shared.resources.ic_chevron_right
@@ -159,7 +163,20 @@ internal fun SearchScreen(
                     enabled = uiState.shouldEnableFipeCode,
                     value = uiState.selectedFipeCode.orEmpty(),
                     onValueChange = { onEvent(SearchEvent.OnFipeCodeChanged(it)) },
-                    modifier = Modifier.fillMaxWidth()
+                    placeholder = {
+                        Text(stringResource(Res.string.fipe_code_placeholder))
+                    },
+                    modifier = Modifier.fillMaxWidth(),
+                    keyboardOptions = KeyboardOptions(
+                        keyboardType = KeyboardType.Number
+                    ),
+                    visualTransformation = FipeCodeVisualTransformation(),
+                    isError = uiState.hasFipeCodeError,
+                    supportingText = {
+                        if (uiState.hasFipeCodeError) {
+                            Text(stringResource(Res.string.fipe_code_not_found))
+                        }
+                    }
                 )
             } else {
                 FormCard(

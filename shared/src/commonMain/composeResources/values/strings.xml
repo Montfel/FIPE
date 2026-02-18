@@ -28,4 +28,6 @@
     <string name="fipe_concept">É a referência de preços de veículos no Brasil, atualizada mensalmente pela Fundação Instituto de Pesquisas Econômicas.</string>
     <string name="month_reference">Mês e ano de referência</string>
     <string name="search">Buscar...</string>
+    <string name="fipe_code_not_found">Código FIPE não encontrado</string>
+    <string name="fipe_code_placeholder">000000-0</string>
 </resources>
