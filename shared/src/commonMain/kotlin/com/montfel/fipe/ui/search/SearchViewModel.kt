@@ -19,10 +19,10 @@ open class SearchViewModel(
     val uiState = _uiState.asStateFlow()
 
     init {
-        fetchReferenceTable()
+        getReferenceTable()
     }
 
-    fun fetchReferenceTable() {
+    fun getReferenceTable() {
         viewModelScope.launch {
             searchRepository.getReferenceTable()
                 .onSuccess { references ->
@@ -49,23 +49,36 @@ open class SearchViewModel(
         }
     }
 
-    fun onVehicleTypeSelected(vehicleType: FormDataItem) {
+    fun onReferenceSelected(reference: FormDataItem) {
         _uiState.update {
-            it.copy(selectedVehicleType = vehicleType)
+            it.copy(selectedReference = reference)
         }
     }
 
-    fun onReferenceSelected(reference: FormDataItem) {
+    fun onVehicleTypeSelected(vehicleType: FormDataItem) {
+        _uiState.update {
+            it.copy(
+                selectedVehicleType = vehicleType,
+                selectedBrand = null,
+                selectedModel = null,
+                selectedFipeCode = null,
+                selectedYearModel = null
+            )
+        }
+
+        if (!isByFipe) {
+            getBrands()
+        }
+    }
+
+    fun getBrands() {
         viewModelScope.launch {
             searchRepository.getBrands(
-                referenceTable = reference.value,
+                referenceTable = uiState.value.selectedReference?.value.orEmpty(),
                 vehicleType = uiState.value.selectedVehicleType?.value.orEmpty()
             ).onSuccess { brands ->
                 _uiState.update {
-                    it.copy(
-                        selectedReference = reference,
-                        brands = brands
-                    )
+                    it.copy(brands = brands)
                 }
             }.onFailure {
                 _uiState.update {
@@ -76,17 +89,27 @@ open class SearchViewModel(
     }
 
     fun onBrandSelected(brand: FormDataItem) {
+        _uiState.update {
+            it.copy(
+                selectedBrand = brand,
+                selectedModel = null,
+                selectedFipeCode = null,
+                selectedYearModel = null
+            )
+        }
+
+        getModels()
+    }
+
+    fun getModels() {
         viewModelScope.launch {
             searchRepository.getModels(
                 referenceTable = uiState.value.selectedReference?.value.orEmpty(),
                 vehicleType = uiState.value.selectedVehicleType?.value.orEmpty(),
-                brand = brand.value
+                brand = uiState.value.selectedBrand?.value.orEmpty(),
             ).onSuccess { models ->
                 _uiState.update {
-                    it.copy(
-                        selectedBrand = brand,
-                        models = models
-                    )
+                    it.copy(models = models)
                 }
             }.onFailure {
                 _uiState.update {
@@ -97,18 +120,38 @@ open class SearchViewModel(
     }
 
     fun onModelSelected(model: FormDataItem) {
+        _uiState.update {
+            it.copy(
+                selectedModel = model,
+                selectedFipeCode = null,
+                selectedYearModel = null
+            )
+        }
+
+        getYearModels()
+    }
+
+    fun onFipeCodeChanged(fipeCode: String) {
+        _uiState.update {
+            it.copy(
+                selectedFipeCode = fipeCode,
+                selectedYearModel = null
+            )
+        }
+
+        getYearModels() //fixme
+    }
+
+    fun getYearModels() {
         viewModelScope.launch {
             searchRepository.getYearModels(
                 referenceTable = uiState.value.selectedReference?.value.orEmpty(),
                 vehicleType = uiState.value.selectedVehicleType?.value.orEmpty(),
                 brand = uiState.value.selectedBrand?.value.orEmpty(),
-                model = model.value
+                model = uiState.value.selectedModel?.value.orEmpty(),
             ).onSuccess { yearModels ->
                 _uiState.update {
-                    it.copy(
-                        selectedModel = model,
-                        yearModels = yearModels
-                    )
+                    it.copy(yearModels = yearModels)
                 }
             }.onFailure {
                 _uiState.update {
@@ -118,17 +161,9 @@ open class SearchViewModel(
         }
     }
 
-    fun onFipeCodeChanged(fipeCode: String) {
-        _uiState.update {
-            it.copy(selectedFipeCode = fipeCode)
-        }
-    }
-
     fun onYearModelSelected(yearModel: FormDataItem) {
         _uiState.update {
-            it.copy(
-                selectedYearModel = yearModel
-            )
+            it.copy(selectedYearModel = yearModel)
         }
     }
 }

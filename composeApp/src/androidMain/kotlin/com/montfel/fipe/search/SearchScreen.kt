@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -50,6 +51,7 @@ import com.montfel.fipe.ui.model.FormDataItem
 import com.montfel.fipe.ui.search.SearchUiState
 import com.montfel.fipe.ui.theme.Colors.color4
 import com.montfel.fipe.ui.theme.Colors.color7
+import com.montfel.fipe.ui.theme.Colors.color8
 import kotlinx.collections.immutable.persistentListOf
 import kotlinx.collections.immutable.toPersistentList
 import org.jetbrains.compose.resources.DrawableResource
@@ -92,14 +94,16 @@ internal fun SearchScreen(
         },
         bottomBar = {
             Button(
+                enabled = uiState.shouldEnableButton,
                 onClick = { onEvent(SearchEvent.OnVehicleSearch) },
                 colors = ButtonDefaults.buttonColors(
                     containerColor = Color(color4),
                     contentColor = Color.White
                 ),
                 modifier = Modifier
-                    .fillMaxWidth()
                     .padding(24.dp)
+                    .fillMaxWidth()
+                    .height(56.dp)
             ) {
                 Text(
                     text = stringResource(Res.string.consult_vehicle),
@@ -122,6 +126,7 @@ internal fun SearchScreen(
                 .padding(24.dp)
         ) {
             FormCard(
+                isEnabled = true,
                 icon = Res.drawable.ic_car,
                 value = uiState.selectedReference?.label,
                 formData = FormData(
@@ -138,6 +143,7 @@ internal fun SearchScreen(
             )
 
             FormCard(
+                isEnabled = true,
                 icon = Res.drawable.ic_car,
                 value = uiState.selectedVehicleType?.label,
                 formData = FormData(
@@ -150,12 +156,14 @@ internal fun SearchScreen(
 
             if (isByFipe) {
                 TextField(
+                    enabled = uiState.shouldEnableFipeCode,
                     value = uiState.selectedFipeCode.orEmpty(),
                     onValueChange = { onEvent(SearchEvent.OnFipeCodeChanged(it)) },
                     modifier = Modifier.fillMaxWidth()
                 )
             } else {
                 FormCard(
+                    isEnabled = uiState.shouldEnableBrand,
                     icon = Res.drawable.ic_car,
                     value = uiState.selectedBrand?.label,
                     formData = FormData(
@@ -172,6 +180,7 @@ internal fun SearchScreen(
                 )
 
                 FormCard(
+                    isEnabled = uiState.shouldEnableModel,
                     icon = Res.drawable.ic_car,
                     value = uiState.selectedModel?.label,
                     formData = FormData(
@@ -189,6 +198,7 @@ internal fun SearchScreen(
             }
 
             FormCard(
+                isEnabled = uiState.shouldEnableYearModel,
                 icon = Res.drawable.ic_car,
                 value = uiState.selectedYearModel?.label,
                 formData = FormData(
@@ -209,20 +219,22 @@ internal fun SearchScreen(
 
 @Composable
 fun FormCard(
+    isEnabled: Boolean,
     icon: DrawableResource,
     value: String?,
     formData: FormData,
     onClick: (formData: FormData) -> Unit,
 ) {
     Card(
+        enabled = isEnabled,
         onClick = { onClick(formData) },
         colors = CardDefaults.cardColors(
-            containerColor = Color.White
+            containerColor = Color.White,
+            disabledContainerColor = Color(color8)
         )
     ) {
         Row(
             verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.SpaceBetween,
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(16.dp)
@@ -230,6 +242,7 @@ fun FormCard(
             Row(
                 horizontalArrangement = Arrangement.spacedBy(16.dp),
                 verticalAlignment = Alignment.CenterVertically,
+                modifier = Modifier.weight(1f)
             ) {
                 Box(
                     contentAlignment = Alignment.Center,
@@ -250,6 +263,7 @@ fun FormCard(
                 ) {
                     Text(
                         text = formData.title,
+                        fontSize = 12.sp,
                         fontFamily = getFont()
                     )
 
@@ -278,7 +292,7 @@ private fun SearchScreenIsNotByFipePreview() {
     SearchScreen(
         isByFipe = false,
         uiState = SearchUiState(
-            selectedReference = FormDataItem(label = "", value = "fevereiro/2026"),
+            selectedReference = FormDataItem(label = "fevereiro/2026", value = "330"),
             selectedVehicleType = FormDataItem(label = "Carro", value = VehicleType.CAR.code),
             selectedBrand = FormDataItem(label = "Fiat", value = "fiat"),
             selectedModel = FormDataItem(label = "Uno", value = "uno"),
@@ -294,7 +308,7 @@ private fun SearchScreenIsByFipePreview() {
     SearchScreen(
         isByFipe = true,
         uiState = SearchUiState(
-            selectedReference = FormDataItem(label = "", value = "fevereiro/2026"),
+            selectedReference = FormDataItem(label = "fevereiro/2026", value = "330"),
             selectedVehicleType = FormDataItem(label = "Carro", value = VehicleType.CAR.code),
             selectedYearModel = FormDataItem(label = "2022", value = "2022"),
         ),

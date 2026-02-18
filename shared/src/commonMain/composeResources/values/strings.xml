@@ -27,4 +27,5 @@
     <string name="what_is_fipe">O que é a Tabela FIPE?</string>
     <string name="fipe_concept">É a referência de preços de veículos no Brasil, atualizada mensalmente pela Fundação Instituto de Pesquisas Econômicas.</string>
     <string name="month_reference">Mês e ano de referência</string>
+    <string name="search">Buscar...</string>
 </resources>

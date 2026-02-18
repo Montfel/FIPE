@@ -16,13 +16,21 @@ data class SearchUiState(
     val brands: PersistentList<Brand> = persistentListOf(),
     val models: Models? = null,
     val yearModels: PersistentList<YearModel> = persistentListOf(),
-    val selectedVehicleType: FormDataItem? = null,
     val selectedReference: FormDataItem? = null,
+    val selectedVehicleType: FormDataItem? = null,
     val selectedBrand: FormDataItem? = null,
     val selectedModel: FormDataItem? = null,
     val selectedFipeCode: String? = null,
     val selectedYearModel: FormDataItem? = null,
-)
+) {
+    val shouldEnableBrand: Boolean = selectedVehicleType != null
+    val shouldEnableModel: Boolean = selectedVehicleType != null && selectedBrand != null
+    val shouldEnableFipeCode: Boolean = selectedVehicleType != null
+    val shouldEnableYearModel: Boolean =
+        selectedVehicleType != null && selectedBrand != null && selectedModel != null
+    val shouldEnableButton: Boolean =
+        selectedVehicleType != null && selectedBrand != null && selectedModel != null && selectedYearModel != null
+}
 
 sealed interface SearchStateOfUi {
     data object Loading : SearchStateOfUi

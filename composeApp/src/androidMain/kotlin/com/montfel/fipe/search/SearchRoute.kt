@@ -25,7 +25,7 @@ internal fun SearchRoute(
 
     when (uiState.stateOfUi) {
         SearchStateOfUi.Error -> {
-            ErrorScreen(onRetry = viewModel::fetchReferenceTable)
+            ErrorScreen(onRetry = viewModel::getReferenceTable)
         }
 
         SearchStateOfUi.Loading -> {
