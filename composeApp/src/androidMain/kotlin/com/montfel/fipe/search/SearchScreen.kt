@@ -20,28 +20,28 @@ import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.montfel.fipe.R
 import com.montfel.fipe.shared.resources.Res
 import com.montfel.fipe.shared.resources.brand
 import com.montfel.fipe.shared.resources.consult_vehicle
+import com.montfel.fipe.shared.resources.ic_arrow_left
 import com.montfel.fipe.shared.resources.model
 import com.montfel.fipe.shared.resources.month_reference
 import com.montfel.fipe.shared.resources.search_by_fipe
 import com.montfel.fipe.shared.resources.search_by_vehicle
 import com.montfel.fipe.shared.resources.vehicle_type
 import com.montfel.fipe.shared.resources.year_model
-import com.montfel.fipe.theme.font
+import com.montfel.fipe.theme.getFont
 import com.montfel.fipe.ui.model.FormData
 import com.montfel.fipe.ui.model.FormDataItem
 import com.montfel.fipe.ui.search.SearchUiState
 import com.montfel.fipe.ui.theme.Colors.color4
 import kotlinx.collections.immutable.persistentListOf
 import kotlinx.collections.immutable.toPersistentList
+import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -58,7 +58,7 @@ internal fun SearchScreen(
                 navigationIcon = {
                     IconButton(onClick = { onEvent(SearchEvent.OnNavigateBack) }) {
                         Icon(
-                            painter = painterResource(R.drawable.ic_arrow_left),
+                            painter = painterResource(Res.drawable.ic_arrow_left),
                             contentDescription = null
                         )
                     }
@@ -66,7 +66,7 @@ internal fun SearchScreen(
                 title = {
                     Text(
                         text = stringResource(if (isByFipe) Res.string.search_by_fipe else Res.string.search_by_vehicle),
-                        fontFamily = font,
+                        fontFamily = getFont(),
                         fontWeight = FontWeight.SemiBold,
                         fontSize = 18.sp
                     )
@@ -89,7 +89,7 @@ internal fun SearchScreen(
             ) {
                 Text(
                     text = stringResource(Res.string.consult_vehicle),
-                    fontFamily = font
+                    fontFamily = getFont()
                 )
             }
         },
@@ -190,7 +190,7 @@ internal fun SearchScreen(
                     ) {
                         Text(
                             text = it.label ?: it.title,
-                            fontFamily = font
+                            fontFamily = getFont()
                         )
                     }
                 }

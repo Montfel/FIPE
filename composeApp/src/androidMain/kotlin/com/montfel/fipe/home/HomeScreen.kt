@@ -25,21 +25,21 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.montfel.fipe.R
 import com.montfel.fipe.shared.resources.Res
 import com.montfel.fipe.shared.resources.app_name
 import com.montfel.fipe.shared.resources.by_fipe
 import com.montfel.fipe.shared.resources.by_vehicle
 import com.montfel.fipe.shared.resources.consult_your_vehicle
 import com.montfel.fipe.shared.resources.fipe_concept
-import com.montfel.fipe.shared.resources.ic_1234
+import com.montfel.fipe.shared.resources.ic_123
+import com.montfel.fipe.shared.resources.ic_car
+import com.montfel.fipe.shared.resources.ic_chevron_right
 import com.montfel.fipe.shared.resources.what_is_fipe
-import com.montfel.fipe.theme.font
+import com.montfel.fipe.theme.getFont
 import com.montfel.fipe.ui.theme.Colors.color1
 import com.montfel.fipe.ui.theme.Colors.color2
 import com.montfel.fipe.ui.theme.Colors.color3
@@ -60,7 +60,7 @@ internal fun HomeScreen(
                 title = {
                     Text(
                         text = stringResource(Res.string.app_name),
-                        fontFamily = font,
+                        fontFamily = getFont(),
                         fontWeight = FontWeight.SemiBold,
                         fontSize = 18.sp
                     )
@@ -91,7 +91,7 @@ internal fun HomeScreen(
                         fontWeight = FontWeight.Bold,
                         fontSize = 18.sp,
                         color = Color(color5),
-                        fontFamily = font
+                        fontFamily = getFont()
                     )
 
                     Text(
@@ -99,7 +99,7 @@ internal fun HomeScreen(
                         fontWeight = FontWeight.Normal,
                         fontSize = 14.sp,
                         color = Color(color2),
-                        fontFamily = font
+                        fontFamily = getFont()
                     )
                 }
             }
@@ -111,7 +111,7 @@ internal fun HomeScreen(
                 fontWeight = FontWeight.SemiBold,
                 fontSize = 18.sp,
                 color = Color(color1),
-                fontFamily = font
+                fontFamily = getFont()
             )
 
             Spacer(modifier = Modifier.height(16.dp))
@@ -142,7 +142,7 @@ internal fun HomeScreen(
                                 .background(Color(color4).copy(alpha = 0.1f))
                         ) {
                             Icon(
-                                painter = painterResource(R.drawable.ic_car),
+                                painter = painterResource(Res.drawable.ic_car),
                                 contentDescription = null,
                                 tint = Color(color4)
                             )
@@ -153,12 +153,12 @@ internal fun HomeScreen(
                             fontWeight = FontWeight.Bold,
                             fontSize = 18.sp,
                             color = Color(color5),
-                            fontFamily = font
+                            fontFamily = getFont()
                         )
                     }
 
                     Icon(
-                        painter = painterResource(R.drawable.ic_chevron_right),
+                        painter = painterResource(Res.drawable.ic_chevron_right),
                         contentDescription = null
                     )
                 }
@@ -192,7 +192,7 @@ internal fun HomeScreen(
                                 .background(Color(color4).copy(alpha = 0.1f))
                         ) {
                             Icon(
-                                painter = painterResource(R.drawable.ic_123),
+                                painter = painterResource(Res.drawable.ic_123),
                                 contentDescription = null,
                                 tint = Color(color4)
                             )
@@ -203,12 +203,12 @@ internal fun HomeScreen(
                             fontWeight = FontWeight.Bold,
                             fontSize = 18.sp,
                             color = Color(color5),
-                            fontFamily = font
+                            fontFamily = getFont()
                         )
                     }
 
                     Icon(
-                        painter = painterResource(R.drawable.ic_chevron_right),
+                        painter = painterResource(Res.drawable.ic_chevron_right),
                         contentDescription = null
                     )
                 }

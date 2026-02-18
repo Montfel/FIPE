@@ -30,28 +30,31 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.montfel.fipe.R
 import com.montfel.fipe.data.model.VehicleInfo
 import com.montfel.fipe.shared.resources.Res
 import com.montfel.fipe.shared.resources.fipe_code
 import com.montfel.fipe.shared.resources.fuel
+import com.montfel.fipe.shared.resources.ic_123
+import com.montfel.fipe.shared.resources.ic_arrow_left
+import com.montfel.fipe.shared.resources.ic_calendar
+import com.montfel.fipe.shared.resources.ic_car
+import com.montfel.fipe.shared.resources.ic_fuel
 import com.montfel.fipe.shared.resources.vehicle_details
 import com.montfel.fipe.shared.resources.vehicle_type
 import com.montfel.fipe.shared.resources.year_model
-import com.montfel.fipe.theme.font
+import com.montfel.fipe.theme.getFont
 import com.montfel.fipe.ui.theme.Colors.color1
 import com.montfel.fipe.ui.theme.Colors.color2
 import com.montfel.fipe.ui.theme.Colors.color3
-import com.montfel.fipe.ui.theme.Colors.color4
 import com.montfel.fipe.ui.theme.Colors.color5
 import com.montfel.fipe.ui.theme.Colors.color6
 import com.montfel.fipe.ui.vehicledetails.VehicleDetailsUiState
 import kotlinx.collections.immutable.persistentListOf
+import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -67,7 +70,7 @@ internal fun VehicleDetailsScreen(
                 navigationIcon = {
                     IconButton(onClick = onNavigateBack) {
                         Icon(
-                            painter = painterResource(R.drawable.ic_arrow_left),
+                            painter = painterResource(Res.drawable.ic_arrow_left),
                             contentDescription = null
                         )
                     }
@@ -75,7 +78,7 @@ internal fun VehicleDetailsScreen(
                 title = {
                     Text(
                         text = stringResource(Res.string.vehicle_details),
-                        fontFamily = font,
+                        fontFamily = getFont(),
                         fontWeight = FontWeight.SemiBold,
                         fontSize = 18.sp
                     )
@@ -102,7 +105,7 @@ internal fun VehicleDetailsScreen(
                         fontWeight = FontWeight.Bold,
                         fontSize = 24.sp,
                         color = Color(color5),
-                        fontFamily = font
+                        fontFamily = getFont()
                     )
 
                     Spacer(modifier = Modifier.height(4.dp))
@@ -112,7 +115,7 @@ internal fun VehicleDetailsScreen(
                         fontWeight = FontWeight.Medium,
                         fontSize = 16.sp,
                         color = Color(color2),
-                        fontFamily = font
+                        fontFamily = getFont()
                     )
 
                     Spacer(modifier = Modifier.height(32.dp))
@@ -122,7 +125,7 @@ internal fun VehicleDetailsScreen(
                         fontWeight = FontWeight.ExtraBold,
                         fontSize = 48.sp,
                         color = Color(color5),
-                        fontFamily = font,
+                        fontFamily = getFont(),
                         letterSpacing = -(2.4).sp
                     )
                 }
@@ -130,10 +133,14 @@ internal fun VehicleDetailsScreen(
                 Spacer(modifier = Modifier.height(40.dp))
 
                 val items = persistentListOf(
-                    Triple(R.drawable.ic_calendar, Res.string.year_model, it.yearModel.toString()),
-                    Triple(R.drawable.ic_fuel, Res.string.fuel, it.fuel),
-                    Triple(R.drawable.ic_123, Res.string.fipe_code, it.fipeCode),
-                    Triple(R.drawable.ic_car, Res.string.vehicle_type, it.vehicleType.toString()),
+                    Triple(
+                        Res.drawable.ic_calendar,
+                        Res.string.year_model,
+                        it.yearModel.toString()
+                    ),
+                    Triple(Res.drawable.ic_fuel, Res.string.fuel, it.fuel),
+                    Triple(Res.drawable.ic_123, Res.string.fipe_code, it.fipeCode),
+                    Triple(Res.drawable.ic_car, Res.string.vehicle_type, it.vehicleType.toString()),
                 )
 
                 LazyVerticalGrid(
@@ -155,7 +162,7 @@ internal fun VehicleDetailsScreen(
                                     modifier = Modifier
                                         .size(40.dp)
                                         .clip(CircleShape)
-                                        .background(Color(color4))
+                                        .background(Color(color3))
                                 ) {
                                     Icon(
                                         painter = painterResource(it.first),
@@ -169,7 +176,7 @@ internal fun VehicleDetailsScreen(
                                 Text(
                                     text = stringResource(it.second),
                                     fontWeight = FontWeight.Medium,
-                                    fontFamily = font,
+                                    fontFamily = getFont(),
                                     fontSize = 12.sp,
                                     color = Color(color6)
                                 )
@@ -178,7 +185,7 @@ internal fun VehicleDetailsScreen(
                                     text = it.third,
                                     fontWeight = FontWeight.SemiBold,
                                     fontSize = 16.sp,
-                                    fontFamily = font,
+                                    fontFamily = getFont(),
                                     color = Color(color5)
                                 )
                             }

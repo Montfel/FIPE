@@ -23,15 +23,16 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.montfel.fipe.R
-import com.montfel.fipe.theme.font
+import com.montfel.fipe.shared.resources.Res
+import com.montfel.fipe.shared.resources.ic_arrow_left
+import com.montfel.fipe.theme.getFont
 import com.montfel.fipe.ui.model.FormData
 import com.montfel.fipe.ui.model.FormDataItem
+import org.jetbrains.compose.resources.painterResource
 
 //
 //@Composable
@@ -57,7 +58,7 @@ internal fun FormScreen(
                 navigationIcon = {
                     IconButton(onClick = onNavigateBack) {
                         Icon(
-                            painter = painterResource(R.drawable.ic_arrow_left),
+                            painter = painterResource(Res.drawable.ic_arrow_left),
                             contentDescription = null
                         )
                     }
@@ -65,7 +66,7 @@ internal fun FormScreen(
                 title = {
                     Text(
                         text = formData.title,
-                        fontFamily = font,
+                        fontFamily = getFont(),
                         fontWeight = FontWeight.SemiBold,
                         fontSize = 18.sp
                     )

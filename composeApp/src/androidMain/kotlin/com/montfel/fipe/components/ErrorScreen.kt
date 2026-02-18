@@ -14,14 +14,14 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.montfel.fipe.R
 import com.montfel.fipe.shared.resources.Res
+import com.montfel.fipe.shared.resources.ic_refresh
 import com.montfel.fipe.shared.resources.retry
-import com.montfel.fipe.theme.font
+import com.montfel.fipe.theme.getFont
 import com.montfel.fipe.ui.theme.Colors.color4
+import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -44,13 +44,13 @@ internal fun ErrorScreen(
         ) {
             Row(horizontalArrangement = Arrangement.spacedBy(4.dp)) {
                 Icon(
-                    painter = painterResource(R.drawable.ic_refresh),
+                    painter = painterResource(Res.drawable.ic_refresh),
                     contentDescription = null
                 )
 
                 Text(
                     text = stringResource(Res.string.retry),
-                    fontFamily = font
+                    fontFamily = getFont()
                 )
             }
         }
