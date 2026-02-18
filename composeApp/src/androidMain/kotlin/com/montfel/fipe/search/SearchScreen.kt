@@ -65,8 +65,10 @@ internal fun SearchScreen(
                     }
                 },
                 title = {
+                    val title =
+                        if (isByFipe) Res.string.search_by_fipe else Res.string.search_by_vehicle
                     Text(
-                        text = stringResource(if (isByFipe) Res.string.search_by_fipe else Res.string.search_by_vehicle),
+                        text = stringResource(title),
                         fontFamily = getFont(),
                         fontWeight = FontWeight.SemiBold,
                         fontSize = 18.sp
