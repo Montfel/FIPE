@@ -151,16 +151,18 @@ open class SearchViewModel(
     }
 
     fun onFipeCodeChanged(fipeCode: String) {
-        _uiState.update {
-            it.copy(
-                selectedFipeCode = fipeCode,
-                selectedYearModel = null,
-                hasFipeCodeError = false
-            )
-        }
+        if (fipeCode.length <= 7 && fipeCode.all(Char::isDigit)) {
+            _uiState.update {
+                it.copy(
+                    selectedFipeCode = fipeCode,
+                    selectedYearModel = null,
+                    hasFipeCodeError = false
+                )
+            }
 
-        if (fipeCode.length == 7) {
-            getYearModelsByFipeCode()
+            if (fipeCode.length == 7) {
+                getYearModelsByFipeCode()
+            }
         }
     }
 
