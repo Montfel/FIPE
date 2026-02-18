@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
@@ -23,12 +24,14 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
+import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
@@ -53,6 +56,7 @@ import com.montfel.fipe.theme.getFont
 import com.montfel.fipe.ui.model.FormData
 import com.montfel.fipe.ui.model.FormDataItem
 import com.montfel.fipe.ui.search.SearchUiState
+import com.montfel.fipe.ui.theme.Colors.color10
 import com.montfel.fipe.ui.theme.Colors.color4
 import com.montfel.fipe.ui.theme.Colors.color7
 import com.montfel.fipe.ui.theme.Colors.color8
@@ -163,20 +167,41 @@ internal fun SearchScreen(
                     enabled = uiState.shouldEnableFipeCode,
                     value = uiState.selectedFipeCode.orEmpty(),
                     onValueChange = { onEvent(SearchEvent.OnFipeCodeChanged(it)) },
+                    textStyle = TextStyle(
+                        fontSize = 18.sp,
+                        fontFamily = getFont(),
+                        fontWeight = FontWeight.Bold,
+                    ),
                     placeholder = {
-                        Text(stringResource(Res.string.fipe_code_placeholder))
+                        Text(
+                            text = stringResource(Res.string.fipe_code_placeholder),
+                            fontSize = 18.sp,
+                            fontWeight = FontWeight.Bold,
+                            color = Color(color10)
+                        )
                     },
-                    modifier = Modifier.fillMaxWidth(),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(80.dp),
                     keyboardOptions = KeyboardOptions(
                         keyboardType = KeyboardType.Number
+                    ),
+                    colors = TextFieldDefaults.colors(
+                        unfocusedIndicatorColor = Color.Transparent,
+                        focusedIndicatorColor = Color.Transparent,
+                        disabledIndicatorColor = Color.Transparent,
+                        focusedContainerColor = Color.White,
+                        unfocusedContainerColor = Color.White,
+                        disabledContainerColor = Color(color8)
                     ),
                     visualTransformation = FipeCodeVisualTransformation(),
                     isError = uiState.hasFipeCodeError,
                     supportingText = {
                         if (uiState.hasFipeCodeError) {
-                            Text(stringResource(Res.string.fipe_code_not_found))
+                            Text(text = stringResource(Res.string.fipe_code_not_found))
                         }
-                    }
+                    },
+                    shape = RoundedCornerShape(12.dp)
                 )
             } else {
                 FormCard(
@@ -253,8 +278,8 @@ fun FormCard(
         Row(
             verticalAlignment = Alignment.CenterVertically,
             modifier = Modifier
-                .fillMaxWidth()
                 .padding(16.dp)
+                .fillMaxWidth()
         ) {
             Row(
                 horizontalArrangement = Arrangement.spacedBy(16.dp),

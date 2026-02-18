@@ -7,28 +7,23 @@ import androidx.compose.ui.text.input.VisualTransformation
 
 class FipeCodeVisualTransformation : VisualTransformation {
     override fun filter(text: AnnotatedString): TransformedText {
-        val trimmed = if (text.text.length >= 7) text.text.substring(0..6) else text.text
-        var out = ""
-        
-        for (i in trimmed.indices) {
-            out += trimmed[i]
-            if (i == 5) out += "-"
-        }
+        val fipeCodeMask = text.text.mapIndexed { index, char ->
+            when (index) {
+                5 -> "${char}-"
+                else -> char
+            }
+        }.joinToString("")
 
-        val fipeOffsetMapping = object : OffsetMapping {
+        val fipeCodeOffsetMapping = object : OffsetMapping {
             override fun originalToTransformed(offset: Int): Int {
-                if (offset <= 5) return offset
-                if (offset <= 7) return offset + 1
-                return 8
+                return if (offset > 5) offset.inc() else offset
             }
 
             override fun transformedToOriginal(offset: Int): Int {
-                if (offset <= 6) return offset
-                if (offset <= 8) return offset - 1
-                return 7
+                return if (offset > 5) offset.dec() else offset
             }
         }
 
-        return TransformedText(AnnotatedString(out), fipeOffsetMapping)
+        return TransformedText(AnnotatedString(fipeCodeMask), fipeCodeOffsetMapping)
     }
 }
