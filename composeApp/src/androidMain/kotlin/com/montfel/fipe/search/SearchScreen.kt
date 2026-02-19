@@ -41,11 +41,17 @@ import com.montfel.fipe.domain.model.VehicleType
 import com.montfel.fipe.shared.resources.Res
 import com.montfel.fipe.shared.resources.brand
 import com.montfel.fipe.shared.resources.consult_vehicle
+import com.montfel.fipe.shared.resources.fipe_code
 import com.montfel.fipe.shared.resources.fipe_code_not_found
 import com.montfel.fipe.shared.resources.fipe_code_placeholder
+import com.montfel.fipe.shared.resources.ic_123
 import com.montfel.fipe.shared.resources.ic_arrow_left
+import com.montfel.fipe.shared.resources.ic_calendar
+import com.montfel.fipe.shared.resources.ic_calendar_next
 import com.montfel.fipe.shared.resources.ic_car
 import com.montfel.fipe.shared.resources.ic_chevron_right
+import com.montfel.fipe.shared.resources.ic_factory
+import com.montfel.fipe.shared.resources.ic_stars
 import com.montfel.fipe.shared.resources.model
 import com.montfel.fipe.shared.resources.month_reference
 import com.montfel.fipe.shared.resources.search_by_fipe
@@ -56,6 +62,7 @@ import com.montfel.fipe.theme.getFont
 import com.montfel.fipe.ui.model.FormData
 import com.montfel.fipe.ui.model.FormDataItem
 import com.montfel.fipe.ui.search.SearchUiState
+import com.montfel.fipe.ui.theme.Colors.color1
 import com.montfel.fipe.ui.theme.Colors.color10
 import com.montfel.fipe.ui.theme.Colors.color4
 import com.montfel.fipe.ui.theme.Colors.color7
@@ -135,7 +142,7 @@ internal fun SearchScreen(
         ) {
             FormCard(
                 isEnabled = true,
-                icon = Res.drawable.ic_car,
+                icon = Res.drawable.ic_calendar,
                 value = uiState.selectedReference?.label,
                 formData = FormData(
                     title = stringResource(Res.string.month_reference),
@@ -167,6 +174,30 @@ internal fun SearchScreen(
                     enabled = uiState.shouldEnableFipeCode,
                     value = uiState.selectedFipeCode.orEmpty(),
                     onValueChange = { onEvent(SearchEvent.OnFipeCodeChanged(it)) },
+                    label = {
+                        Text(
+                            text = stringResource(Res.string.fipe_code),
+                            fontSize = 12.sp,
+                            color = Color(color1),
+                            fontFamily = getFont()
+                        )
+                    },
+                    leadingIcon = {
+                        Box(
+                            contentAlignment = Alignment.Center,
+                            modifier = Modifier
+                                .padding(16.dp)
+                                .size(40.dp)
+                                .clip(CircleShape)
+                                .background(Color(color4).copy(alpha = 0.1f))
+                        ) {
+                            Icon(
+                                painter = painterResource(Res.drawable.ic_123),
+                                contentDescription = null,
+                                tint = Color(color4)
+                            )
+                        }
+                    },
                     textStyle = TextStyle(
                         fontSize = 18.sp,
                         fontFamily = getFont(),
@@ -175,14 +206,12 @@ internal fun SearchScreen(
                     placeholder = {
                         Text(
                             text = stringResource(Res.string.fipe_code_placeholder),
-                            fontSize = 18.sp,
+                            fontSize = 16.sp,
                             fontWeight = FontWeight.Bold,
                             color = Color(color10)
                         )
                     },
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .height(80.dp),
+                    modifier = Modifier.fillMaxWidth(),
                     keyboardOptions = KeyboardOptions(
                         keyboardType = KeyboardType.Number
                     ),
@@ -192,7 +221,8 @@ internal fun SearchScreen(
                         disabledIndicatorColor = Color.Transparent,
                         focusedContainerColor = Color.White,
                         unfocusedContainerColor = Color.White,
-                        disabledContainerColor = Color(color8)
+                        disabledContainerColor = Color(color8),
+                        errorContainerColor = Color.White
                     ),
                     visualTransformation = FipeCodeVisualTransformation(),
                     isError = uiState.hasFipeCodeError,
@@ -206,7 +236,7 @@ internal fun SearchScreen(
             } else {
                 FormCard(
                     isEnabled = uiState.shouldEnableBrand,
-                    icon = Res.drawable.ic_car,
+                    icon = Res.drawable.ic_factory,
                     value = uiState.selectedBrand?.label,
                     formData = FormData(
                         title = stringResource(Res.string.brand),
@@ -223,7 +253,7 @@ internal fun SearchScreen(
 
                 FormCard(
                     isEnabled = uiState.shouldEnableModel,
-                    icon = Res.drawable.ic_car,
+                    icon = Res.drawable.ic_stars,
                     value = uiState.selectedModel?.label,
                     formData = FormData(
                         title = stringResource(Res.string.model),
@@ -241,7 +271,7 @@ internal fun SearchScreen(
 
             FormCard(
                 isEnabled = uiState.shouldEnableYearModel,
-                icon = Res.drawable.ic_car,
+                icon = Res.drawable.ic_calendar_next,
                 value = uiState.selectedYearModel?.label,
                 formData = FormData(
                     title = stringResource(Res.string.year_model),
