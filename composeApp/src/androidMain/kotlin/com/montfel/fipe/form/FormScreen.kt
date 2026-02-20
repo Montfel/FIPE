@@ -7,8 +7,8 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.defaultMinSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -131,7 +131,7 @@ internal fun FormScreen(
             LazyColumn(
                 modifier = Modifier.padding(horizontal = 24.dp),
                 contentPadding = PaddingValues(vertical = 24.dp),
-                verticalArrangement = Arrangement.spacedBy(16.dp)
+                verticalArrangement = Arrangement.spacedBy(12.dp)
             ) {
                 items(
                     items = filteredItems,
@@ -152,14 +152,15 @@ internal fun FormScreen(
                             horizontalArrangement = Arrangement.SpaceBetween,
                             modifier = Modifier
                                 .fillMaxWidth()
-                                .height(56.dp)
+                                .defaultMinSize(minHeight = 56.dp)
                                 .padding(16.dp)
                         ) {
                             Text(
                                 text = item.label,
                                 fontSize = 16.sp,
                                 fontWeight = FontWeight.Medium,
-                                fontFamily = getFont()
+                                fontFamily = getFont(),
+                                modifier = Modifier.weight(1f)
                             )
 
                             Icon(

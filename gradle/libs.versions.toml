@@ -4,8 +4,8 @@ android-minSdk = "24"
 android-targetSdk = "36"
 
 android-namespace = "com.montfel.fipe"
-android-version-code = "1"
-android-version-name = "1.0.0"
+android-version-code = "2"
+android-version-name = "1.0.1"
 
 agp = "8.13.2"
 androidx-activity = "1.12.4"

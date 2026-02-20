@@ -306,47 +306,43 @@ fun FormCard(
         )
     ) {
         Row(
+            horizontalArrangement = Arrangement.spacedBy(16.dp),
             verticalAlignment = Alignment.CenterVertically,
             modifier = Modifier
                 .padding(16.dp)
                 .fillMaxWidth()
         ) {
-            Row(
-                horizontalArrangement = Arrangement.spacedBy(16.dp),
-                verticalAlignment = Alignment.CenterVertically,
+            Box(
+                contentAlignment = Alignment.Center,
+                modifier = Modifier
+                    .size(40.dp)
+                    .clip(CircleShape)
+                    .background(Color(color4).copy(alpha = 0.1f))
+            ) {
+                Icon(
+                    painter = painterResource(icon),
+                    contentDescription = null,
+                    tint = Color(color4)
+                )
+            }
+
+            Column(
+                verticalArrangement = Arrangement.spacedBy(2.dp),
                 modifier = Modifier.weight(1f)
             ) {
-                Box(
-                    contentAlignment = Alignment.Center,
-                    modifier = Modifier
-                        .size(40.dp)
-                        .clip(CircleShape)
-                        .background(Color(color4).copy(alpha = 0.1f))
-                ) {
-                    Icon(
-                        painter = painterResource(icon),
-                        contentDescription = null,
-                        tint = Color(color4)
-                    )
-                }
+                Text(
+                    text = formData.title,
+                    fontSize = 12.sp,
+                    fontFamily = getFont()
+                )
 
-                Column(
-                    verticalArrangement = Arrangement.spacedBy(2.dp),
-                ) {
+                value?.let {
                     Text(
-                        text = formData.title,
-                        fontSize = 12.sp,
+                        text = value,
+                        fontWeight = FontWeight.Bold,
+                        fontSize = 16.sp,
                         fontFamily = getFont()
                     )
-
-                    value?.let {
-                        Text(
-                            text = value,
-                            fontWeight = FontWeight.Bold,
-                            fontSize = 16.sp,
-                            fontFamily = getFont()
-                        )
-                    }
                 }
             }
 
