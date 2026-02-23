@@ -10,8 +10,7 @@ import io.ktor.client.request.post
 internal class VehicleDetailsServiceImpl : VehicleDetailsService {
     override suspend fun getVehicleInfo(searchRequest: SearchRequest): VehicleInfoData {
         val httpClient = createHttpClient() //fixme
-        val url = BASE_URL.plus(VEHICLE_INFO)
-        val response = httpClient.post(url) {
+        val response = httpClient.post(VEHICLE_INFO) {
             parameter(REFERENCE_TABLE_PARAMETER, searchRequest.referenceTable)
             parameter(VEHICLE_TYPE_PARAMETER, searchRequest.vehicleType.code)
             parameter(BRAND_PARAMETER, searchRequest.brand)
@@ -25,8 +24,7 @@ internal class VehicleDetailsServiceImpl : VehicleDetailsService {
     }
 
     private companion object {
-        const val BASE_URL: String = "https://veiculos.fipe.org.br/api/veiculos"
-        const val VEHICLE_INFO = "/ConsultarValorComTodosParametros"
+        const val VEHICLE_INFO = "ConsultarValorComTodosParametros"
         const val REFERENCE_TABLE_PARAMETER = "codigoTabelaReferencia"
         const val VEHICLE_TYPE_PARAMETER = "codigoTipoVeiculo"
         const val BRAND_PARAMETER = "codigoMarca"

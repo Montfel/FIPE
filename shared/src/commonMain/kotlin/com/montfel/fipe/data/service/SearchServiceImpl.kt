@@ -12,8 +12,7 @@ import io.ktor.client.request.post
 internal class SearchServiceImpl : SearchService {
     override suspend fun getReferenceTable(): List<ReferenceData> {
         val httpClient = createHttpClient() //fixme
-        val url = BASE_URL.plus(REFERENCE_TABLE)
-        val response = httpClient.post(url)
+        val response = httpClient.post(REFERENCE_TABLE)
         return response.body<List<ReferenceData>>()
     }
 
@@ -22,8 +21,7 @@ internal class SearchServiceImpl : SearchService {
         vehicleType: String
     ): List<BrandData> {
         val httpClient = createHttpClient() //fixme
-        val url = BASE_URL.plus(BRAND)
-        val response = httpClient.post(url) {
+        val response = httpClient.post(BRAND) {
             parameter(REFERENCE_TABLE_PARAMETER, referenceTable)
             parameter(VEHICLE_TYPE_PARAMETER, vehicleType)
         }
@@ -36,8 +34,7 @@ internal class SearchServiceImpl : SearchService {
         brand: String
     ): ModelsData {
         val httpClient = createHttpClient() //fixme
-        val url = BASE_URL.plus(MODEL)
-        val response = httpClient.post(url) {
+        val response = httpClient.post(MODEL) {
             parameter(REFERENCE_TABLE_PARAMETER, referenceTable)
             parameter(VEHICLE_TYPE_PARAMETER, vehicleType)
             parameter(BRAND_PARAMETER, brand)
@@ -52,8 +49,7 @@ internal class SearchServiceImpl : SearchService {
         model: String
     ): List<YearModelData> {
         val httpClient = createHttpClient() //fixme
-        val url = BASE_URL.plus(YEAR_MODEL)
-        val response = httpClient.post(url) {
+        val response = httpClient.post(YEAR_MODEL) {
             parameter(REFERENCE_TABLE_PARAMETER, referenceTable)
             parameter(VEHICLE_TYPE_PARAMETER, vehicleType)
             parameter(BRAND_PARAMETER, brand)
@@ -68,8 +64,7 @@ internal class SearchServiceImpl : SearchService {
         fipeCode: String
     ): List<YearModelData> {
         val httpClient = createHttpClient() //fixme
-        val url = BASE_URL.plus(YEAR_MODEL_BY_FIPE_CODE)
-        val response = httpClient.post(url) {
+        val response = httpClient.post(YEAR_MODEL_BY_FIPE_CODE) {
             parameter(REFERENCE_TABLE_PARAMETER, referenceTable)
             parameter(VEHICLE_TYPE_PARAMETER, vehicleType)
             parameter(FIPE_CODE_PARAMETER, fipeCode)
@@ -78,12 +73,11 @@ internal class SearchServiceImpl : SearchService {
     }
 
     private companion object {
-        const val BASE_URL: String = "https://veiculos.fipe.org.br/api/veiculos"
-        const val REFERENCE_TABLE = "/ConsultarTabelaDeReferencia"
-        const val BRAND = "/ConsultarMarcas"
-        const val MODEL = "/ConsultarModelos"
-        const val YEAR_MODEL = "/ConsultarAnoModelo"
-        const val YEAR_MODEL_BY_FIPE_CODE = "/ConsultarAnoModeloPeloCodigoFipe"
+        const val REFERENCE_TABLE = "ConsultarTabelaDeReferencia"
+        const val BRAND = "ConsultarMarcas"
+        const val MODEL = "ConsultarModelos"
+        const val YEAR_MODEL = "ConsultarAnoModelo"
+        const val YEAR_MODEL_BY_FIPE_CODE = "ConsultarAnoModeloPeloCodigoFipe"
         const val REFERENCE_TABLE_PARAMETER = "codigoTabelaReferencia"
         const val VEHICLE_TYPE_PARAMETER = "codigoTipoVeiculo"
         const val BRAND_PARAMETER = "codigoMarca"
