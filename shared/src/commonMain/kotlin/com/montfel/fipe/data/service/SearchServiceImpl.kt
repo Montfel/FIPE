@@ -1,18 +1,19 @@
 package com.montfel.fipe.data.service
 
-import com.montfel.fipe.data.createHttpClient
 import com.montfel.fipe.data.model.BrandData
 import com.montfel.fipe.data.model.ModelsData
 import com.montfel.fipe.data.model.ReferenceData
 import com.montfel.fipe.data.model.YearModelData
+import com.montfel.fipe.network.http.HttpProvider
 import io.ktor.client.call.body
 import io.ktor.client.request.parameter
 import io.ktor.client.request.post
 
-internal class SearchServiceImpl : SearchService {
+internal class SearchServiceImpl(
+    private val httpProvider: HttpProvider
+) : SearchService {
     override suspend fun getReferenceTable(): List<ReferenceData> {
-        val httpClient = createHttpClient() //fixme
-        val response = httpClient.post(REFERENCE_TABLE)
+        val response = httpProvider().post(REFERENCE_TABLE)
         return response.body<List<ReferenceData>>()
     }
 
@@ -20,8 +21,7 @@ internal class SearchServiceImpl : SearchService {
         referenceTable: String,
         vehicleType: String
     ): List<BrandData> {
-        val httpClient = createHttpClient() //fixme
-        val response = httpClient.post(BRAND) {
+        val response = httpProvider().post(BRAND) {
             parameter(REFERENCE_TABLE_PARAMETER, referenceTable)
             parameter(VEHICLE_TYPE_PARAMETER, vehicleType)
         }
@@ -33,8 +33,7 @@ internal class SearchServiceImpl : SearchService {
         vehicleType: String,
         brand: String
     ): ModelsData {
-        val httpClient = createHttpClient() //fixme
-        val response = httpClient.post(MODEL) {
+        val response = httpProvider().post(MODEL) {
             parameter(REFERENCE_TABLE_PARAMETER, referenceTable)
             parameter(VEHICLE_TYPE_PARAMETER, vehicleType)
             parameter(BRAND_PARAMETER, brand)
@@ -48,8 +47,7 @@ internal class SearchServiceImpl : SearchService {
         brand: String,
         model: String
     ): List<YearModelData> {
-        val httpClient = createHttpClient() //fixme
-        val response = httpClient.post(YEAR_MODEL) {
+        val response = httpProvider().post(YEAR_MODEL) {
             parameter(REFERENCE_TABLE_PARAMETER, referenceTable)
             parameter(VEHICLE_TYPE_PARAMETER, vehicleType)
             parameter(BRAND_PARAMETER, brand)
@@ -63,8 +61,7 @@ internal class SearchServiceImpl : SearchService {
         vehicleType: String,
         fipeCode: String
     ): List<YearModelData> {
-        val httpClient = createHttpClient() //fixme
-        val response = httpClient.post(YEAR_MODEL_BY_FIPE_CODE) {
+        val response = httpProvider().post(YEAR_MODEL_BY_FIPE_CODE) {
             parameter(REFERENCE_TABLE_PARAMETER, referenceTable)
             parameter(VEHICLE_TYPE_PARAMETER, vehicleType)
             parameter(FIPE_CODE_PARAMETER, fipeCode)

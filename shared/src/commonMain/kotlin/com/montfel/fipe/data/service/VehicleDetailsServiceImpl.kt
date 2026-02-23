@@ -1,16 +1,17 @@
 package com.montfel.fipe.data.service
 
-import com.montfel.fipe.data.createHttpClient
 import com.montfel.fipe.data.model.VehicleInfoData
 import com.montfel.fipe.domain.model.SearchRequest
+import com.montfel.fipe.network.http.HttpProvider
 import io.ktor.client.call.body
 import io.ktor.client.request.parameter
 import io.ktor.client.request.post
 
-internal class VehicleDetailsServiceImpl : VehicleDetailsService {
+internal class VehicleDetailsServiceImpl(
+    private val httpProvider: HttpProvider
+) : VehicleDetailsService {
     override suspend fun getVehicleInfo(searchRequest: SearchRequest): VehicleInfoData {
-        val httpClient = createHttpClient() //fixme
-        val response = httpClient.post(VEHICLE_INFO) {
+        val response = httpProvider().post(VEHICLE_INFO) {
             parameter(REFERENCE_TABLE_PARAMETER, searchRequest.referenceTable)
             parameter(VEHICLE_TYPE_PARAMETER, searchRequest.vehicleType.code)
             parameter(BRAND_PARAMETER, searchRequest.brand)
