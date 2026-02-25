@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "71108181003",
+    "project_id": "busca-fipe",
+    "storage_bucket": "busca-fipe.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:71108181003:android:73fec2ef5c29fa51765b0e",
+        "android_client_info": {
+          "package_name": "com.montfel.fipe"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDxOEv8qvYE1Y-3_SjACFgbEBOK3OGxPdg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

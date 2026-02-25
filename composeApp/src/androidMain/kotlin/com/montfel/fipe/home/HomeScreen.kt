@@ -29,6 +29,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.compose.dropUnlessResumed
 import com.montfel.fipe.shared.resources.Res
 import com.montfel.fipe.shared.resources.app_name
 import com.montfel.fipe.shared.resources.by_fipe
@@ -122,7 +123,7 @@ internal fun HomeScreen(
                     containerColor = Color.White
                 ),
                 border = BorderStroke(width = 1.dp, color = Color(color3)),
-                onClick = { onEvent(HomeEvent.OnSearchByVehicleClicked) }
+                onClick = dropUnlessResumed { onEvent(HomeEvent.OnSearchByVehicleClicked) }
             ) {
                 Row(
                     verticalAlignment = Alignment.CenterVertically,
@@ -172,7 +173,7 @@ internal fun HomeScreen(
                     containerColor = Color.White
                 ),
                 border = BorderStroke(width = 1.dp, color = Color(color3)),
-                onClick = { onEvent(HomeEvent.OnSearchByFipeClicked) }
+                onClick = dropUnlessResumed { onEvent(HomeEvent.OnSearchByFipeClicked) }
             ) {
                 Row(
                     verticalAlignment = Alignment.CenterVertically,

@@ -4,14 +4,17 @@ android-minSdk = "24"
 android-targetSdk = "36"
 
 android-namespace = "com.montfel.fipe"
-android-version-code = "3"
-android-version-name = "1.0.2"
+android-version-code = "4"
+android-version-name = "1.0.3"
 
 agp = "8.13.2"
 androidx-activity = "1.12.4"
 androidx-viewmodel = "2.10.0"
 androidx-lifecycle = "2.9.6"
 composeMultiplatform = "1.11.0-alpha02"
+firebase = "34.9.0"
+firebaseCrashlyticsGradle = "3.0.6"
+google-services = "4.4.4"
 koin = "4.1.1"
 kotlin = "2.3.10"
 kotlin-immutable = "0.4.0"
@@ -32,6 +35,9 @@ compose-runtime = { module = "org.jetbrains.compose.runtime:runtime", version.re
 compose-ui = { module = "org.jetbrains.compose.ui:ui", version.ref = "composeMultiplatform" }
 compose-uiTooling = { module = "org.jetbrains.compose.ui:ui-tooling", version.ref = "composeMultiplatform" }
 compose-uiToolingPreview = { module = "org.jetbrains.compose.ui:ui-tooling-preview", version.ref = "composeMultiplatform" }
+firebase-bom = { module = "com.google.firebase:firebase-bom", version.ref = "firebase" }
+firebase-analytics = { module = "com.google.firebase:firebase-analytics" }
+firebase-crashlytics = { module = "com.google.firebase:firebase-crashlytics" }
 kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test", version.ref = "kotlin" }
 kotlinx-collections-immutable = { module = "org.jetbrains.kotlinx:kotlinx-collections-immutable", version.ref = "kotlin-immutable" }
 koin-bom = { module = "io.insert-koin:koin-bom", version.ref = "koin" }
@@ -53,6 +59,8 @@ androidApplication = { id = "com.android.application", version.ref = "agp" }
 androidLibrary = { id = "com.android.library", version.ref = "agp" }
 composeMultiplatform = { id = "org.jetbrains.compose", version.ref = "composeMultiplatform" }
 composeCompiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
+firebase-crashlytics-gradle = { id = "com.google.firebase.crashlytics", version.ref = "firebaseCrashlyticsGradle" }
+google-services = { id = "com.google.gms.google-services", version.ref = "google-services" }
 kotlinMultiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }
 kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
 

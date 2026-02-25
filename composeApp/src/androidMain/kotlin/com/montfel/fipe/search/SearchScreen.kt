@@ -37,6 +37,7 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.compose.dropUnlessResumed
 import com.montfel.fipe.domain.model.VehicleType
 import com.montfel.fipe.shared.resources.Res
 import com.montfel.fipe.shared.resources.brand
@@ -110,7 +111,7 @@ internal fun SearchScreen(
         bottomBar = {
             Button(
                 enabled = uiState.shouldEnableButton,
-                onClick = { onEvent(SearchEvent.OnVehicleSearch) },
+                onClick = dropUnlessResumed { onEvent(SearchEvent.OnVehicleSearch) },
                 colors = ButtonDefaults.buttonColors(
                     containerColor = Color(color4),
                     contentColor = Color.White
@@ -299,7 +300,7 @@ fun FormCard(
 ) {
     Card(
         enabled = isEnabled,
-        onClick = { onClick(formData) },
+        onClick = dropUnlessResumed { onClick(formData) },
         colors = CardDefaults.cardColors(
             containerColor = Color.White,
             disabledContainerColor = Color(color8)

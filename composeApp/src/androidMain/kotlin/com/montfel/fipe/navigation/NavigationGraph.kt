@@ -1,6 +1,7 @@
 package com.montfel.fipe.navigation
 
 import androidx.compose.runtime.Composable
+import androidx.lifecycle.compose.dropUnlessResumed
 import androidx.lifecycle.viewmodel.navigation3.rememberViewModelStoreNavEntryDecorator
 import androidx.navigation3.runtime.entryProvider
 import androidx.navigation3.runtime.rememberNavBackStack
@@ -17,7 +18,7 @@ internal fun NavigationGraph() {
 
     NavDisplay(
         backStack = backStack,
-        onBack = backStack::removeLastOrNull,
+        onBack = dropUnlessResumed(block = backStack::removeLastOrNull),
         entryDecorators = listOf(
             rememberSaveableStateHolderNavEntryDecorator(),
             rememberViewModelStoreNavEntryDecorator()
@@ -35,19 +36,19 @@ internal fun NavigationGraph() {
                     onNavigateToVehicleDetails = { searchRequest ->
                         backStack.add(Screen.VehicleDetails(searchRequest))
                     },
-                    onNavigateBack = backStack::removeLastOrNull
+                    onNavigateBack = dropUnlessResumed(block = backStack::removeLastOrNull),
                 )
             }
             entry<Screen.Form> {
                 FormScreen(
                     formData = it.formData,
-                    onNavigateBack = backStack::removeLastOrNull
+                    onNavigateBack = dropUnlessResumed(block = backStack::removeLastOrNull),
                 )
             }
             entry<Screen.VehicleDetails> {
                 VehicleDetailsRoute(
                     searchRequest = it.searchRequest,
-                    onNavigateBack = backStack::removeLastOrNull
+                    onNavigateBack = dropUnlessResumed(block = backStack::removeLastOrNull),
                 )
             }
         },
