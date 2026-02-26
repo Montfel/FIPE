@@ -1,6 +1,5 @@
 package com.montfel.fipe.ui.search
 
-import androidx.compose.runtime.Stable
 import com.montfel.fipe.domain.model.Brand
 import com.montfel.fipe.domain.model.Models
 import com.montfel.fipe.domain.model.Reference
@@ -9,7 +8,6 @@ import com.montfel.fipe.ui.model.FormDataItem
 import kotlinx.collections.immutable.PersistentList
 import kotlinx.collections.immutable.persistentListOf
 
-@Stable
 data class SearchUiState(
     val stateOfUi: SearchStateOfUi = SearchStateOfUi.Loading,
     val referenceTable: PersistentList<Reference> = persistentListOf(),

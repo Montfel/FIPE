@@ -36,6 +36,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.compose.dropUnlessResumed
 import com.montfel.fipe.shared.resources.Res
 import com.montfel.fipe.shared.resources.ic_arrow_left
 import com.montfel.fipe.shared.resources.ic_chevron_right
@@ -44,6 +45,7 @@ import com.montfel.fipe.shared.resources.search
 import com.montfel.fipe.theme.getFont
 import com.montfel.fipe.ui.model.FormData
 import com.montfel.fipe.ui.model.FormDataItem
+import com.montfel.fipe.ui.model.FormDataType
 import com.montfel.fipe.ui.theme.Colors.color10
 import com.montfel.fipe.ui.theme.Colors.color3
 import com.montfel.fipe.ui.theme.Colors.color6
@@ -57,7 +59,7 @@ import org.jetbrains.compose.resources.stringResource
 @Composable
 internal fun FormScreen(
     formData: FormData,
-    onNavigateBack: () -> Unit
+    onNavigateBack: (Pair<FormDataItem, FormDataType>?) -> Unit
 ) {
     var searchText by remember { mutableStateOf("") }
     val filteredItems = formData.items.filter {
@@ -69,7 +71,7 @@ internal fun FormScreen(
         topBar = {
             CenterAlignedTopAppBar(
                 navigationIcon = {
-                    IconButton(onClick = onNavigateBack) {
+                    IconButton(onClick = dropUnlessResumed { onNavigateBack(null) }) {
                         Icon(
                             painter = painterResource(Res.drawable.ic_arrow_left),
                             contentDescription = null
@@ -142,10 +144,7 @@ internal fun FormScreen(
                             containerColor = Color.White
                         ),
                         border = BorderStroke(width = 1.dp, color = Color(color9)),
-                        onClick = {
-                            formData.onItemClick(item)
-                            onNavigateBack()
-                        },
+                        onClick = dropUnlessResumed { onNavigateBack(item to formData.type) },
                     ) {
                         Row(
                             verticalAlignment = Alignment.CenterVertically,
@@ -186,7 +185,7 @@ private fun FormScreenPreview() {
                 FormDataItem("Marca 1", "1"),
                 FormDataItem("Marca 2", "2"),
             ),
-            onItemClick = {}
+            type = FormDataType.BRAND
         ),
         onNavigateBack = {}
     )

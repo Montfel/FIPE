@@ -4,8 +4,8 @@ android-minSdk = "24"
 android-targetSdk = "36"
 
 android-namespace = "com.montfel.fipe"
-android-version-code = "4"
-android-version-name = "1.0.3"
+android-version-code = "5"
+android-version-name = "1.0.4"
 
 agp = "8.13.2"
 androidx-activity = "1.12.4"
@@ -20,7 +20,7 @@ kotlin = "2.3.10"
 kotlin-immutable = "0.4.0"
 ktor = "3.4.0"
 material3 = "1.10.0-alpha05"
-navigation = "1.1.0-alpha04"
+navigation = "1.1.0-alpha05"
 navigation-lifecycle = "2.10.0"
 
 [libraries]

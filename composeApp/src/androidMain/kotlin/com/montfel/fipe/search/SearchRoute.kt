@@ -1,6 +1,7 @@
 package com.montfel.fipe.search
 
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.montfel.fipe.components.ErrorScreen
@@ -8,6 +9,13 @@ import com.montfel.fipe.components.LoadingScreen
 import com.montfel.fipe.domain.model.SearchRequest
 import com.montfel.fipe.domain.model.VehicleType
 import com.montfel.fipe.ui.model.FormData
+import com.montfel.fipe.ui.model.FormDataItem
+import com.montfel.fipe.ui.model.FormDataType
+import com.montfel.fipe.ui.model.FormDataType.BRAND
+import com.montfel.fipe.ui.model.FormDataType.MODEL
+import com.montfel.fipe.ui.model.FormDataType.REFERENCE
+import com.montfel.fipe.ui.model.FormDataType.VEHICLE_TYPE
+import com.montfel.fipe.ui.model.FormDataType.YEAR_MODEL
 import com.montfel.fipe.ui.search.SearchStateOfUi
 import com.montfel.fipe.ui.search.SearchViewModel
 import org.koin.compose.viewmodel.koinViewModel
@@ -16,12 +24,28 @@ import org.koin.core.parameter.parametersOf
 @Composable
 internal fun SearchRoute(
     isByFipe: Boolean,
+    formDataItem: FormDataItem?,
+    formDataType: FormDataType?,
     onNavigateToForm: (formData: FormData) -> Unit,
     onNavigateToVehicleDetails: (searchRequest: SearchRequest) -> Unit,
     onNavigateBack: () -> Unit,
     viewModel: SearchViewModel = koinViewModel { parametersOf(isByFipe) },
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+
+    LaunchedEffect(key1 = formDataItem, key2 = formDataType) {
+        println("===> formDataItem: $formDataItem")
+        println("===> formDataType: $formDataType")
+        if (formDataType != null && formDataItem != null) {
+            when (formDataType) {
+                REFERENCE -> viewModel.onReferenceSelected(formDataItem)
+                VEHICLE_TYPE -> viewModel.onVehicleTypeSelected(formDataItem)
+                BRAND -> viewModel.onBrandSelected(formDataItem)
+                MODEL -> viewModel.onModelSelected(formDataItem)
+                YEAR_MODEL -> viewModel.onYearModelSelected(formDataItem)
+            }
+        }
+    }
 
     when (uiState.stateOfUi) {
         SearchStateOfUi.Error -> {
@@ -42,26 +66,6 @@ internal fun SearchRoute(
                             onNavigateToForm(event.formData)
                         }
 
-                        is SearchEvent.OnBrandSelected -> {
-                            viewModel.onBrandSelected(event.brand)
-                        }
-
-                        is SearchEvent.OnReferenceSelected -> {
-                            viewModel.onReferenceSelected(event.reference)
-                        }
-
-                        is SearchEvent.OnVehicleTypeSelected -> {
-                            viewModel.onVehicleTypeSelected(event.vehicleType)
-                        }
-
-                        is SearchEvent.OnModelSelected -> {
-                            viewModel.onModelSelected(event.model)
-                        }
-
-                        is SearchEvent.OnYearModelSelected -> {
-                            viewModel.onYearModelSelected(event.yearModel)
-                        }
-
                         SearchEvent.OnVehicleSearch -> {
                             onNavigateToVehicleDetails(
                                 SearchRequest(
@@ -70,7 +74,8 @@ internal fun SearchRoute(
                                     brand = uiState.selectedBrand?.value,
                                     model = uiState.selectedModel?.value,
                                     fipeCode = uiState.selectedFipeCode,
-                                    year = uiState.selectedYearModel?.value?.dropLast(2).orEmpty(),
+                                    year = uiState.selectedYearModel?.value?.dropLast(2)
+                                        .orEmpty(),
                                     fuelType = uiState.selectedYearModel?.value?.takeLast(1)
                                         .orEmpty(),
                                     searchType = if (isByFipe) "codigo" else "tradicional"

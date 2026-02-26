@@ -62,6 +62,7 @@ import com.montfel.fipe.shared.resources.year_model
 import com.montfel.fipe.theme.getFont
 import com.montfel.fipe.ui.model.FormData
 import com.montfel.fipe.ui.model.FormDataItem
+import com.montfel.fipe.ui.model.FormDataType
 import com.montfel.fipe.ui.search.SearchUiState
 import com.montfel.fipe.ui.theme.Colors.color1
 import com.montfel.fipe.ui.theme.Colors.color10
@@ -153,7 +154,7 @@ internal fun SearchScreen(
                             value = it.code
                         )
                     }.toPersistentList(),
-                    onItemClick = { onEvent(SearchEvent.OnReferenceSelected(it)) }
+                    type = FormDataType.REFERENCE
                 ),
                 onClick = { onEvent(SearchEvent.OnNavigateToForm(it)) }
             )
@@ -165,7 +166,7 @@ internal fun SearchScreen(
                 formData = FormData(
                     title = stringResource(Res.string.vehicle_type),
                     items = vehicleTypes,
-                    onItemClick = { onEvent(SearchEvent.OnVehicleTypeSelected(it)) }
+                    type = FormDataType.VEHICLE_TYPE
                 ),
                 onClick = { onEvent(SearchEvent.OnNavigateToForm(it)) }
             )
@@ -247,7 +248,7 @@ internal fun SearchScreen(
                                 value = it.code
                             )
                         }.toPersistentList(),
-                        onItemClick = { onEvent(SearchEvent.OnBrandSelected(it)) }
+                        type = FormDataType.BRAND
                     ),
                     onClick = { onEvent(SearchEvent.OnNavigateToForm(it)) }
                 )
@@ -264,7 +265,7 @@ internal fun SearchScreen(
                                 value = it.code
                             )
                         }.orEmpty().toPersistentList(),
-                        onItemClick = { onEvent(SearchEvent.OnModelSelected(it)) }
+                        type = FormDataType.MODEL
                     ),
                     onClick = { onEvent(SearchEvent.OnNavigateToForm(it)) }
                 )
@@ -282,7 +283,7 @@ internal fun SearchScreen(
                             value = it.code
                         )
                     }.toPersistentList(),
-                    onItemClick = { onEvent(SearchEvent.OnYearModelSelected(it)) }
+                    type = FormDataType.YEAR_MODEL
                 ),
                 onClick = { onEvent(SearchEvent.OnNavigateToForm(it)) }
             )
