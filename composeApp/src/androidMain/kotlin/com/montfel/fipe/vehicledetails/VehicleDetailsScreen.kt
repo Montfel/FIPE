@@ -5,6 +5,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -45,6 +46,8 @@ import com.montfel.fipe.shared.resources.ic_arrow_left
 import com.montfel.fipe.shared.resources.ic_calendar
 import com.montfel.fipe.shared.resources.ic_car
 import com.montfel.fipe.shared.resources.ic_fuel
+import com.montfel.fipe.shared.resources.ic_trending_down
+import com.montfel.fipe.shared.resources.ic_trending_up
 import com.montfel.fipe.shared.resources.motorcycle
 import com.montfel.fipe.shared.resources.truck
 import com.montfel.fipe.shared.resources.vehicle_details
@@ -57,6 +60,10 @@ import com.montfel.fipe.ui.theme.Colors.color3
 import com.montfel.fipe.ui.theme.Colors.color5
 import com.montfel.fipe.ui.theme.Colors.color6
 import com.montfel.fipe.ui.theme.Colors.color7
+import com.montfel.fipe.ui.theme.Colors.green1
+import com.montfel.fipe.ui.theme.Colors.green2
+import com.montfel.fipe.ui.theme.Colors.red1
+import com.montfel.fipe.ui.theme.Colors.red2
 import com.montfel.fipe.ui.vehicledetails.VehicleDetailsUiState
 import kotlinx.collections.immutable.persistentListOf
 import org.jetbrains.compose.resources.painterResource
@@ -100,7 +107,7 @@ internal fun VehicleDetailsScreen(
                 .padding(paddingValues)
                 .padding(24.dp)
         ) {
-            uiState.vehicleInfo?.let {
+            uiState.currentVehicleInfo?.let {
                 Column(
                     horizontalAlignment = Alignment.CenterHorizontally,
                     modifier = Modifier.fillMaxWidth()
@@ -133,6 +140,44 @@ internal fun VehicleDetailsScreen(
                         fontFamily = getFont(),
                         letterSpacing = -(2.4).sp
                     )
+
+                    uiState.difference?.let { difference ->
+                        val isPositive = difference.contains("+")
+
+                        val (containerColor, contentColor, icon) = if (isPositive) {
+                            Triple(green1, green2, Res.drawable.ic_trending_up)
+                        } else {
+                            Triple(red1, red2, Res.drawable.ic_trending_down)
+                        }
+
+                        Spacer(modifier = Modifier.height(16.dp))
+
+                        Card(
+                            colors = CardDefaults.cardColors(
+                                containerColor = Color(containerColor),
+                                contentColor = Color(contentColor)
+                            )
+                        ) {
+                            Row(
+                                verticalAlignment = Alignment.CenterVertically,
+                                horizontalArrangement = Arrangement.spacedBy(6.dp),
+                                modifier = Modifier.padding(vertical = 6.dp, horizontal = 12.dp)
+                            ) {
+                                Icon(
+                                    painterResource(icon),
+                                    contentDescription = null,
+                                    modifier = Modifier.size(12.dp),
+                                )
+
+                                Text(
+                                    text = difference,
+                                    fontWeight = FontWeight.ExtraBold,
+                                    fontSize = 14.sp,
+                                    fontFamily = getFont(),
+                                )
+                            }
+                        }
+                    }
                 }
 
                 Spacer(modifier = Modifier.height(40.dp))
@@ -214,7 +259,7 @@ internal fun VehicleDetailsScreen(
 private fun VehicleDetailsScreenPreview() {
     VehicleDetailsScreen(
         uiState = VehicleDetailsUiState(
-            vehicleInfo = VehicleInfo(
+            currentVehicleInfo = VehicleInfo(
                 brand = "Fiat",
                 model = "Uno",
                 price = "R$ 30.000,00",
@@ -226,7 +271,8 @@ private fun VehicleDetailsScreenPreview() {
                 consultDate = "20/02/2023",
                 authentication = "123",
                 fuelAcronym = "F"
-            )
+            ),
+            difference = "-1,5% no último mês"
         ),
         onNavigateBack = {}
     )

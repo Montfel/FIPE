@@ -4,7 +4,8 @@ import com.montfel.fipe.domain.model.VehicleInfo
 
 data class VehicleDetailsUiState(
     val stateOfUi: VehicleDetailsStateOfUi = VehicleDetailsStateOfUi.Loading,
-    val vehicleInfo: VehicleInfo? = null
+    val currentVehicleInfo: VehicleInfo? = null,
+    val difference: String? = null
 )
 
 sealed interface VehicleDetailsStateOfUi {

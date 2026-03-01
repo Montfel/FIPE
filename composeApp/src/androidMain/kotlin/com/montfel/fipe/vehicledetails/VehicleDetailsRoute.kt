@@ -21,7 +21,7 @@ internal fun VehicleDetailsRoute(
 
     when (uiState.stateOfUi) {
         VehicleDetailsStateOfUi.Error -> {
-            ErrorScreen(onRetry = viewModel::onVehicleSearch)
+            ErrorScreen(onRetry = viewModel::getVehicleDetails)
         }
 
         VehicleDetailsStateOfUi.Loading -> {

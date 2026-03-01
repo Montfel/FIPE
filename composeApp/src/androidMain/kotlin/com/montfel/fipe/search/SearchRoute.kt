@@ -34,8 +34,6 @@ internal fun SearchRoute(
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
     LaunchedEffect(key1 = formDataItem, key2 = formDataType) {
-        println("===> formDataItem: $formDataItem")
-        println("===> formDataType: $formDataType")
         if (formDataType != null && formDataItem != null) {
             when (formDataType) {
                 REFERENCE -> viewModel.onReferenceSelected(formDataItem)

@@ -11,5 +11,9 @@ object Colors {
     const val color8 = 0xFFE0E0E0
     const val color9 = 0xFFE2E8F0
     const val color10 = 0xFFCBD5E1
+    const val green1 = 0xFFD1FAE5
+    const val green2 = 0xFF047857
+    const val red1 = 0xFFFFCCCB
+    const val red2 = 0xFFB81414
 }
 
