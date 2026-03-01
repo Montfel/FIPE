@@ -44,11 +44,13 @@ import com.montfel.fipe.shared.resources.fuel
 import com.montfel.fipe.shared.resources.ic_123
 import com.montfel.fipe.shared.resources.ic_arrow_left
 import com.montfel.fipe.shared.resources.ic_calendar
+import com.montfel.fipe.shared.resources.ic_calendar_next
 import com.montfel.fipe.shared.resources.ic_car
 import com.montfel.fipe.shared.resources.ic_fuel
 import com.montfel.fipe.shared.resources.ic_trending_down
 import com.montfel.fipe.shared.resources.ic_trending_up
 import com.montfel.fipe.shared.resources.motorcycle
+import com.montfel.fipe.shared.resources.reference_month
 import com.montfel.fipe.shared.resources.truck
 import com.montfel.fipe.shared.resources.vehicle_details
 import com.montfel.fipe.shared.resources.vehicle_type
@@ -166,7 +168,7 @@ internal fun VehicleDetailsScreen(
                                 Icon(
                                     painterResource(icon),
                                     contentDescription = null,
-                                    modifier = Modifier.size(12.dp),
+                                    modifier = Modifier.size(20.dp),
                                 )
 
                                 Text(
@@ -192,12 +194,17 @@ internal fun VehicleDetailsScreen(
                 val items = persistentListOf(
                     Triple(
                         Res.drawable.ic_calendar,
+                        Res.string.reference_month,
+                        it.referenceMonth
+                    ),
+                    Triple(Res.drawable.ic_car, Res.string.vehicle_type, vehicleTypeName),
+                    Triple(
+                        Res.drawable.ic_calendar_next,
                         Res.string.year_model,
                         it.yearModel.toString()
                     ),
                     Triple(Res.drawable.ic_fuel, Res.string.fuel, it.fuel),
                     Triple(Res.drawable.ic_123, Res.string.fipe_code, it.fipeCode),
-                    Triple(Res.drawable.ic_car, Res.string.vehicle_type, vehicleTypeName),
                 )
 
                 LazyVerticalGrid(
@@ -211,7 +218,7 @@ internal fun VehicleDetailsScreen(
                                 containerColor = Color.White
                             ),
                             border = BorderStroke(width = 1.dp, color = Color(color3)),
-                            modifier = Modifier.aspectRatio(1.3f)
+                            modifier = Modifier.aspectRatio(1.2f)
                         ) {
                             Column(modifier = Modifier.padding(16.dp)) {
                                 Box(
