@@ -37,7 +37,7 @@ open class VehicleDetailsViewModel(
             }
 
             val currentVehicleInfo = currentVehicleInfoDeferred.await()
-            val lastMonthVehicleInfo = lastMonthVehicleInfoDeferred.await()
+            val lastVehicleInfo = lastMonthVehicleInfoDeferred.await()
 
             currentVehicleInfo.onSuccess { currentVehicleInfo ->
                 _uiState.update {
@@ -47,10 +47,17 @@ open class VehicleDetailsViewModel(
                     )
                 }
 
-                lastMonthVehicleInfo.onSuccess { lastMonthVehicleInfo ->
+                lastVehicleInfo.onSuccess { lastVehicleInfo ->
+                    val convertedCurrentVehicleInfo =
+                        currentVehicleInfo.price.convertStringMoneyToDoubleOrNull()
+                    val convertedLastVehicleInfo =
+                        lastVehicleInfo.price.convertStringMoneyToDoubleOrNull()
+
+                    if (convertedCurrentVehicleInfo == null || convertedLastVehicleInfo == null) return@launch
+
                     val difference = calculateDifference(
-                        currentPrice = currentVehicleInfo.price.convertStringMoneyToDouble(),
-                        lastPrice = lastMonthVehicleInfo.price.convertStringMoneyToDouble()
+                        currentPrice = convertedCurrentVehicleInfo,
+                        lastPrice = convertedLastVehicleInfo
                     )
 
                     _uiState.update {
@@ -71,14 +78,13 @@ open class VehicleDetailsViewModel(
         return roundedDifference
     }
 
-    private fun String.convertStringMoneyToDouble(): Double {
-        val value = this
+    private fun String.convertStringMoneyToDoubleOrNull(): Double? {
+        return this
             .replace("R$", "")
             .replace("\\s".toRegex(), "")
             .replace(".", "")
             .replace(",", ".")
-
-        return value.toDoubleOrNull() ?: 0.0
+            .toDoubleOrNull()
     }
 
     private fun Double.formatDifference(): String {
@@ -87,6 +93,7 @@ open class VehicleDetailsViewModel(
         var value = this
             .toString()
             .replace(".", ",")
+
         value = "$value% no último mês"
 
         return if (isPositive) "+$value" else value
