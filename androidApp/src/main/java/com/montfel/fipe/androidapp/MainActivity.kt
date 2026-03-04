@@ -1,4 +1,4 @@
-package com.montfel.fipe
+package com.montfel.fipe.androidapp
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity

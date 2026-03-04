@@ -1,4 +1,4 @@
-package com.montfel.fipe
+package com.montfel.fipe.androidapp
 
 import android.app.Application
 import com.montfel.fipe.di.initKoin

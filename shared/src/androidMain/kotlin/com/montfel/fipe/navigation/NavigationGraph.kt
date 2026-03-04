@@ -16,7 +16,7 @@ import com.montfel.fipe.ui.model.FormDataType
 import com.montfel.fipe.vehicledetails.VehicleDetailsRoute
 
 @Composable
-internal fun NavigationGraph() {
+fun NavigationGraph() {
     val backStack = rememberNavBackStack(Screen.Home)
     val resultContainer = retain { ResultContainer() }
 

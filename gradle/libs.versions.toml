@@ -7,7 +7,7 @@ android-namespace = "com.montfel.fipe"
 android-version-code = "7"
 android-version-name = "1.0.6"
 
-agp = "8.13.2"
+agp = "9.1.0"
 androidx-activity = "1.12.4"
 androidx-viewmodel = "2.10.0"
 androidx-lifecycle = "2.9.6"
@@ -56,7 +56,7 @@ navigation-lifecycle = { module = "androidx.lifecycle:lifecycle-viewmodel-naviga
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }
-androidLibrary = { id = "com.android.library", version.ref = "agp" }
+androidKmpLibrary = { id = "com.android.kotlin.multiplatform.library", version.ref = "agp" }
 composeMultiplatform = { id = "org.jetbrains.compose", version.ref = "composeMultiplatform" }
 composeCompiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
 firebase-crashlytics-gradle = { id = "com.google.firebase.crashlytics", version.ref = "firebaseCrashlyticsGradle" }
