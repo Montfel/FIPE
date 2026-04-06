@@ -1,7 +1,7 @@
 package com.montfel.fipe.domain.model
 
 data class VehicleInfo(
-    val price: String,
+    val price: Double?,
     val brand: String,
     val model: String,
     val yearModel: Int,
