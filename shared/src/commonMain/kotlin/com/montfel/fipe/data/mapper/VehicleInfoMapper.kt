@@ -4,9 +4,9 @@ import com.montfel.fipe.data.model.VehicleInfoData
 import com.montfel.fipe.domain.model.VehicleInfo
 import com.montfel.fipe.domain.model.VehicleType
 
-internal fun VehicleInfoData.toVehicleInfoData(): VehicleInfo {
+internal fun VehicleInfoData.toVehicleInfo(): VehicleInfo {
     return VehicleInfo(
-        price = price,
+        price = price.convertStringMoneyToDoubleOrNull(),
         brand = brand,
         model = model,
         yearModel = yearModel,
@@ -18,4 +18,13 @@ internal fun VehicleInfoData.toVehicleInfoData(): VehicleInfo {
         fuelAcronym = fuelAcronym,
         consultDate = consultDate
     )
+}
+
+private fun String.convertStringMoneyToDoubleOrNull(): Double? {
+    return this
+        .replace("R$", "")
+        .replace("\\s".toRegex(), "")
+        .replace(".", "")
+        .replace(",", ".")
+        .toDoubleOrNull()
 }
