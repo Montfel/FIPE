@@ -3,8 +3,11 @@ package com.montfel.fipe.ui.vehicledetails
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.montfel.fipe.domain.model.SearchRequest
+import com.montfel.fipe.domain.model.VehicleInfo
 import com.montfel.fipe.domain.repository.VehicleDetailsRepository
+import kotlinx.collections.immutable.toPersistentList
 import kotlinx.coroutines.async
+import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
@@ -25,45 +28,37 @@ open class VehicleDetailsViewModel(
 
     fun getVehicleDetails() {
         viewModelScope.launch {
-            val currentVehicleInfoDeferred = async {
-                vehicleDetailsRepository.getVehicleInfo(searchRequest = searchRequest)
-            }
-            val lastMonthVehicleInfoDeferred = async {
-                vehicleDetailsRepository.getVehicleInfo(
-                    searchRequest = searchRequest.copy(
-                        referenceTable = searchRequest.referenceTable.toInt().dec().toString()
-                    )
-                )
-            }
+            val vehiclesInfo = (0 until 6).map { index ->
+                async {
+                    val referenceTable = searchRequest.referenceTable.toInt() - index
 
-            val currentVehicleInfo = currentVehicleInfoDeferred.await()
-            val lastVehicleInfo = lastMonthVehicleInfoDeferred.await()
-
-            currentVehicleInfo.onSuccess { currentVehicleInfo ->
-                _uiState.update {
-                    it.copy(
-                        stateOfUi = VehicleDetailsStateOfUi.Success,
-                        currentVehicleInfo = currentVehicleInfo
+                    vehicleDetailsRepository.getVehicleInfo(
+                        searchRequest = searchRequest.copy(
+                            referenceTable = referenceTable.toString()
+                        )
                     )
                 }
+            }
+                .awaitAll()
+                .mapNotNull(Result<VehicleInfo>::getOrNull)
 
-                lastVehicleInfo.onSuccess { lastVehicleInfo ->
-                    val convertedCurrentVehicleInfo =
-                        currentVehicleInfo.price.convertStringMoneyToDoubleOrNull()
-                    val convertedLastVehicleInfo =
-                        lastVehicleInfo.price.convertStringMoneyToDoubleOrNull()
+            val currentPrice = vehiclesInfo.firstOrNull()?.price
+            val previousPrice = vehiclesInfo.getOrNull(1)?.price
+            val hasDifference = currentPrice != null && previousPrice != null
 
-                    if (convertedCurrentVehicleInfo == null || convertedLastVehicleInfo == null) return@launch
-
-                    val difference = calculateDifference(
-                        currentPrice = convertedCurrentVehicleInfo,
-                        lastPrice = convertedLastVehicleInfo
-                    )
-
-                    _uiState.update {
-                        it.copy(difference = difference.formatDifference())
+            _uiState.update {
+                it.copy(
+                    stateOfUi = VehicleDetailsStateOfUi.Success,
+                    vehiclesInfo = vehiclesInfo.toPersistentList(),
+                    difference = if (hasDifference) {
+                        calculateDifference(
+                            currentPrice = currentPrice,
+                            lastPrice = previousPrice
+                        ).formatDifference()
+                    } else {
+                        null
                     }
-                }
+                )
             }
         }
     }
@@ -76,15 +71,6 @@ open class VehicleDetailsViewModel(
         val roundedDifference = (difference * 100).roundToInt().toDouble().div(100)
 
         return roundedDifference
-    }
-
-    private fun String.convertStringMoneyToDoubleOrNull(): Double? {
-        return this
-            .replace("R$", "")
-            .replace("\\s".toRegex(), "")
-            .replace(".", "")
-            .replace(",", ".")
-            .toDoubleOrNull()
     }
 
     private fun Double.formatDifference(): String {

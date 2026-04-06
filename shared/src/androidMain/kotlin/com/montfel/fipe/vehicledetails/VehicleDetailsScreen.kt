@@ -35,6 +35,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.montfel.fipe.components.StockChart
 import com.montfel.fipe.domain.model.VehicleInfo
 import com.montfel.fipe.domain.model.VehicleType
 import com.montfel.fipe.shared.resources.Res
@@ -109,13 +110,13 @@ internal fun VehicleDetailsScreen(
                 .padding(paddingValues)
                 .padding(24.dp)
         ) {
-            uiState.currentVehicleInfo?.let {
+            uiState.vehiclesInfo?.firstOrNull()?.let { vehicleInfo ->
                 Column(
                     horizontalAlignment = Alignment.CenterHorizontally,
                     modifier = Modifier.fillMaxWidth()
                 ) {
                     Text(
-                        text = it.brand,
+                        text = vehicleInfo.brand,
                         fontWeight = FontWeight.Bold,
                         fontSize = 24.sp,
                         color = Color(color5),
@@ -125,7 +126,7 @@ internal fun VehicleDetailsScreen(
                     Spacer(modifier = Modifier.height(4.dp))
 
                     Text(
-                        text = it.model,
+                        text = vehicleInfo.model,
                         fontWeight = FontWeight.Medium,
                         fontSize = 16.sp,
                         color = Color(color2),
@@ -134,14 +135,16 @@ internal fun VehicleDetailsScreen(
 
                     Spacer(modifier = Modifier.height(32.dp))
 
-                    Text(
-                        text = it.price,
-                        fontWeight = FontWeight.ExtraBold,
-                        fontSize = 48.sp,
-                        color = Color(color5),
-                        fontFamily = getFont(),
-                        letterSpacing = -(2.4).sp
-                    )
+                    vehicleInfo.price?.let {
+                        Text(
+                            text = it.toBRL(),
+                            fontWeight = FontWeight.ExtraBold,
+                            fontSize = 48.sp,
+                            color = Color(color5),
+                            fontFamily = getFont(),
+                            letterSpacing = -(2.4).sp
+                        )
+                    }
 
                     uiState.difference?.let { difference ->
                         val isPositive = difference.contains("+")
@@ -180,12 +183,19 @@ internal fun VehicleDetailsScreen(
                             }
                         }
                     }
+
+                    StockChart(
+                        infos = uiState.vehiclesInfo,
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .aspectRatio(1f)
+                    )
                 }
 
                 Spacer(modifier = Modifier.height(40.dp))
 
                 val vehicleTypeName = stringResource(
-                    when (it.vehicleType) {
+                    when (vehicleInfo.vehicleType) {
                         VehicleType.CAR -> Res.string.car
                         VehicleType.MOTORCYCLE -> Res.string.motorcycle
                         VehicleType.TRUCK -> Res.string.truck
@@ -195,16 +205,16 @@ internal fun VehicleDetailsScreen(
                     Triple(
                         Res.drawable.ic_calendar,
                         Res.string.reference_month,
-                        it.referenceMonth
+                        vehicleInfo.referenceMonth
                     ),
                     Triple(Res.drawable.ic_car, Res.string.vehicle_type, vehicleTypeName),
                     Triple(
                         Res.drawable.ic_calendar_next,
                         Res.string.year_model,
-                        it.yearModel.toString()
+                        vehicleInfo.yearModel.toString()
                     ),
-                    Triple(Res.drawable.ic_fuel, Res.string.fuel, it.fuel),
-                    Triple(Res.drawable.ic_123, Res.string.fipe_code, it.fipeCode),
+                    Triple(Res.drawable.ic_fuel, Res.string.fuel, vehicleInfo.fuel),
+                    Triple(Res.drawable.ic_123, Res.string.fipe_code, vehicleInfo.fipeCode),
                 )
 
                 LazyVerticalGrid(
@@ -266,21 +276,42 @@ internal fun VehicleDetailsScreen(
 private fun VehicleDetailsScreenPreview() {
     VehicleDetailsScreen(
         uiState = VehicleDetailsUiState(
-            currentVehicleInfo = VehicleInfo(
-                brand = "Fiat",
-                model = "Uno",
-                price = "R$ 30.000,00",
-                vehicleType = VehicleType.CAR,
-                fipeCode = "123456",
-                yearModel = 2020,
-                fuel = "Gasolina",
-                referenceMonth = "Janeiro de 2023",
-                consultDate = "20/02/2023",
-                authentication = "123",
-                fuelAcronym = "F"
+            vehiclesInfo = persistentListOf(
+                VehicleInfo(
+                    brand = "Fiat",
+                    model = "Uno",
+                    price = 30_000.00,
+                    vehicleType = VehicleType.CAR,
+                    fipeCode = "123456",
+                    yearModel = 2020,
+                    fuel = "Gasolina",
+                    referenceMonth = "Janeiro de 2023",
+                    consultDate = "20/02/2023",
+                    authentication = "123",
+                    fuelAcronym = "F"
+                )
             ),
             difference = "-1,5% no último mês"
         ),
         onNavigateBack = {}
     )
+}
+
+
+fun Double.toBRL(): String {
+    val totalSats = (this * 100).toLong()
+    val absoluteValue = if (totalSats < 0) -totalSats else totalSats
+
+    val reais = absoluteValue / 100
+    val centavos = absoluteValue % 100
+
+    val centavosString = centavos.toString().padStart(2, '0')
+
+    val reaisString = reais.toString()
+        .reversed()
+        .chunked(3)
+        .joinToString(".")
+        .reversed()
+
+    return "R$ $reaisString,$centavosString"
 }
