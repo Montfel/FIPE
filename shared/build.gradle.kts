@@ -41,6 +41,8 @@ kotlin {
             implementation(libs.navigation.runtime)
             implementation(libs.compose.components.resources)
             implementation(libs.kotlinx.collections.immutable)
+            implementation(libs.vico.compose)
+            implementation(libs.vico.compose.m3)
         }
         androidMain.dependencies {
             implementation(libs.compose.uiToolingPreview)
