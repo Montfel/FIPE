@@ -6,9 +6,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
@@ -30,6 +28,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.dropUnlessResumed
+import com.montfel.fipe.domain.model.VehicleInfo
+import com.montfel.fipe.domain.model.VehicleType
 import com.montfel.fipe.shared.resources.Res
 import com.montfel.fipe.shared.resources.app_name
 import com.montfel.fipe.shared.resources.by_fipe
@@ -39,20 +39,24 @@ import com.montfel.fipe.shared.resources.fipe_concept
 import com.montfel.fipe.shared.resources.ic_123
 import com.montfel.fipe.shared.resources.ic_car
 import com.montfel.fipe.shared.resources.ic_chevron_right
+import com.montfel.fipe.shared.resources.recent_searches
 import com.montfel.fipe.shared.resources.what_is_fipe
 import com.montfel.fipe.theme.getFont
+import com.montfel.fipe.ui.home.HomeUiState
 import com.montfel.fipe.ui.theme.Colors.color1
 import com.montfel.fipe.ui.theme.Colors.color2
 import com.montfel.fipe.ui.theme.Colors.color3
 import com.montfel.fipe.ui.theme.Colors.color4
 import com.montfel.fipe.ui.theme.Colors.color5
 import com.montfel.fipe.ui.theme.Colors.color7
+import org.jetbrains.compose.resources.DrawableResource
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 internal fun HomeScreen(
+    uiState: HomeUiState,
     onEvent: (HomeEvent) -> Unit
 ) {
     Scaffold(
@@ -74,6 +78,7 @@ internal fun HomeScreen(
         }
     ) { paddingValues ->
         Column(
+            verticalArrangement = Arrangement.spacedBy(32.dp),
             modifier = Modifier
                 .padding(24.dp)
                 .padding(paddingValues)
@@ -106,115 +111,116 @@ internal fun HomeScreen(
                 }
             }
 
-            Spacer(modifier = Modifier.height(32.dp))
+            Column(verticalArrangement = Arrangement.spacedBy(16.dp)) {
+                Text(
+                    text = stringResource(Res.string.consult_your_vehicle),
+                    fontWeight = FontWeight.SemiBold,
+                    fontSize = 18.sp,
+                    color = Color(color1),
+                    fontFamily = getFont()
+                )
 
-            Text(
-                text = stringResource(Res.string.consult_your_vehicle),
-                fontWeight = FontWeight.SemiBold,
-                fontSize = 18.sp,
-                color = Color(color1),
-                fontFamily = getFont()
+                HomeCard(
+                    icon = Res.drawable.ic_car,
+                    title = stringResource(Res.string.by_vehicle),
+                    onClick = dropUnlessResumed { onEvent(HomeEvent.OnSearchByVehicleClicked) }
+                )
+
+                HomeCard(
+                    icon = Res.drawable.ic_123,
+                    title = stringResource(Res.string.by_fipe),
+                    onClick = dropUnlessResumed { onEvent(HomeEvent.OnSearchByFipeClicked) }
+                )
+            }
+
+            Column(verticalArrangement = Arrangement.spacedBy(16.dp)) {
+                uiState.recentSearches?.let { recentSearches ->
+                    Text(
+                        text = stringResource(Res.string.recent_searches),
+                        fontWeight = FontWeight.SemiBold,
+                        fontSize = 18.sp,
+                        color = Color(color1),
+                        fontFamily = getFont()
+                    )
+
+                    recentSearches.forEach {
+                        HomeCard(
+                            icon = Res.drawable.ic_123,
+                            title = it.model,
+                            description = it.brand,
+                            onClick = dropUnlessResumed { onEvent(HomeEvent.OnSearchByFipeClicked) }
+                        )
+                    }
+                }
+            }
+        }
+    }
+}
+
+@Composable
+private fun HomeCard(
+    icon: DrawableResource,
+    title: String,
+    description: String? = null,
+    onClick: () -> Unit,
+) {
+    Card(
+        colors = CardDefaults.cardColors(
+            containerColor = Color.White
+        ),
+        border = BorderStroke(width = 1.dp, color = Color(color3)),
+        onClick = onClick
+    ) {
+        Row(
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.SpaceBetween,
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(16.dp)
+        ) {
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.spacedBy(16.dp),
+            ) {
+                Box(
+                    contentAlignment = Alignment.Center,
+                    modifier = Modifier
+                        .size(48.dp)
+                        .clip(CircleShape)
+                        .background(Color(color4).copy(alpha = 0.1f))
+                ) {
+                    Icon(
+                        painter = painterResource(icon),
+                        contentDescription = null,
+                        tint = Color(color4)
+                    )
+                }
+
+                Column {
+                    Text(
+                        text = title,
+                        fontWeight = FontWeight.Bold,
+                        fontSize = 18.sp,
+                        color = Color(color5),
+                        fontFamily = getFont()
+                    )
+
+                    description?.let {
+                        Text(
+                            text = it,
+                            fontWeight = FontWeight.Normal,
+                            fontSize = 14.sp,
+                            color = Color(color2),
+                            fontFamily = getFont()
+                        )
+                    }
+                }
+            }
+
+            Icon(
+                painter = painterResource(Res.drawable.ic_chevron_right),
+                contentDescription = null
             )
-
-            Spacer(modifier = Modifier.height(16.dp))
-
-            Card(
-                colors = CardDefaults.cardColors(
-                    containerColor = Color.White
-                ),
-                border = BorderStroke(width = 1.dp, color = Color(color3)),
-                onClick = dropUnlessResumed { onEvent(HomeEvent.OnSearchByVehicleClicked) }
-            ) {
-                Row(
-                    verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.SpaceBetween,
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(24.dp)
-                ) {
-                    Row(
-                        verticalAlignment = Alignment.CenterVertically,
-                        horizontalArrangement = Arrangement.spacedBy(16.dp),
-                    ) {
-                        Box(
-                            contentAlignment = Alignment.Center,
-                            modifier = Modifier
-                                .size(56.dp)
-                                .clip(CircleShape)
-                                .background(Color(color4).copy(alpha = 0.1f))
-                        ) {
-                            Icon(
-                                painter = painterResource(Res.drawable.ic_car),
-                                contentDescription = null,
-                                tint = Color(color4)
-                            )
-                        }
-
-                        Text(
-                            text = stringResource(Res.string.by_vehicle),
-                            fontWeight = FontWeight.Bold,
-                            fontSize = 18.sp,
-                            color = Color(color5),
-                            fontFamily = getFont()
-                        )
-                    }
-
-                    Icon(
-                        painter = painterResource(Res.drawable.ic_chevron_right),
-                        contentDescription = null
-                    )
-                }
-            }
-
-            Spacer(modifier = Modifier.height(16.dp))
-
-            Card(
-                colors = CardDefaults.cardColors(
-                    containerColor = Color.White
-                ),
-                border = BorderStroke(width = 1.dp, color = Color(color3)),
-                onClick = dropUnlessResumed { onEvent(HomeEvent.OnSearchByFipeClicked) }
-            ) {
-                Row(
-                    verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.SpaceBetween,
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(24.dp)
-                ) {
-                    Row(
-                        verticalAlignment = Alignment.CenterVertically,
-                        horizontalArrangement = Arrangement.spacedBy(16.dp),
-                    ) {
-                        Box(
-                            contentAlignment = Alignment.Center,
-                            modifier = Modifier
-                                .size(56.dp)
-                                .clip(CircleShape)
-                                .background(Color(color4).copy(alpha = 0.1f))
-                        ) {
-                            Icon(
-                                painter = painterResource(Res.drawable.ic_123),
-                                contentDescription = null,
-                                tint = Color(color4)
-                            )
-                        }
-
-                        Text(
-                            text = stringResource(Res.string.by_fipe),
-                            fontWeight = FontWeight.Bold,
-                            fontSize = 18.sp,
-                            color = Color(color5),
-                            fontFamily = getFont()
-                        )
-                    }
-
-                    Icon(
-                        painter = painterResource(Res.drawable.ic_chevron_right),
-                        contentDescription = null
-                    )
-                }
-            }
         }
     }
 }
@@ -222,5 +228,37 @@ internal fun HomeScreen(
 @Preview
 @Composable
 private fun HomeScreenPreview() {
-    HomeScreen(onEvent = {})
+    HomeScreen(
+        uiState = HomeUiState(
+            recentSearches = listOf(
+                VehicleInfo(
+                    brand = "Chevrolet",
+                    model = "Onix",
+                    price = 2.3,
+                    yearModel = 1980,
+                    fuel = "animal",
+                    fipeCode = "comprehensam",
+                    referenceMonth = "definitionem",
+                    authentication = "doming",
+                    vehicleType = VehicleType.CAR,
+                    fuelAcronym = "nostrum",
+                    consultDate = "minim",
+                ),
+                VehicleInfo(
+                    brand = "Chevrolet",
+                    model = "Onix",
+                    price = 2.3,
+                    yearModel = 1980,
+                    fuel = "animal",
+                    fipeCode = "comprehensam",
+                    referenceMonth = "definitionem",
+                    authentication = "doming",
+                    vehicleType = VehicleType.CAR,
+                    fuelAcronym = "nostrum",
+                    consultDate = "minim",
+                )
+            )
+        ),
+        onEvent = {}
+    )
 }

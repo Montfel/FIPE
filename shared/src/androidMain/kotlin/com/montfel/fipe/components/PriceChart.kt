@@ -3,11 +3,18 @@ package com.montfel.fipe.components
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.unit.sp
 import com.montfel.fipe.domain.model.VehicleInfo
+import com.montfel.fipe.theme.getFont
+import com.montfel.fipe.ui.theme.Colors.color5
 import com.montfel.fipe.vehicledetails.toBRL
 import com.patrykandpatrick.vico.compose.cartesian.CartesianChartHost
 import com.patrykandpatrick.vico.compose.cartesian.axis.HorizontalAxis
 import com.patrykandpatrick.vico.compose.cartesian.axis.VerticalAxis
+import com.patrykandpatrick.vico.compose.cartesian.axis.rememberAxisLabelComponent
 import com.patrykandpatrick.vico.compose.cartesian.data.CartesianChartModelProducer
 import com.patrykandpatrick.vico.compose.cartesian.data.CartesianLayerRangeProvider
 import com.patrykandpatrick.vico.compose.cartesian.data.lineSeries
@@ -46,11 +53,27 @@ fun PriceChart(
                 )
             ),
             startAxis = VerticalAxis.rememberStart(
+                label = rememberAxisLabelComponent(
+                    style = TextStyle(
+                        fontWeight = FontWeight.Medium,
+                        fontSize = 12.sp,
+                        color = Color(color5),
+                        fontFamily = getFont()
+                    )
+                ),
                 valueFormatter = { _, value, _ ->
                     value.toBRL()
                 }
             ),
             bottomAxis = HorizontalAxis.rememberBottom(
+                label = rememberAxisLabelComponent(
+                    style = TextStyle(
+                        fontWeight = FontWeight.Medium,
+                        fontSize = 12.sp,
+                        color = Color(color5),
+                        fontFamily = getFont()
+                    )
+                ),
                 valueFormatter = { _, value, _ ->
                     val index = value.toInt()
                     if (index >= 0 && index < months.size) {

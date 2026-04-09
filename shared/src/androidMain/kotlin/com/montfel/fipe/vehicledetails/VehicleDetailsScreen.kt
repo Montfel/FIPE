@@ -54,6 +54,7 @@ import com.montfel.fipe.shared.resources.ic_fuel
 import com.montfel.fipe.shared.resources.ic_trending_down
 import com.montfel.fipe.shared.resources.ic_trending_up
 import com.montfel.fipe.shared.resources.motorcycle
+import com.montfel.fipe.shared.resources.price_history
 import com.montfel.fipe.shared.resources.reference_month
 import com.montfel.fipe.shared.resources.truck
 import com.montfel.fipe.shared.resources.vehicle_details
@@ -233,7 +234,24 @@ internal fun VehicleDetailsScreen(
                 }
 
                 item(span = { GridItemSpan(maxLineSpan) }) {
-                    PriceChart(infos = uiState.vehiclesInfo)
+                    Card(
+                        colors = CardDefaults.cardColors(
+                            containerColor = Color.White
+                        ),
+                        border = BorderStroke(width = 1.dp, color = Color(color3)),
+                    ) {
+                        Column(modifier = Modifier.padding(16.dp)) {
+                            Text(
+                                text = stringResource(Res.string.price_history),
+                                fontWeight = FontWeight.SemiBold,
+                                fontSize = 16.sp,
+                                fontFamily = getFont(),
+                                color = Color(color5),
+                            )
+
+                            PriceChart(infos = uiState.vehiclesInfo)
+                        }
+                    }
                 }
 
                 items(items) { item ->

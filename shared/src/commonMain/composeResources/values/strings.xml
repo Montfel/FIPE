@@ -7,6 +7,7 @@
     <string name="car">Carro</string>
     <string name="motorcycle">Moto</string>
     <string name="truck">Caminhão</string>
+    <string name="recent_searches">Pesquisas recentes</string>
     <string name="consult_your_vehicle">Consulte o seu veículo</string>
     <string name="consult_vehicle">Consultar veículo</string>
     <string name="search_by_vehicle">Pesquisar pelo veículo</string>
@@ -30,4 +31,5 @@
     <string name="search">Buscar...</string>
     <string name="fipe_code_not_found">Código FIPE não encontrado</string>
     <string name="fipe_code_placeholder">000000-0</string>
+    <string name="price_history">Histórico de preço</string>
 </resources>
