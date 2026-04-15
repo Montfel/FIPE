@@ -20,7 +20,7 @@ import com.patrykandpatrick.vico.compose.cartesian.data.CartesianLayerRangeProvi
 import com.patrykandpatrick.vico.compose.cartesian.data.lineSeries
 import com.patrykandpatrick.vico.compose.cartesian.layer.rememberLineCartesianLayer
 import com.patrykandpatrick.vico.compose.cartesian.rememberCartesianChart
-import kotlin.math.roundToInt
+import kotlin.math.floor
 
 @Composable
 fun PriceChart(
@@ -30,7 +30,7 @@ fun PriceChart(
     val reversedInfos = infos.asReversed()
     val months = reversedInfos.map { it.referenceMonth.substring(0, 3) }
     val prices = reversedInfos.mapNotNull { it.price }
-    val lowestRangePrice = prices.min().div(1000).roundToInt().times(1000).toDouble()
+    val lowestRangePrice = floor(prices.minOrNull()?.div(1000) ?: 0.0).times(1000)
 
     LaunchedEffect(reversedInfos) {
         if (prices.isNotEmpty()) {
@@ -53,6 +53,7 @@ fun PriceChart(
                 )
             ),
             startAxis = VerticalAxis.rememberStart(
+                itemPlacer = VerticalAxis.ItemPlacer.count(count = { 3 }),
                 label = rememberAxisLabelComponent(
                     style = TextStyle(
                         fontWeight = FontWeight.Medium,

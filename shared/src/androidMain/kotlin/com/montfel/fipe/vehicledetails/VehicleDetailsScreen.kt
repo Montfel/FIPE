@@ -240,7 +240,10 @@ internal fun VehicleDetailsScreen(
                         ),
                         border = BorderStroke(width = 1.dp, color = Color(color3)),
                     ) {
-                        Column(modifier = Modifier.padding(16.dp)) {
+                        Column(
+                            modifier = Modifier.padding(16.dp),
+                            verticalArrangement = Arrangement.spacedBy(4.dp)
+                        ) {
                             Text(
                                 text = stringResource(Res.string.price_history),
                                 fontWeight = FontWeight.SemiBold,
